@@ -1,0 +1,33 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">赴山野</string>
+
+    <string id="AccentColorTitle">主题色</string>
+    <string id="ShowSecondsTitle">显示秒数</string>
+    <string id="ShowDateTitle">显示日期</string>
+    <string id="ShowLunarTitle">显示农历</string>
+    <string id="ShowDividersTitle">显示分割线</string>
+
+    <string id="TopLeftMetricTitle">左上数据</string>
+    <string id="TopRightMetricTitle">右上数据</string>
+    <string id="BottomLeftMetricTitle">左下数据</string>
+    <string id="BottomRightMetricTitle">右下数据</string>
+
+    <string id="MetricNone">无</string>
+    <string id="MetricHeartRate">心率</string>
+    <string id="MetricBattery">电量</string>
+    <string id="MetricSteps">步数</string>
+    <string id="MetricAltitude">海拔</string>
+
+    <string id="ColorPurple">高雅紫</string>
+    <string id="ColorBlue">深海蓝</string>
+    <string id="ColorCyan">碧空蓝</string>
+    <string id="ColorGreen">翡翠绿</string>
+    <string id="ColorYellow">柠檬黄</string>
+    <string id="ColorGold">暖阳金</string>
+    <string id="ColorOrange">琥珀橙</string>
+    <string id="ColorRed">朱砂红</string>
+    <string id="ColorPink">樱花粉</string>
+    <string id="ColorWhite">月光白</string>
+
+</strings>

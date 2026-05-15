@@ -1,0 +1,33 @@
+# Connect IQ build artifacts
+bin/
+build/
+*.prg
+*.prg.debug.xml
+*.iq
+
+# Compiled / generated
+*.mir
+
+# Logs
+logs/
+*.log
+
+# Local caches
+swagger-cache/
+.fonttools_pkg/
+.pillow_pkg/
+
+# Developer key — NEVER commit
+*.der
+developer_key*
+
+# IDE / OS
+.idea/
+.DS_Store
+Thumbs.db
+
+# Claude Code local overrides
+.claude/settings.local.json
+
+# Reference samples — never compile as part of this project
+.garmin-connectiq-samples/

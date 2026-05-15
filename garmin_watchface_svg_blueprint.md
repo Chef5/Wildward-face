@@ -1,0 +1,455 @@
+# Garmin 极简圆形表盘（SVG Blueprint）
+
+下面是适合 AI Agent / SVG Renderer / Garmin Connect IQ 识别的 SVG Blueprint。
+
+特点：
+
+- 固定坐标
+- 非响应式
+- 接近设计稿真实结构
+- 适合转 Canvas / Monkey C
+- AI 更容易精准还原
+
+---
+
+```svg
+<svg
+  width="960"
+  height="960"
+  viewBox="0 0 960 960"
+  xmlns="http://www.w3.org/2000/svg"
+>
+
+  <!-- =====================================
+       背景
+  ====================================== -->
+
+  <circle
+    cx="480"
+    cy="480"
+    r="480"
+    fill="#000000"
+  />
+
+  <!-- =====================================
+       外围刻度
+  ====================================== -->
+
+  <g id="ticks" stroke="#B77CFF">
+
+    <!-- AI Agent 应生成 60 个 tick -->
+    <!-- 每 6° 一个 -->
+    <!-- 每 5 个为 major tick -->
+
+    <!-- 示例 -->
+
+    <line x1="480" y1="18" x2="480" y2="42"
+      stroke-width="5"
+      transform="rotate(0 480 480)" />
+
+    <line x1="480" y1="24" x2="480" y2="38"
+      stroke-width="3"
+      transform="rotate(6 480 480)" />
+
+  </g>
+
+  <!-- =====================================
+       北方向箭头
+  ====================================== -->
+
+  <polygon
+    points="480,16 492,34 468,34"
+    fill="#B77CFF"
+  />
+
+  <!-- =====================================
+       北方向文字
+  ====================================== -->
+
+  <text
+    x="480"
+    y="76"
+    text-anchor="middle"
+    fill="#B77CFF"
+    font-size="44"
+    font-weight="700"
+    font-family="DIN, sans-serif"
+  >N</text>
+
+  <!-- =====================================
+       顶部区域：心率 + 电量
+  ====================================== -->
+
+  <!-- 心率 icon -->
+
+  <path
+    d="M300 165
+       C285 145 250 145 250 180
+       C250 210 300 240 300 240
+       C300 240 350 210 350 180
+       C350 145 315 145 300 165Z"
+    fill="#B77CFF"
+  />
+
+  <!-- 心率波形 -->
+
+  <polyline
+    points="270,192 286,192 294,180 304,205 315,170 326,192 340,192"
+    fill="none"
+    stroke="#000000"
+    stroke-width="5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+
+  <!-- 心率数字 -->
+
+  <text
+    x="420"
+    y="210"
+    fill="#FFFFFF"
+    font-size="72"
+    font-weight="600"
+    font-family="DIN"
+  >78</text>
+
+  <!-- 中间分隔线 -->
+
+  <line
+    x1="480"
+    y1="142"
+    x2="480"
+    y2="236"
+    stroke="#B77CFF"
+    stroke-opacity="0.7"
+    stroke-width="2"
+  />
+
+  <!-- 电池 icon -->
+
+  <rect
+    x="560"
+    y="156"
+    rx="8"
+    ry="8"
+    width="92"
+    height="46"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="4"
+  />
+
+  <!-- 电池头 -->
+
+  <rect
+    x="654"
+    y="170"
+    width="8"
+    height="16"
+    rx="2"
+    fill="#FFFFFF"
+  />
+
+  <!-- 电量填充 -->
+
+  <rect
+    x="568"
+    y="164"
+    width="62"
+    height="30"
+    rx="4"
+    fill="#B77CFF"
+  />
+
+  <!-- 电量数字 -->
+
+  <text
+    x="710"
+    y="210"
+    fill="#FFFFFF"
+    font-size="72"
+    font-weight="600"
+    font-family="DIN"
+  >86%</text>
+
+  <!-- =====================================
+       第一条横向分割线
+  ====================================== -->
+
+  <line
+    x1="120"
+    y1="300"
+    x2="840"
+    y2="300"
+    stroke="#B77CFF"
+    stroke-opacity="0.7"
+    stroke-width="2"
+  />
+
+  <!-- =====================================
+       中央时间区域
+  ====================================== -->
+
+  <!-- 小时 -->
+
+  <text
+    x="220"
+    y="560"
+    fill="#B77CFF"
+    font-size="280"
+    font-weight="700"
+    font-family="DIN"
+    letter-spacing="-12"
+  >10</text>
+
+  <!-- 冒号 -->
+
+  <text
+    x="470"
+    y="548"
+    fill="#FFFFFF"
+    font-size="240"
+    font-weight="600"
+    font-family="DIN"
+  >:</text>
+
+  <!-- 分钟 -->
+
+  <text
+    x="560"
+    y="560"
+    fill="#FFFFFF"
+    font-size="280"
+    font-weight="700"
+    font-family="DIN"
+    letter-spacing="-12"
+  >08</text>
+
+  <!-- 秒 -->
+
+  <text
+    x="835"
+    y="548"
+    fill="#B77CFF"
+    font-size="74"
+    font-weight="600"
+    font-family="DIN"
+  >36</text>
+
+  <!-- 日期 -->
+
+  <text
+    x="480"
+    y="670"
+    text-anchor="middle"
+    fill="#FFFFFF"
+    font-size="64"
+    font-weight="600"
+    font-family="PingFang SC"
+  >5.12 周五</text>
+
+  <!-- 农历 -->
+
+  <text
+    x="480"
+    y="750"
+    text-anchor="middle"
+    fill="#FFFFFF"
+    font-size="64"
+    font-weight="600"
+    font-family="PingFang SC"
+  >三月初二</text>
+
+  <!-- =====================================
+       第二条横向分割线
+  ====================================== -->
+
+  <line
+    x1="120"
+    y1="800"
+    x2="840"
+    y2="800"
+    stroke="#B77CFF"
+    stroke-opacity="0.7"
+    stroke-width="2"
+  />
+
+  <!-- =====================================
+       底部指标区域
+  ====================================== -->
+
+  <!-- 左：步数 -->
+
+  <!-- 鞋子 icon -->
+
+  <path
+    d="M250 850
+       C270 825 285 820 300 810
+       C315 835 340 850 360 855
+       C360 870 350 885 330 885
+       L270 885
+       C250 885 240 870 250 850Z"
+    fill="#B77CFF"
+  />
+
+  <!-- 步数数字 -->
+
+  <text
+    x="300"
+    y="940"
+    text-anchor="middle"
+    fill="#FFFFFF"
+    font-size="68"
+    font-weight="600"
+    font-family="DIN"
+  >7568</text>
+
+  <!-- 分隔线 -->
+
+  <line
+    x1="420"
+    y1="820"
+    x2="420"
+    y2="940"
+    stroke="#B77CFF"
+    stroke-opacity="0.7"
+    stroke-width="2"
+  />
+
+  <!-- 中：蓝牙 -->
+
+  <text
+    x="540"
+    y="900"
+    text-anchor="middle"
+    fill="#B77CFF"
+    font-size="88"
+    font-family="sans-serif"
+  >ᛒ</text>
+
+  <!-- 分隔线 -->
+
+  <line
+    x1="660"
+    y1="820"
+    x2="660"
+    y2="940"
+    stroke="#B77CFF"
+    stroke-opacity="0.7"
+    stroke-width="2"
+  />
+
+  <!-- 右：海拔 -->
+
+  <!-- 山峰 icon -->
+
+  <polygon
+    points="760,875 805,815 850,875"
+    fill="#B77CFF"
+  />
+
+  <polygon
+    points="790,875 815,840 840,875"
+    fill="#000000"
+  />
+
+  <!-- 海拔数字 -->
+
+  <text
+    x="805"
+    y="940"
+    text-anchor="middle"
+    fill="#FFFFFF"
+    font-size="68"
+    font-weight="600"
+    font-family="DIN"
+  >1250</text>
+
+</svg>
+```
+
+---
+
+# AI Agent 使用建议
+
+## 最适合的生成方式
+
+推荐：
+
+```yaml
+preferred_rendering:
+  - SVG
+  - Canvas
+  - Garmin Monkey C Drawables
+```
+
+避免：
+
+```yaml
+avoid:
+  - flex layout
+  - responsive layout
+  - bootstrap
+  - auto flow
+```
+
+因为这个 UI 本质是：
+
+```yaml
+fixed_pixel_ui: true
+```
+
+---
+
+# Canvas 转换规则
+
+AI Agent 可直接映射：
+
+```yaml
+svg_circle -> ctx.arc
+svg_line -> ctx.moveTo + lineTo
+svg_text -> ctx.fillText
+svg_polygon -> ctx.beginPath
+svg_path -> Path2D
+```
+
+---
+
+# Connect IQ 转换建议
+
+```yaml
+svg_to_monkeyc:
+  text -> dc.drawText
+  line -> dc.drawLine
+  rect -> dc.fillRectangle
+  polygon -> dc.fillPolygon
+  ticks -> loop drawLine
+```
+
+---
+
+# 最终视觉约束（必须）
+
+```yaml
+visual_rules:
+
+  - 纯黑背景
+
+  - 所有元素单色
+
+  - 不允许阴影
+
+  - 不允许渐变
+
+  - 不允许玻璃拟态
+
+  - 时间必须视觉居中
+
+  - 秒数不能破坏主时间居中
+
+  - 图标风格必须统一
+
+  - 所有线条必须细
+
+  - Garmin 风格必须保持克制
+```

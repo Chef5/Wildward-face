@@ -1,0 +1,15 @@
+<properties xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <property id="AccentColor" type="number">0xB77CFF</property>
+    <property id="ShowSeconds" type="boolean">true</property>
+    <property id="ShowDate" type="boolean">true</property>
+    <property id="ShowLunar" type="boolean">true</property>
+    <property id="ShowDividers" type="boolean">true</property>
+
+    <!-- 各位置指标 ID：0=不展示 1=心率 2=电量 3=步数 4=海拔 -->
+    <property id="TopLeftMetric"     type="number">4</property>
+    <property id="TopRightMetric"    type="number">2</property>
+    <property id="BottomLeftMetric"  type="number">1</property>
+    <property id="BottomRightMetric" type="number">3</property>
+
+</properties>

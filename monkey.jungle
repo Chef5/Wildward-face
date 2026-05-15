@@ -1,0 +1,42 @@
+project.manifest = manifest.xml
+
+# Only compile this watch face — do not pick up third-party .mc trees (e.g. extracted sample repos).
+base.sourcePath = source
+
+# Launcher icon pixel size per device (Connect IQ matches @Drawables.LauncherIcon to device spec).
+# Pattern: https://forums.garmin.com/developer/connect-iq/f/discussion/255433/widget-launcher-icon-multiple-resolutions
+# Sizes aligned with community device tables (e.g. house-of-abbey/GarminHomeAssistant monkey.jungle).
+# Default `resources/drawables/launcher_icon.svg` is 60×60 for products not listed below.
+
+instinctcrossoveramoled.resourcePath = $(instinctcrossoveramoled.resourcePath);resources-launcher-38-38
+
+fenix7.resourcePath = $(fenix7.resourcePath);resources-launcher-40-40
+fenix7pro.resourcePath = $(fenix7pro.resourcePath);resources-launcher-40-40
+fenix7pronowifi.resourcePath = $(fenix7pronowifi.resourcePath);resources-launcher-40-40
+fenix7s.resourcePath = $(fenix7s.resourcePath);resources-launcher-40-40
+fenix7spro.resourcePath = $(fenix7spro.resourcePath);resources-launcher-40-40
+fenix7x.resourcePath = $(fenix7x.resourcePath);resources-launcher-40-40
+fenix7xpro.resourcePath = $(fenix7xpro.resourcePath);resources-launcher-40-40
+fenix7xpronowifi.resourcePath = $(fenix7xpronowifi.resourcePath);resources-launcher-40-40
+fr255.resourcePath = $(fr255.resourcePath);resources-launcher-40-40
+fr255m.resourcePath = $(fr255m.resourcePath);resources-launcher-40-40
+fr255s.resourcePath = $(fr255s.resourcePath);resources-launcher-40-40
+fr255sm.resourcePath = $(fr255sm.resourcePath);resources-launcher-40-40
+fr955.resourcePath = $(fr955.resourcePath);resources-launcher-40-40
+
+fr165.resourcePath = $(fr165.resourcePath);resources-launcher-54-54
+fr165m.resourcePath = $(fr165m.resourcePath);resources-launcher-54-54
+fr170.resourcePath = $(fr170.resourcePath);resources-launcher-54-54
+fr170m.resourcePath = $(fr170m.resourcePath);resources-launcher-54-54
+fr57042mm.resourcePath = $(fr57042mm.resourcePath);resources-launcher-54-54
+venu441mm.resourcePath = $(venu441mm.resourcePath);resources-launcher-54-54
+vivoactive6.resourcePath = $(vivoactive6.resourcePath);resources-launcher-54-54
+
+vivoactive5.resourcePath = $(vivoactive5.resourcePath);resources-launcher-56-56
+
+fr57047mm.resourcePath = $(fr57047mm.resourcePath);resources-launcher-65-65
+fr965.resourcePath = $(fr965.resourcePath);resources-launcher-65-65
+venu445mm.resourcePath = $(venu445mm.resourcePath);resources-launcher-65-65
+
+venu3.resourcePath = $(venu3.resourcePath);resources-launcher-70-70
+venu3s.resourcePath = $(venu3s.resourcePath);resources-launcher-70-70

@@ -1,0 +1,4 @@
+<fonts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <!-- 自定义 CJK 位图字体：含中文日期行 + 农历所需的全部字形，所有设备通用 -->
+    <font id="LunarFont" filename="lunar_zh.fnt" />
+</fonts>
