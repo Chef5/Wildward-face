@@ -123,7 +123,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (bitmapFont != null) {
             _dateLineFont = bitmapFont as Graphics.FontType;
             _hasVectorDateFont = true;
-        } else if (Graphics has :getVectorFont) {
+        } else {
             var xtinyH = dc.getFontHeight(Graphics.FONT_XTINY);
             var vf = Graphics.getVectorFont({ :face => "NotoSansSCMedium", :size => xtinyH });
             if (vf != null) {
@@ -283,7 +283,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var iconCenterX = centerX - groupW / 2 + iconSize / 2;
         var textLeftX   = centerX - groupW / 2 + iconSize + iconTextGap;
         if (bmp != null) {
-            dc.drawBitmap(iconCenterX - iconHalf, centerY - iconHalf, bmp);
+            drawTintedBitmap(dc, iconCenterX - iconHalf, centerY - iconHalf, bmp);
         }
         dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(textLeftX, centerY, valueFont, text,
@@ -469,7 +469,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var iconHalf = METRIC_ICON_PX / 2;
         if (metric == 1) {
             var hr = getHeartRate();
-            if (_heartBmp != null) { dc.drawBitmap(centerX - iconHalf, iconY - iconHalf, _heartBmp); }
+            if (_heartBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _heartBmp); }
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, valueFont, (hr == null) ? "--" : hr.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
@@ -483,16 +483,31 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 3) {
             var steps = getSteps();
-            if (_stepsBmp != null) { dc.drawBitmap(centerX - iconHalf, iconY - iconHalf, _stepsBmp); }
+            if (_stepsBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _stepsBmp); }
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, valueFont, (steps == null) ? "--" : steps.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 4) {
             var alt = getAltitude();
-            if (_altBmp != null) { dc.drawBitmap(centerX - iconHalf, iconY - iconHalf, _altBmp); }
+            if (_altBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _altBmp); }
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, valueFont, (alt == null) ? "--" : alt.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        }
+    }
+
+    // 用主题色着色后绘制图标位图。
+    // MIP 设备（如 fr255）不支持 PNG 格式，位图以调色板格式编译，tintColor 会抛异常；
+    // 此时捕获异常并退回原色绘制。
+    private function drawTintedBitmap(dc as Dc, x as Number, y as Number, bmp as BitmapResource) as Void {
+        if (dc has :drawBitmap2) {
+            try {
+                dc.drawBitmap2(x, y, bmp, {:tintColor => _accent});
+            } catch (e instanceof Lang.Exception) {
+                dc.drawBitmap(x, y, bmp);
+            }
+        } else {
+            dc.drawBitmap(x, y, bmp);
         }
     }
 
