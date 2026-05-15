@@ -46,26 +46,25 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 
 ```
 trailhead-face/
-├── manifest.xml              # Connect IQ 应用清单（入口、目标机型、API 等）
-├── monkey.jungle             # 工程与资源路径（含多分辨率启动图标覆盖）
-├── source/                   # Monkey C 源码
-│   ├── ChefWatchFaceApp.mc   # 应用入口
-│   ├── ChefWatchFaceView.mc  # 表盘绘制与逻辑
-│   ├── Background.mc         # 背景绘制
-│   └── LunarCalendar.mc      # 农历计算
-├── resources/                # 主资源包
-│   ├── strings/strings.xml   # 应用名与设置项文案
-│   ├── settings/             # 表盘设置 schema 与属性定义
-│   ├── drawables/            # 矢量图标、位图字体、fonts.xml / drawables.xml
-│   └── layouts/layout.xml    # 布局（若使用 XML 布局）
-├── resources-launcher-*-*/   # 各机型启动图标像素规格下的 launcher 资源
-├── tools/
-│   └── gen_lunar_font.py     # 农历中文位图字体生成脚本（见下）
-├── design.md / design.svg    # 设计备忘与矢量稿（不参与编译）
-└── .vscode/                  # VS Code 调试与任务配置（可选）
+├── manifest.xml                      # Connect IQ 应用清单（入口、目标机型、API 等）
+├── monkey.jungle                     # 工程与资源路径（含多分辨率启动图标 & 图标颜色覆盖）
+├── source/                           # Monkey C 源码
+│   ├── ChefWatchFaceApp.mc           # 应用入口
+│   ├── ChefWatchFaceView.mc          # 表盘绘制与逻辑
+│   ├── Background.mc                 # 背景绘制
+│   └── LunarCalendar.mc              # 农历计算
+├── resources/                        # 主资源包（全机型通用）
+│   ├── strings/strings.xml           # 应用名与设置项文案
+│   ├── settings/                     # 表盘设置 schema 与属性定义
+│   ├── drawables/                    # 矢量图标（SVG）与 drawables.xml
+│   └── layouts/layout.xml            # 布局
+├── resources-icons-amoled/           # AMOLED 机型图标覆盖（packingFormat="png"，见下）
+├── resources-launcher-*-*/           # 各机型启动图标像素规格覆盖
+├── design.md / design.svg            # 设计备忘与矢量稿（不参与编译）
+└── .vscode/                          # VS Code 调试与任务配置（可选）
 ```
 
-构建产物目录 `bin/`、签名密钥等已在 [`.gitignore`](.gitignore) 中排除，请勿将 **developer key（`.der`）** 提交到公开仓库。
+关键模块的实现细节（中文多语言适配、MIP/AMOLED 图标染色方案）见 [docs/technical-design.md](docs/technical-design.md)。
 
 ---
 
@@ -73,7 +72,7 @@ trailhead-face/
 
 ### 前置条件
 
-1. 安装 [Garmin Connect IQ SDK](https://developer.garmin.com/connect-iq/sdk/)，并配置好环境变量（使 `monkeyc` 等命令可用）。  
+1. 安装 [Garmin Connect IQ SDK](https://developer.garmin.com/connect-iq/)，并配置好环境变量（使 `monkeyc` 等命令可用）。  
 2. 使用 **Visual Studio Code** 安装官方 **Monkey C** 扩展，便于编译、模拟器与真机调试。  
 3. 在扩展中配置你的 **开发者密钥**，用于本地打包与安装（密钥文件勿入库）。
 
@@ -83,38 +82,7 @@ trailhead-face/
 - 用 **「Monkey C: Edit Products」** / **「Set Products by Product Category」** 调整 `manifest.xml` 中的目标机型。  
 - 编译、运行模拟器或安装到手表，均通过扩展提供的命令完成。  
 
-当前 `manifest.xml` 已列出多款圆形表（如 fēnix 7/8、Forerunner、epix、Venu、Instinct 3 等）；若你新增机型，可能需要在 `monkey.jungle` 中为该机补充 `resources-launcher-*` 的 `resourcePath` 规则（与现有条目同模式）。
-
----
-
-## 工具：`tools/gen_lunar_font.py`
-
-部分 MIP 屏设备固件**不内置**可用于 `getVectorFont("NotoSansSCMedium")` 的中文字体。本脚本将日期行与农历所需的约 30 个汉字预渲染为 **AngelCode 位图字体**（`.fnt` + PNG 图集），打包进资源后各设备均可显示中文。
-
-**依赖**
-
-```bash
-pip install pillow
-```
-
-系统需安装含所需汉字的 CJK 字体（脚本默认使用 Windows 自带的 `msyh.ttc`，其他系统请改脚本中的 `FONT_PATH`）。
-
-**用法**（在项目根目录执行）
-
-```bash
-python tools/gen_lunar_font.py
-```
-
-**产出**
-
-| 文件 | 说明 |
-|------|------|
-| `resources/drawables/lunar_zh.fnt` | AngelCode 字形描述 |
-| `resources/drawables/lunar_zh_0.png` | 字形图集（建议宽度 ≤ 256 px，符合 Garmin 常见限制） |
-
-脚本顶部可调：`FONT_SIZE`、`FONT_PATH`、`CHARS`（增字后需重跑）、`ATLAS_MAX_W`。
-
-**资源注册**：位图字体在 `resources/drawables/fonts.xml` 中声明（不要放进 `drawables.xml`），代码中通过 `WatchUi.loadResource(Rez.Fonts.LunarFont)` 加载后作为 `Graphics.FontType` 传给 `dc.drawText()`。
+当前 `manifest.xml` 已列出多款圆形表（如 fēnix 7/8、Forerunner、epix、Venu、Instinct 3 等）；若你新增机型，可能需要在 `monkey.jungle` 中为该机补充 `resources-launcher-*` 及图标覆盖路径（与现有条目同模式）。
 
 ---
 

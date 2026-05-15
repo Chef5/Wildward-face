@@ -42,6 +42,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     // ---- 设置 ----
     private var _accent as Number = 0xB77CFF;
+    // 字体大小档位（暂时固定为 3=中，设置项已隐藏）
+    private var _fontSize as Number = 3;
     private var _showSeconds as Boolean = true;
     private var _showDate as Boolean = true;
     private var _showLunar as Boolean = true;
@@ -57,12 +59,16 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _stepsBmp as BitmapResource?;
     private var _altBmp   as BitmapResource?;
 
-    // 日期行字体：
-    //   首选：自定义位图字体（含所有所需汉字，所有设备通用，包括 FR255 等 MIP 屏）
-    //   次选：固件内置矢量 NotoSansSC（AMOLED 设备）
-    //   兜底：FONT_XTINY + ASCII 格式（极端情况）
-    private var _dateLineFont as Graphics.FontType = Graphics.FONT_XTINY;
-    private var _hasVectorDateFont as Boolean = false;
+    // ---- 字体 ----
+    // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
+    // _uiFont：由 rebuildUiFont() 计算，用于所有指标数值和日期/农历文字。
+    // _hasCjkFont：true 时用中文字符串；由系统语言 + 向量字体双重检测。
+    //   - AMOLED（fr265 等）：getVectorFont("NotoSansSCMedium") 成功 → true
+    //   - MIP（fr255）+ 中文语言：systemLanguage == LANGUAGE_CHS/CHT → true
+    //   - MIP + 非中文语言：→ false，日期/农历降级为 ASCII
+    private var _baseFontH as Number = 0;
+    private var _uiFont as Graphics.FontType = Graphics.FONT_XTINY;
+    private var _hasCjkFont as Boolean = false;
 
     // ---- 按日缓存的值 ----
     private var _lunarStr as String = "";
@@ -102,35 +108,30 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (v != null) { _bottomLeftMetric = v as Number; }
         v = p.getValue("BottomRightMetric");
         if (v != null) { _bottomRightMetric = v as Number; }
+        // 设置变更后重新计算字体（_baseFontH 为 0 时说明 onLayout 尚未运行，跳过）
+        rebuildUiFont();
     }
 
     function onLayout(dc as Dc) as Void {
+        System.println("DBG onLayout start");
         setLayout(Rez.Layouts.WatchFace(dc));
         _w = dc.getWidth();
         _h = dc.getHeight();
         _cx = _w / 2;
         _cy = _h / 2;
         _scale = _w / 960.0;
+        System.println("DBG loading bitmaps");
         _heartBmp = WatchUi.loadResource(Rez.Drawables.BpmIcon)   as BitmapResource;
+        System.println("DBG heartBmp ok");
         _stepsBmp = WatchUi.loadResource(Rez.Drawables.StepsIcon)  as BitmapResource;
+        System.println("DBG stepsBmp ok");
         _altBmp   = WatchUi.loadResource(Rez.Drawables.AltIcon)    as BitmapResource;
-
-        // 优先加载自定义 CJK 位图字体（打包进 app，所有设备通用）。
-        // 若加载失败（不应发生），再尝试固件内置矢量字体（仅 AMOLED 设备有效）。
-        _hasVectorDateFont = false;
-        _dateLineFont = Graphics.FONT_XTINY;
-        var bitmapFont = WatchUi.loadResource(Rez.Fonts.LunarFont);
-        if (bitmapFont != null) {
-            _dateLineFont = bitmapFont as Graphics.FontType;
-            _hasVectorDateFont = true;
-        } else {
-            var xtinyH = dc.getFontHeight(Graphics.FONT_XTINY);
-            var vf = Graphics.getVectorFont({ :face => "NotoSansSCMedium", :size => xtinyH });
-            if (vf != null) {
-                _dateLineFont = vf;
-                _hasVectorDateFont = true;
-            }
-        }
+        System.println("DBG altBmp ok");
+        // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
+        _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
+        System.println("DBG baseFontH=" + _baseFontH.format("%d"));
+        rebuildUiFont();
+        System.println("DBG onLayout done, hasCjk=" + _hasCjkFont.toString());
     }
 
     function onShow() as Void {
@@ -157,6 +158,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
+        System.println("DBG onUpdate");
         if (_w == 0) {
             _w = dc.getWidth();
             _h = dc.getHeight();
@@ -243,14 +245,13 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     // 在顶部行绘制单个指标（图标+文字横排，以 centerX 为中心）
     private function drawMetricTop(dc as Dc, metric as Number, centerX as Number, rowCenterY as Number) as Void {
-        var valueFont = Graphics.FONT_XTINY;
         if (metric == 1) {
             var hr = getHeartRate();
             drawIconTextGroup(dc, _heartBmp, (hr == null) ? "--" : hr.format("%d"), centerX, rowCenterY);
         } else if (metric == 2) {
             var pct = System.getSystemStats().battery;
             var battText = pct.format("%d") + "%";
-            var battValueW = dc.getTextWidthInPixels(battText, valueFont);
+            var battValueW = dc.getTextWidthInPixels(battText, _uiFont);
             var battW = s(92);
             var battH = s(46);
             var battGap = s(24);
@@ -259,7 +260,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             var battTextX = battLeftX + battW + battGap;
             drawBatteryIcon(dc, battLeftX, rowCenterY - battH / 2, battW, battH, pct);
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(battTextX, rowCenterY, valueFont, battText,
+            dc.drawText(battTextX, rowCenterY, _uiFont, battText,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 3) {
             var steps = getSteps();
@@ -271,14 +272,13 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     // 顶部行通用绘制：指标图标在左，文字在右，整体以 centerX 居中
-    // FONT_XTINY（FR265 上约 16px）为最小内置字号，与图标视觉重量匹配。
-    private function drawIconTextGroup(dc as Dc, bmp as BitmapResource?, text as String,
+    private function drawIconTextGroup(dc as Dc, bmp as BitmapResource?,
+                                       text as String,
                                        centerX as Number, centerY as Number) as Void {
-        var valueFont = Graphics.FONT_XTINY;
         var iconSize = METRIC_ICON_PX;
         var iconHalf = METRIC_ICON_PX / 2;
         var iconTextGap = s(28);
-        var textW  = dc.getTextWidthInPixels(text, valueFont);
+        var textW  = dc.getTextWidthInPixels(text, _uiFont);
         var groupW = iconSize + iconTextGap + textW;
         var iconCenterX = centerX - groupW / 2 + iconSize / 2;
         var textLeftX   = centerX - groupW / 2 + iconSize + iconTextGap;
@@ -286,7 +286,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             drawTintedBitmap(dc, iconCenterX - iconHalf, centerY - iconHalf, bmp);
         }
         dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(textLeftX, centerY, valueFont, text,
+        dc.drawText(textLeftX, centerY, _uiFont, text,
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
@@ -392,10 +392,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         // FORMAT_SHORT 将月份/星期返回为数字（FORMAT_MEDIUM 返回本地化字符串）。
         var info = Gregorian.info(now, Time.FORMAT_SHORT);
 
-        // 更新农历缓存（有矢量字用中文；否则 ASCII，避免方框）
+        // 更新农历缓存（按日失效；有 CJK 字体用中文，否则 ASCII）
         var solarKey = info.year * 10000 + info.month * 100 + info.day;
         if (_showLunar && solarKey != _lunarCacheKey) {
-            if (_hasVectorDateFont) {
+            if (_hasCjkFont) {
                 _lunarStr = LunarCalendar.format(info.year, info.month, info.day);
             } else {
                 _lunarStr = LunarCalendar.formatAscii(info.year, info.month, info.day);
@@ -404,7 +404,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
 
         var lunarReady = _showLunar && !_lunarStr.equals("");
-        var dateFont = dateLineFontType();
         var dateY = s(SPEC_DATE_ROW_Y);
         dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
 
@@ -415,31 +414,27 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             // 日期 + 农历并排，整体居中
             var dateStr = buildDateLineString(info.month, info.day, dowIdx);
             var gap = s(20);
-            var dateW = dc.getTextWidthInPixels(dateStr, dateFont);
-            var lunarW = dc.getTextWidthInPixels(_lunarStr, dateFont);
+            var dateW = dc.getTextWidthInPixels(dateStr, _uiFont);
+            var lunarW = dc.getTextWidthInPixels(_lunarStr, _uiFont);
             var leftX = _cx - (dateW + gap + lunarW) / 2;
-            dc.drawText(leftX, dateY, dateFont, dateStr,
+            dc.drawText(leftX, dateY, _uiFont, dateStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
-            dc.drawText(leftX + dateW + gap, dateY, dateFont, _lunarStr,
+            dc.drawText(leftX + dateW + gap, dateY, _uiFont, _lunarStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (_showDate) {
             // 仅日期，居中
             var dateStr = buildDateLineString(info.month, info.day, dowIdx);
-            dc.drawText(_cx, dateY, dateFont, dateStr,
+            dc.drawText(_cx, dateY, _uiFont, dateStr,
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (lunarReady) {
             // 仅农历，居中
-            dc.drawText(_cx, dateY, dateFont, _lunarStr,
+            dc.drawText(_cx, dateY, _uiFont, _lunarStr,
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
-    private function dateLineFontType() as Graphics.FontType {
-        return _dateLineFont;
-    }
-
     private function buildDateLineString(month as Number, day as Number, dayOfWeekIdx as Number) as String {
-        if (_hasVectorDateFont) {
+        if (_hasCjkFont) {
             return month.format("%d") + "月" + day.format("%d") + "日 " + WEEKDAYS_ZH[dayOfWeekIdx];
         }
         return month.format("%d") + "." + day.format("%d") + " " + WEEKDAYS_EN[dayOfWeekIdx];
@@ -465,13 +460,12 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 在底部行绘制单个指标（图标在上，文字居中在下）
     private function drawMetricBottom(dc as Dc, metric as Number, centerX as Number,
                                       iconY as Number, valueY as Number) as Void {
-        var valueFont = Graphics.FONT_XTINY;
         var iconHalf = METRIC_ICON_PX / 2;
         if (metric == 1) {
             var hr = getHeartRate();
             if (_heartBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _heartBmp); }
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(centerX, valueY, valueFont, (hr == null) ? "--" : hr.format("%d"),
+            dc.drawText(centerX, valueY, _uiFont, (hr == null) ? "--" : hr.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 2) {
             var pct = System.getSystemStats().battery;
@@ -479,36 +473,74 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             var battH = s(46);
             drawBatteryIcon(dc, centerX - battW / 2, iconY - battH / 2, battW, battH, pct);
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(centerX, valueY, valueFont, pct.format("%d") + "%",
+            dc.drawText(centerX, valueY, _uiFont, pct.format("%d") + "%",
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 3) {
             var steps = getSteps();
             if (_stepsBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _stepsBmp); }
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(centerX, valueY, valueFont, (steps == null) ? "--" : steps.format("%d"),
+            dc.drawText(centerX, valueY, _uiFont, (steps == null) ? "--" : steps.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 4) {
             var alt = getAltitude();
             if (_altBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _altBmp); }
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(centerX, valueY, valueFont, (alt == null) ? "--" : alt.format("%d"),
+            dc.drawText(centerX, valueY, _uiFont, (alt == null) ? "--" : alt.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
     // 用主题色着色后绘制图标位图。
-    // MIP 设备（如 fr255）不支持 PNG 格式，位图以调色板格式编译，tintColor 会抛异常；
-    // 此时捕获异常并退回原色绘制。
-    private function drawTintedBitmap(dc as Dc, x as Number, y as Number, bmp as BitmapResource) as Void {
+    // 用主题色着色后绘制图标位图。
+    // 图标 SVG 以白色编译（fill="#FFFFFF"），automaticPalette="false" 确保
+    // 位图以设备原生色彩格式存储（fr255: ARGB2222，fr265: PNG），
+    // drawBitmap2 + tintColor 在 MIP 和 AMOLED 上均可正常工作。
+    private function drawTintedBitmap(dc as Dc, x as Number, y as Number,
+                                      bmp as BitmapResource) as Void {
         if (dc has :drawBitmap2) {
-            try {
-                dc.drawBitmap2(x, y, bmp, {:tintColor => _accent});
-            } catch (e instanceof Lang.Exception) {
-                dc.drawBitmap(x, y, bmp);
-            }
+            dc.drawBitmap2(x, y, bmp, {:tintColor => _accent});
         } else {
             dc.drawBitmap(x, y, bmp);
         }
+    }
+
+    // 根据 _fontSize 和 _baseFontH 重新计算 _uiFont。
+    // 在 onLayout 缓存完 _baseFontH 之后调用，以及设置变更后调用。
+    private function rebuildUiFont() as Void {
+        if (_baseFontH <= 0) { return; }
+        System.println("DBG rebuildUiFont fontSize=" + _fontSize.format("%d"));
+        // 5 档尺寸系数：极小×0.9 / 小×1.0 / 中×1.25 / 大×1.5 / 极大×1.8
+        var ratio;
+        if (_fontSize <= 1)      { ratio = 0.9; }
+        else if (_fontSize == 2) { ratio = 1.0; }
+        else if (_fontSize == 3) { ratio = 1.25; }
+        else if (_fontSize == 4) { ratio = 1.5; }
+        else                     { ratio = 1.8; }
+        var targetH = (_baseFontH * ratio).toNumber();
+        System.println("DBG targetH=" + targetH.format("%d"));
+        // AMOLED 设备（fr265 等）：getVectorFont 返回可缩放 NotoSansSC
+        // → 支持任意尺寸 CJK，且位图编译为 PNG 支持 drawBitmap2 tintColor
+        var vf = (Graphics has :getVectorFont)
+            ? Graphics.getVectorFont({ :face => "NotoSansSCMedium", :size => targetH })
+            : null;
+        System.println("DBG vf=" + (vf != null ? "ok" : "null"));
+        if (vf != null) {
+            _uiFont = vf;
+            _hasCjkFont = true;
+            return;
+        }
+        // MIP 设备（fr255 等）：无向量字体，退回系统字体常量
+        // 当设备语言为中文时，apac_chn 字体集将 FONT_XTINY 等全部映射为
+        // Noto Sans SC CJK 位图字体，可直接渲染中文字符串
+        var lang = System.getDeviceSettings().systemLanguage;
+        System.println("DBG lang=" + lang.format("%d"));
+        _hasCjkFont = (lang == System.LANGUAGE_CHS || lang == System.LANGUAGE_CHT);
+        System.println("DBG hasCjk=" + _hasCjkFont.toString());
+        if (_fontSize <= 2)      { _uiFont = Graphics.FONT_XTINY; }
+        else if (_fontSize == 3) { _uiFont = Graphics.FONT_TINY; }
+        else if (_fontSize == 4) { _uiFont = Graphics.FONT_SMALL; }
+        else                     { _uiFont = Graphics.FONT_MEDIUM; }
+        System.println("DBG rebuildUiFont done");
     }
 
     // -------------------------------------------------------------

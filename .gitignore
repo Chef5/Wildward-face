@@ -1,6 +1,7 @@
 # Connect IQ build artifacts
 bin/
 build/
+gen/
 *.prg
 *.prg.debug.xml
 *.iq

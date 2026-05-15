@@ -7,8 +7,12 @@ base.sourcePath = source
 # Pattern: https://forums.garmin.com/developer/connect-iq/f/discussion/255433/widget-launcher-icon-multiple-resolutions
 # Sizes aligned with community device tables (e.g. house-of-abbey/GarminHomeAssistant monkey.jungle).
 # Default `resources/drawables/launcher_icon.svg` is 60×60 for products not listed below.
+#
+# resources-icons-amoled: overrides icon bitmaps with packingFormat="png" so that
+# drawBitmap2+tintColor works on AMOLED devices (full-colour bitmap required).
+# MIP devices (fr255, fenix7, etc.) use the base palette-format bitmaps; icons appear white.
 
-instinctcrossoveramoled.resourcePath = $(instinctcrossoveramoled.resourcePath);resources-launcher-38-38
+instinctcrossoveramoled.resourcePath = $(instinctcrossoveramoled.resourcePath);resources-launcher-38-38;resources-icons-amoled
 
 fenix7.resourcePath = $(fenix7.resourcePath);resources-launcher-40-40
 fenix7pro.resourcePath = $(fenix7pro.resourcePath);resources-launcher-40-40
@@ -24,19 +28,38 @@ fr255s.resourcePath = $(fr255s.resourcePath);resources-launcher-40-40
 fr255sm.resourcePath = $(fr255sm.resourcePath);resources-launcher-40-40
 fr955.resourcePath = $(fr955.resourcePath);resources-launcher-40-40
 
-fr165.resourcePath = $(fr165.resourcePath);resources-launcher-54-54
-fr165m.resourcePath = $(fr165m.resourcePath);resources-launcher-54-54
-fr170.resourcePath = $(fr170.resourcePath);resources-launcher-54-54
-fr170m.resourcePath = $(fr170m.resourcePath);resources-launcher-54-54
-fr57042mm.resourcePath = $(fr57042mm.resourcePath);resources-launcher-54-54
-venu441mm.resourcePath = $(venu441mm.resourcePath);resources-launcher-54-54
-vivoactive6.resourcePath = $(vivoactive6.resourcePath);resources-launcher-54-54
+fr165.resourcePath = $(fr165.resourcePath);resources-launcher-54-54;resources-icons-amoled
+fr165m.resourcePath = $(fr165m.resourcePath);resources-launcher-54-54;resources-icons-amoled
+fr170.resourcePath = $(fr170.resourcePath);resources-launcher-54-54;resources-icons-amoled
+fr170m.resourcePath = $(fr170m.resourcePath);resources-launcher-54-54;resources-icons-amoled
+fr57042mm.resourcePath = $(fr57042mm.resourcePath);resources-launcher-54-54;resources-icons-amoled
+venu441mm.resourcePath = $(venu441mm.resourcePath);resources-launcher-54-54;resources-icons-amoled
+vivoactive6.resourcePath = $(vivoactive6.resourcePath);resources-launcher-54-54;resources-icons-amoled
 
-vivoactive5.resourcePath = $(vivoactive5.resourcePath);resources-launcher-56-56
+vivoactive5.resourcePath = $(vivoactive5.resourcePath);resources-launcher-56-56;resources-icons-amoled
 
-fr57047mm.resourcePath = $(fr57047mm.resourcePath);resources-launcher-65-65
-fr965.resourcePath = $(fr965.resourcePath);resources-launcher-65-65
-venu445mm.resourcePath = $(venu445mm.resourcePath);resources-launcher-65-65
+fr57047mm.resourcePath = $(fr57047mm.resourcePath);resources-launcher-65-65;resources-icons-amoled
+fr965.resourcePath = $(fr965.resourcePath);resources-launcher-65-65;resources-icons-amoled
+venu445mm.resourcePath = $(venu445mm.resourcePath);resources-launcher-65-65;resources-icons-amoled
 
-venu3.resourcePath = $(venu3.resourcePath);resources-launcher-70-70
-venu3s.resourcePath = $(venu3s.resourcePath);resources-launcher-70-70
+venu3.resourcePath = $(venu3.resourcePath);resources-launcher-70-70;resources-icons-amoled
+venu3s.resourcePath = $(venu3s.resourcePath);resources-launcher-70-70;resources-icons-amoled
+
+# AMOLED devices without a launcher-icon size override — only need resources-icons-amoled.
+epix2.resourcePath = $(epix2.resourcePath);resources-icons-amoled
+epix2pro42mm.resourcePath = $(epix2pro42mm.resourcePath);resources-icons-amoled
+epix2pro47mm.resourcePath = $(epix2pro47mm.resourcePath);resources-icons-amoled
+epix2pro51mm.resourcePath = $(epix2pro51mm.resourcePath);resources-icons-amoled
+fenix843mm.resourcePath = $(fenix843mm.resourcePath);resources-icons-amoled
+fenix847mm.resourcePath = $(fenix847mm.resourcePath);resources-icons-amoled
+fenix8pro47mm.resourcePath = $(fenix8pro47mm.resourcePath);resources-icons-amoled
+fenix8solar47mm.resourcePath = $(fenix8solar47mm.resourcePath);resources-icons-amoled
+fenix8solar51mm.resourcePath = $(fenix8solar51mm.resourcePath);resources-icons-amoled
+fenixe.resourcePath = $(fenixe.resourcePath);resources-icons-amoled
+fr265.resourcePath = $(fr265.resourcePath);resources-icons-amoled
+fr265s.resourcePath = $(fr265s.resourcePath);resources-icons-amoled
+fr970.resourcePath = $(fr970.resourcePath);resources-icons-amoled
+instinct3amoled45mm.resourcePath = $(instinct3amoled45mm.resourcePath);resources-icons-amoled
+instinct3amoled50mm.resourcePath = $(instinct3amoled50mm.resourcePath);resources-icons-amoled
+marq2.resourcePath = $(marq2.resourcePath);resources-icons-amoled
+marq2aviator.resourcePath = $(marq2aviator.resourcePath);resources-icons-amoled

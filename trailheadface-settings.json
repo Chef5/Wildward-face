@@ -1,0 +1,294 @@
+{
+  "settings" : [ {
+    "key" : "AccentColor",
+    "valueType" : "number",
+    "defaultValue" : 12025087,
+    "configTitle" : "AccentColorTitle",
+    "configPrompt" : null,
+    "configType" : "list",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : [ {
+      "display" : "ColorPurple",
+      "value" : 12025087
+    }, {
+      "display" : "ColorBlue",
+      "value" : 5614335
+    }, {
+      "display" : "ColorCyan",
+      "value" : 56780
+    }, {
+      "display" : "ColorGreen",
+      "value" : 5635993
+    }, {
+      "display" : "ColorYellow",
+      "value" : 16772676
+    }, {
+      "display" : "ColorGold",
+      "value" : 16763955
+    }, {
+      "display" : "ColorOrange",
+      "value" : 16755285
+    }, {
+      "display" : "ColorRed",
+      "value" : 16733542
+    }, {
+      "display" : "ColorPink",
+      "value" : 16742331
+    }, {
+      "display" : "ColorWhite",
+      "value" : 16777215
+    } ],
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "FontSize",
+    "valueType" : "number",
+    "defaultValue" : 3,
+    "configTitle" : "FontSizeTitle",
+    "configPrompt" : null,
+    "configType" : "list",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : [ {
+      "display" : "FontSizeMedium",
+      "value" : 3
+    }, {
+      "display" : "FontSizeXSmall",
+      "value" : 1
+    }, {
+      "display" : "FontSizeSmall",
+      "value" : 2
+    }, {
+      "display" : "FontSizeLarge",
+      "value" : 4
+    }, {
+      "display" : "FontSizeXLarge",
+      "value" : 5
+    } ],
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "ShowSeconds",
+    "valueType" : "boolean",
+    "defaultValue" : true,
+    "configTitle" : "ShowSecondsTitle",
+    "configPrompt" : null,
+    "configType" : "boolean",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : null,
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "ShowDate",
+    "valueType" : "boolean",
+    "defaultValue" : true,
+    "configTitle" : "ShowDateTitle",
+    "configPrompt" : null,
+    "configType" : "boolean",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : null,
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "ShowLunar",
+    "valueType" : "boolean",
+    "defaultValue" : true,
+    "configTitle" : "ShowLunarTitle",
+    "configPrompt" : null,
+    "configType" : "boolean",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : null,
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "ShowDividers",
+    "valueType" : "boolean",
+    "defaultValue" : true,
+    "configTitle" : "ShowDividersTitle",
+    "configPrompt" : null,
+    "configType" : "boolean",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : null,
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "TopLeftMetric",
+    "valueType" : "number",
+    "defaultValue" : 4,
+    "configTitle" : "TopLeftMetricTitle",
+    "configPrompt" : null,
+    "configType" : "list",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : [ {
+      "display" : "MetricAltitude",
+      "value" : 4
+    }, {
+      "display" : "MetricNone",
+      "value" : 0
+    }, {
+      "display" : "MetricHeartRate",
+      "value" : 1
+    }, {
+      "display" : "MetricBattery",
+      "value" : 2
+    }, {
+      "display" : "MetricSteps",
+      "value" : 3
+    } ],
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "TopRightMetric",
+    "valueType" : "number",
+    "defaultValue" : 2,
+    "configTitle" : "TopRightMetricTitle",
+    "configPrompt" : null,
+    "configType" : "list",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : [ {
+      "display" : "MetricBattery",
+      "value" : 2
+    }, {
+      "display" : "MetricNone",
+      "value" : 0
+    }, {
+      "display" : "MetricHeartRate",
+      "value" : 1
+    }, {
+      "display" : "MetricSteps",
+      "value" : 3
+    }, {
+      "display" : "MetricAltitude",
+      "value" : 4
+    } ],
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "BottomLeftMetric",
+    "valueType" : "number",
+    "defaultValue" : 1,
+    "configTitle" : "BottomLeftMetricTitle",
+    "configPrompt" : null,
+    "configType" : "list",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : [ {
+      "display" : "MetricHeartRate",
+      "value" : 1
+    }, {
+      "display" : "MetricNone",
+      "value" : 0
+    }, {
+      "display" : "MetricBattery",
+      "value" : 2
+    }, {
+      "display" : "MetricSteps",
+      "value" : 3
+    }, {
+      "display" : "MetricAltitude",
+      "value" : 4
+    } ],
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
+    "key" : "BottomRightMetric",
+    "valueType" : "number",
+    "defaultValue" : 3,
+    "configTitle" : "BottomRightMetricTitle",
+    "configPrompt" : null,
+    "configType" : "list",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : [ {
+      "display" : "MetricSteps",
+      "value" : 3
+    }, {
+      "display" : "MetricNone",
+      "value" : 0
+    }, {
+      "display" : "MetricHeartRate",
+      "value" : 1
+    }, {
+      "display" : "MetricBattery",
+      "value" : 2
+    }, {
+      "display" : "MetricAltitude",
+      "value" : 4
+    } ],
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  } ],
+  "supportsLiveValidation" : false,
+  "languages" : {
+    "valyrian" : {
+      "ColorBlue" : "深海蓝",
+      "MetricNone" : "无",
+      "TopRightMetricTitle" : "右上数据",
+      "MetricAltitude" : "海拔",
+      "MetricHeartRate" : "心率",
+      "MetricSteps" : "步数",
+      "BottomLeftMetricTitle" : "左下数据",
+      "ColorYellow" : "柠檬黄",
+      "ShowDividersTitle" : "显示分割线",
+      "AppName" : "赴山野",
+      "ColorRed" : "朱砂红",
+      "ShowLunarTitle" : "显示农历",
+      "ColorPink" : "樱花粉",
+      "ColorWhite" : "月光白",
+      "ShowDateTitle" : "显示日期",
+      "ColorGreen" : "翡翠绿",
+      "AccentColorTitle" : "主题色",
+      "FontSizeSmall" : "小",
+      "TopLeftMetricTitle" : "左上数据",
+      "BottomRightMetricTitle" : "右下数据",
+      "MetricBattery" : "电量",
+      "FontSizeLarge" : "大",
+      "FontSizeXLarge" : "极大",
+      "ColorOrange" : "琥珀橙",
+      "FontSizeMedium" : "中",
+      "ShowSecondsTitle" : "显示秒数",
+      "ColorPurple" : "高雅紫",
+      "ColorCyan" : "碧空蓝",
+      "FontSizeTitle" : "字体大小",
+      "ColorGold" : "暖阳金",
+      "FontSizeXSmall" : "极小"
+    }
+  }
+}

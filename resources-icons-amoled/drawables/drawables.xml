@@ -1,0 +1,5 @@
+<drawables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <bitmap id="BpmIcon"      filename="../../resources/drawables/bpm.svg"      dithering="none" packingFormat="png" automaticPalette="false" />
+    <bitmap id="StepsIcon"    filename="../../resources/drawables/steps.svg"    dithering="none" packingFormat="png" automaticPalette="false" />
+    <bitmap id="AltIcon"      filename="../../resources/drawables/altitude.svg" dithering="none" packingFormat="png" automaticPalette="false" />
+</drawables>
