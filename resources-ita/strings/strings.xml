@@ -1,0 +1,34 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Wildward</string>
+
+    <string id="AccentColorTitle">Colore tema</string>
+    <string id="CustomAccentColorTitle">Colore personalizzato (hex RGB, es. #B77CFF)</string>
+    <string id="ShowSecondsTitle">Mostra secondi</string>
+    <string id="ShowDateTitle">Mostra data</string>
+    <string id="ShowLunarTitle">Mostra calendario lunare</string>
+    <string id="ShowDividersTitle">Mostra divisori</string>
+
+    <string id="TopLeftMetricTitle">In alto a sinistra</string>
+    <string id="TopRightMetricTitle">In alto a destra</string>
+    <string id="BottomLeftMetricTitle">In basso a sinistra</string>
+    <string id="BottomRightMetricTitle">In basso a destra</string>
+
+    <string id="MetricNone">Nessuno</string>
+    <string id="MetricHeartRate">Frequenza cardiaca</string>
+    <string id="MetricBattery">Batteria</string>
+    <string id="MetricSteps">Passi</string>
+    <string id="MetricAltitude">Altitudine</string>
+
+    <string id="ColorPurple">Viola</string>
+    <string id="ColorBlue">Blu oceano</string>
+    <string id="ColorCyan">Ciano</string>
+    <string id="ColorGreen">Smeraldo</string>
+    <string id="ColorYellow">Giallo</string>
+    <string id="ColorGold">Oro</string>
+    <string id="ColorOrange">Arancione</string>
+    <string id="ColorRed">Rosso</string>
+    <string id="ColorPink">Rosa</string>
+    <string id="ColorWhite">Bianco</string>
+
+</strings>

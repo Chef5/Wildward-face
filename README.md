@@ -13,12 +13,31 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 ## 功能概览
 
 - **时间**：突出时分，可选显示秒数  
-- **日期与农历**：可分别开关；仅一项开启时自动居中；两者都关闭时时间垂直居中  
+- **日期与农历**：可分别开关（农历仅在设备系统语言为简体/繁体中文时展示）；仅一项开启时自动居中；两者都关闭时时间垂直居中  
 - **四象限指标（可配置）**：左上 / 右上 / 左下 / 右下可选  
   - 心率 / 电量 / 步数 / 海拔 / 不展示  
   - 同一行只展示一个指标时自动居中  
 - **横线分隔**：上下两条横线可开关  
-- **主题色**：多套配色可选，默认「高雅紫」  
+- **主题色**：多套配色可选，默认「高雅紫」；支持自定义 RGB 十六进制色值  
+
+### 多语言
+
+表盘在 `manifest.xml` 中声明支持 **8 种语言**。`resources/` 为**英文默认资源包**（应用名 **Wildward**）；未单独翻译的语言会自动回退到英文。
+
+| 代码 | 语言 | 资源目录 | 应用名 | 设置页农历开关 |
+|------|------|----------|--------|----------------|
+| `eng` | 英语 | `resources/`（默认） | Wildward | 无 |
+| `zhs` | 简体中文 | `resources-zhs/` | 赴山野 | 有 |
+| `zht` | 繁体中文 | `resources-zht/` | Wildward | 有 |
+| `jpn` | 日语 | `resources-jpn/` | Wildward | 无 |
+| `deu` | 德语 | `resources-deu/` | Wildward | 无 |
+| `fre` | 法语 | `resources-fre/` | Wildward | 无 |
+| `spa` | 西班牙语 | `resources-spa/` | Wildward | 无 |
+| `ita` | 意大利语 | `resources-ita/` | Wildward | 无 |
+
+各语言包包含 `strings/strings.xml`（文案）与 `settings/settings.xml`（设置页布局）；属性默认值统一定义在 `resources/settings/properties.xml`。
+
+在 VS Code 中可通过命令面板 **「Monkey C: Edit Languages」** 增删 `manifest.xml` 中的支持语言。
 
 ### 默认布局
 
@@ -33,10 +52,11 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 
 | 键名 | 说明 |
 |------|------|
-| `AccentColor` | 主题色 |
+| `AccentColor` | 主题色（预设列表） |
+| `CustomAccentColor` | 自定义主题色（6 位 RGB，可选 `#` 前缀；有效时优先于 `AccentColor`） |
 | `ShowSeconds` | 显示秒数 |
 | `ShowDate` | 显示日期 |
-| `ShowLunar` | 显示农历 |
+| `ShowLunar` | 显示农历（仅简体/繁体中文环境生效；对应语言设置页提供开关） |
 | `ShowDividers` | 显示上下横线 |
 | `TopLeftMetric` / `TopRightMetric` / `BottomLeftMetric` / `BottomRightMetric` | 四象限指标 |
 
@@ -46,25 +66,38 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 
 ```
 trailhead-face/
-├── manifest.xml                      # Connect IQ 应用清单（入口、目标机型、API 等）
+├── manifest.xml                      # Connect IQ 应用清单（入口、目标机型、支持语言等）
 ├── monkey.jungle                     # 工程与资源路径（含多分辨率启动图标 & 图标颜色覆盖）
 ├── source/                           # Monkey C 源码
 │   ├── ChefWatchFaceApp.mc           # 应用入口
 │   ├── ChefWatchFaceView.mc          # 表盘绘制与逻辑
 │   ├── Background.mc                 # 背景绘制
 │   └── LunarCalendar.mc              # 农历计算
-├── resources/                        # 主资源包（全机型通用）
-│   ├── strings/strings.xml           # 应用名与设置项文案
-│   ├── settings/                     # 表盘设置 schema 与属性定义
+├── resources/                        # 默认资源包（英文，未匹配语言时回退至此）
+│   ├── strings/strings.xml           # 应用名 Wildward 与设置项文案
+│   ├── settings/
+│   │   ├── properties.xml            # 设置项默认值（各语言共用）
+│   │   └── settings.xml              # 设置页布局（英文，无农历开关）
 │   ├── drawables/                    # 矢量图标（SVG）与 drawables.xml
 │   └── layouts/layout.xml            # 布局
-├── resources-icons-amoled/           # AMOLED 机型图标覆盖（packingFormat="png"，见下）
+├── resources-zhs/                    # 简体中文
+│   ├── strings/strings.xml           # 应用名「赴山野」
+│   └── settings/settings.xml         # 含农历开关
+├── resources-zht/                    # 繁体中文
+├── resources-jpn/                    # 日语
+├── resources-deu/                    # 德语
+├── resources-fre/                    # 法语
+├── resources-spa/                    # 西班牙语
+├── resources-ita/                    # 意大利语
+│   └── （各语言目录均含 strings/ 与 settings/，结构同上）
+├── resources-icons-amoled/           # AMOLED 机型图标覆盖（packingFormat="png"）
 ├── resources-launcher-*-*/           # 各机型启动图标像素规格覆盖
+├── docs/technical-design.md          # 技术设计备忘
 ├── design.md / design.svg            # 设计备忘与矢量稿（不参与编译）
 └── .vscode/                          # VS Code 调试与任务配置（可选）
 ```
 
-关键模块的实现细节（中文多语言适配、MIP/AMOLED 图标染色方案）见 [docs/technical-design.md](docs/technical-design.md)。
+关键模块的实现细节（多语言与农历、MIP/AMOLED 图标染色方案）见 [docs/technical-design.md](docs/technical-design.md)。
 
 ---
 

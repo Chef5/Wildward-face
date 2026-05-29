@@ -27,6 +27,10 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.ShowLunar" title="@Strings.ShowLunarTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
     <setting propertyKey="@Properties.ShowDividers" title="@Strings.ShowDividersTitle">
         <settingConfig type="boolean" />
     </setting>

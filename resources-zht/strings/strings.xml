@@ -1,0 +1,34 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Wildward</string>
+
+    <string id="AccentColorTitle">主題色</string>
+    <string id="CustomAccentColorTitle">自訂主題色（使用 RGB 值，例如：#B77CFF）</string>
+    <string id="ShowSecondsTitle">顯示秒數</string>
+    <string id="ShowDateTitle">顯示日期</string>
+    <string id="ShowLunarTitle">顯示農曆</string>
+    <string id="ShowDividersTitle">顯示分割線</string>
+
+    <string id="TopLeftMetricTitle">左上數據</string>
+    <string id="TopRightMetricTitle">右上數據</string>
+    <string id="BottomLeftMetricTitle">左下數據</string>
+    <string id="BottomRightMetricTitle">右下數據</string>
+
+    <string id="MetricNone">無</string>
+    <string id="MetricHeartRate">心率</string>
+    <string id="MetricBattery">電量</string>
+    <string id="MetricSteps">步數</string>
+    <string id="MetricAltitude">海拔</string>
+
+    <string id="ColorPurple">高雅紫</string>
+    <string id="ColorBlue">深海藍</string>
+    <string id="ColorCyan">碧空藍</string>
+    <string id="ColorGreen">翡翠綠</string>
+    <string id="ColorYellow">檸檬黃</string>
+    <string id="ColorGold">暖陽金</string>
+    <string id="ColorOrange">琥珀橙</string>
+    <string id="ColorRed">硃砂紅</string>
+    <string id="ColorPink">櫻花粉</string>
+    <string id="ColorWhite">月光白</string>
+
+</strings>

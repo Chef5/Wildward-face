@@ -1,0 +1,34 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Wildward</string>
+
+    <string id="AccentColorTitle">テーマカラー</string>
+    <string id="CustomAccentColorTitle">カスタムテーマカラー（RGB値、例：#B77CFF）</string>
+    <string id="ShowSecondsTitle">秒を表示</string>
+    <string id="ShowDateTitle">日付を表示</string>
+    <string id="ShowLunarTitle">旧暦を表示</string>
+    <string id="ShowDividersTitle">区切り線を表示</string>
+
+    <string id="TopLeftMetricTitle">左上</string>
+    <string id="TopRightMetricTitle">右上</string>
+    <string id="BottomLeftMetricTitle">左下</string>
+    <string id="BottomRightMetricTitle">右下</string>
+
+    <string id="MetricNone">なし</string>
+    <string id="MetricHeartRate">心拍数</string>
+    <string id="MetricBattery">バッテリー</string>
+    <string id="MetricSteps">歩数</string>
+    <string id="MetricAltitude">高度</string>
+
+    <string id="ColorPurple">パープル</string>
+    <string id="ColorBlue">オーシャンブルー</string>
+    <string id="ColorCyan">シアン</string>
+    <string id="ColorGreen">エメラルド</string>
+    <string id="ColorYellow">イエロー</string>
+    <string id="ColorGold">ゴールド</string>
+    <string id="ColorOrange">オレンジ</string>
+    <string id="ColorRed">レッド</string>
+    <string id="ColorPink">ピンク</string>
+    <string id="ColorWhite">ホワイト</string>
+
+</strings>

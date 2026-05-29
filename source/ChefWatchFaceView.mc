@@ -62,13 +62,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // ---- 字体 ----
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
     // _uiFont：由 rebuildUiFont() 计算，用于所有指标数值和日期/农历文字。
-    // _hasCjkFont：true 时用中文字符串；由系统语言 + 向量字体双重检测。
-    //   - AMOLED（fr265 等）：getVectorFont("NotoSansSCMedium") 成功 → true
-    //   - MIP（fr255）+ 中文语言：systemLanguage == LANGUAGE_CHS/CHT → true
-    //   - MIP + 非中文语言：→ false，日期/农历降级为 ASCII
+    // _isChineseLocale：设备系统语言为简体/繁体中文时为 true；控制中文日期格式与农历展示。
     private var _baseFontH as Number = 0;
     private var _uiFont as Graphics.FontType = Graphics.FONT_XTINY;
-    private var _hasCjkFont as Boolean = false;
+    private var _isChineseLocale as Boolean = false;
 
     // ---- 按日缓存的值 ----
     private var _lunarStr as String = "";
@@ -115,7 +112,17 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         v = p.getValue("BottomRightMetric");
         if (v != null) { _bottomRightMetric = v as Number; }
         // 设置变更后重新计算字体（_baseFontH 为 0 时说明 onLayout 尚未运行，跳过）
+        updateLocaleFlags();
         rebuildUiFont();
+    }
+
+    private function updateLocaleFlags() as Void {
+        var lang = System.getDeviceSettings().systemLanguage;
+        _isChineseLocale = (lang == System.LANGUAGE_CHS || lang == System.LANGUAGE_CHT);
+    }
+
+    private function shouldShowLunar() as Boolean {
+        return _showLunar && _isChineseLocale;
     }
 
     // 用户切换主题色列表时清空自定义色，使新预设生效（用 Storage 记录上次值以跨重启检测）。
@@ -171,7 +178,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
         rebuildUiFont();
-        System.println("DBG onLayout done, hasCjk=" + _hasCjkFont.toString());
+        System.println("DBG onLayout done, isChineseLocale=" + _isChineseLocale.toString());
     }
 
     function onShow() as Void {
@@ -387,7 +394,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             blockLeft -= s(8);
         }
         // 日期行和农历均不展示时，时间垂直居中于两条分割线之间（设计单位 480）
-        var hasDateContent = _showDate || _showLunar;
+        var hasDateContent = _showDate || shouldShowLunar();
         var centerLineY = s(hasDateContent ? SPEC_TIME_CENTER_Y : 480);
         var bigH = dc.getFontHeight(bigFont);
 
@@ -426,24 +433,20 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // -------------------------------------------------------------
 
     private function drawDateRows(dc as Dc) as Void {
-        if (!_showDate && !_showLunar) { return; }
+        if (!_showDate && !shouldShowLunar()) { return; }
 
         var now = Time.now();
         // FORMAT_SHORT 将月份/星期返回为数字（FORMAT_MEDIUM 返回本地化字符串）。
         var info = Gregorian.info(now, Time.FORMAT_SHORT);
 
-        // 更新农历缓存（按日失效；有 CJK 字体用中文，否则 ASCII）
+        // 更新农历缓存（按日失效；仅中文环境展示）
         var solarKey = info.year * 10000 + info.month * 100 + info.day;
-        if (_showLunar && solarKey != _lunarCacheKey) {
-            if (_hasCjkFont) {
-                _lunarStr = LunarCalendar.format(info.year, info.month, info.day);
-            } else {
-                _lunarStr = LunarCalendar.formatAscii(info.year, info.month, info.day);
-            }
+        if (shouldShowLunar() && solarKey != _lunarCacheKey) {
+            _lunarStr = LunarCalendar.format(info.year, info.month, info.day);
             _lunarCacheKey = solarKey;
         }
 
-        var lunarReady = _showLunar && !_lunarStr.equals("");
+        var lunarReady = shouldShowLunar() && !_lunarStr.equals("");
         var dateY = s(SPEC_DATE_ROW_Y);
         dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
 
@@ -474,7 +477,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     private function buildDateLineString(month as Number, day as Number, dayOfWeekIdx as Number) as String {
-        if (_hasCjkFont) {
+        if (_isChineseLocale) {
             return month.format("%d") + "月" + day.format("%d") + "日 " + WEEKDAYS_ZH[dayOfWeekIdx];
         }
         return month.format("%d") + "." + day.format("%d") + " " + WEEKDAYS_EN[dayOfWeekIdx];
@@ -549,6 +552,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private function rebuildUiFont() as Void {
         if (_baseFontH <= 0) { return; }
         System.println("DBG rebuildUiFont fontSize=" + _fontSize.format("%d"));
+        updateLocaleFlags();
         // 5 档尺寸系数：极小×0.9 / 小×1.0 / 中×1.25 / 大×1.5 / 极大×1.8
         var ratio;
         if (_fontSize <= 1)      { ratio = 0.9; }
@@ -566,16 +570,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         System.println("DBG vf=" + (vf != null ? "ok" : "null"));
         if (vf != null) {
             _uiFont = vf;
-            _hasCjkFont = true;
             return;
         }
         // MIP 设备（fr255 等）：无向量字体，退回系统字体常量
-        // 当设备语言为中文时，apac_chn 字体集将 FONT_XTINY 等全部映射为
-        // Noto Sans SC CJK 位图字体，可直接渲染中文字符串
-        var lang = System.getDeviceSettings().systemLanguage;
-        System.println("DBG lang=" + lang.format("%d"));
-        _hasCjkFont = (lang == System.LANGUAGE_CHS || lang == System.LANGUAGE_CHT);
-        System.println("DBG hasCjk=" + _hasCjkFont.toString());
         if (_fontSize <= 2)      { _uiFont = Graphics.FONT_XTINY; }
         else if (_fontSize == 3) { _uiFont = Graphics.FONT_TINY; }
         else if (_fontSize == 4) { _uiFont = Graphics.FONT_SMALL; }
