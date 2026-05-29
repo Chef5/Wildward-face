@@ -28,7 +28,7 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 |------|------|----------|--------|----------------|
 | `eng` | 英语 | `resources/`（默认） | Wildward | 无 |
 | `zhs` | 简体中文 | `resources-zhs/` | 赴山野 | 有 |
-| `zht` | 繁体中文 | `resources-zht/` | Wildward | 有 |
+| `zht` | 繁体中文 | `resources-zht/` | 赴山野 | 有 |
 | `jpn` | 日语 | `resources-jpn/` | Wildward | 无 |
 | `deu` | 德语 | `resources-deu/` | Wildward | 无 |
 | `fre` | 法语 | `resources-fre/` | Wildward | 无 |
