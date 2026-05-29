@@ -23,6 +23,10 @@ class ChefWatchFaceApp extends Application.AppBase {
 
     // 收到新的应用设置后触发界面刷新
     function onSettingsChanged() as Void {
+        var view = WatchUi.getCurrentView();
+        if (view instanceof ChefWatchFaceView) {
+            (view as ChefWatchFaceView).loadSettings();
+        }
         WatchUi.requestUpdate();
     }
 

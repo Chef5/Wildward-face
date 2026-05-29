@@ -81,6 +81,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private const WEEKDAYS_EN = [
         "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
     ];
+    private const LAST_ACCENT_COLOR_KEY = "lastAccentColor";
 
     function initialize() {
         WatchFace.initialize();
@@ -90,8 +91,13 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     function loadSettings() as Void {
         var p = Application.Properties;
         var v;
+        var accentColor = 0xB77CFF;
         v = p.getValue("AccentColor");
-        if (v != null) { _accent = v as Number; }
+        if (v != null) { accentColor = v as Number; }
+        clearCustomAccentIfAccentListChanged(accentColor);
+        v = p.getValue("CustomAccentColor");
+        var customAccent = parseCustomAccentColor(v != null ? v as String : "");
+        _accent = customAccent != null ? customAccent : accentColor;
         v = p.getValue("ShowSeconds");
         if (v != null) { _showSeconds = v as Boolean; }
         v = p.getValue("ShowDate");
@@ -110,6 +116,40 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (v != null) { _bottomRightMetric = v as Number; }
         // 设置变更后重新计算字体（_baseFontH 为 0 时说明 onLayout 尚未运行，跳过）
         rebuildUiFont();
+    }
+
+    // 用户切换主题色列表时清空自定义色，使新预设生效（用 Storage 记录上次值以跨重启检测）。
+    function clearCustomAccentIfAccentListChanged(accentColor as Number) as Void {
+        var lastAccent = Application.Storage.getValue(LAST_ACCENT_COLOR_KEY);
+        if (lastAccent != null && (lastAccent as Number) != accentColor) {
+            Application.Properties.setValue("CustomAccentColor", "");
+        }
+        Application.Storage.setValue(LAST_ACCENT_COLOR_KEY, accentColor);
+    }
+
+    // 解析自定义主题色（6 位十六进制，可选 # 前缀）；无效或留空返回 null。
+    function parseCustomAccentColor(raw as String) as Number? {
+        if (raw == null || raw.length() == 0) {
+            return null;
+        }
+        var hex = raw;
+        if (hex.substring(0, 1).equals("#")) {
+            hex = hex.substring(1, hex.length());
+        }
+        if (hex.length() != 6) {
+            return null;
+        }
+        hex = hex.toUpper();
+        var digits = "0123456789ABCDEF";
+        var value = 0;
+        for (var i = 0; i < 6; i++) {
+            var idx = digits.find(hex.substring(i, i + 1));
+            if (idx == null || idx < 0) {
+                return null;
+            }
+            value = (value << 4) | idx;
+        }
+        return value;
     }
 
     function onLayout(dc as Dc) as Void {

@@ -15,6 +15,10 @@
         </settingConfig>
     </setting>
 
+    <setting propertyKey="@Properties.CustomAccentColor" title="@Strings.CustomAccentColorTitle">
+        <settingConfig type="alphaNumeric" maxLength="7" />
+    </setting>
+
     <setting propertyKey="@Properties.ShowSeconds" title="@Strings.ShowSecondsTitle">
         <settingConfig type="boolean" />
     </setting>

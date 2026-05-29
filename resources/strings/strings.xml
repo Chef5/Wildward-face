@@ -3,6 +3,7 @@
     <string id="AppName">赴山野</string>
 
     <string id="AccentColorTitle">主题色</string>
+    <string id="CustomAccentColorTitle">自定义主题色（使用RGB值，例如：#B77CFF）</string>
     <string id="ShowSecondsTitle">显示秒数</string>
     <string id="ShowDateTitle">显示日期</string>
     <string id="ShowLunarTitle">显示农历</string>
