@@ -29,8 +29,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private const SPEC_BOTTOM_VALUE_BELOW_DIVIDER = 145;
     // 横向分割线：在设备像素上两端各加长一半总长。
     private const DIVIDER_LINE_EXTRA_WIDTH_PX = 10;
-    // 指标位图为 32×32（与 resources/drawables 内 SVG 栅格一致）；布局与居中使用同一数值。
-    private const METRIC_ICON_PX = 32;
+    // 指标图标：设计稿约 104×104（960 画布）；SVG 栅格 32×32，运行时按屏宽缩放并绘制缩放。
+    private const SPEC_METRIC_ICON = 104;
+    private const METRIC_ICON_MAX_PX = 32;
 
     // ---- 运行时状态 ----
     private var _w as Number = 0;
@@ -38,6 +39,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _cx as Number = 0;
     private var _cy as Number = 0;
     private var _scale as Float = 1.0;
+    private var _metricIconPx as Number = METRIC_ICON_MAX_PX;
     private var _isAsleep as Boolean = false;
 
     // ---- 设置 ----
@@ -167,6 +169,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _cx = _w / 2;
         _cy = _h / 2;
         _scale = _w / 960.0;
+        updateMetricIconPx();
         System.println("DBG loading bitmaps");
         _heartBmp = WatchUi.loadResource(Rez.Drawables.BpmIcon)   as BitmapResource;
         System.println("DBG heartBmp ok");
@@ -204,6 +207,25 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         return v * _scale;
     }
 
+    // 按屏宽换算指标图标边长；小屏 MIP（255 / 7 系列等）再略缩，大屏不超过 SVG 栅格。
+    private function updateMetricIconPx() as Void {
+        var px = s(SPEC_METRIC_ICON);
+        var factor = 1.0;
+        if (_w <= 218) {
+            factor = 0.88;  // fr255s / fr255sm、fenix7s 等
+        } else if (_w <= 240) {
+            factor = 0.90;
+        } else if (_w <= 260) {
+            factor = 0.92;  // fr255 / fr255m、fenix7、fr955 等
+        } else if (_w <= 280) {
+            factor = 0.95;
+        }
+        px = Math.round(px * factor).toNumber();
+        if (px > METRIC_ICON_MAX_PX) { px = METRIC_ICON_MAX_PX; }
+        if (px < 16) { px = 16; }
+        _metricIconPx = px;
+    }
+
     function onUpdate(dc as Dc) as Void {
         System.println("DBG onUpdate");
         if (_w == 0) {
@@ -212,6 +234,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             _cx = _w / 2;
             _cy = _h / 2;
             _scale = _w / 960.0;
+            updateMetricIconPx();
         }
 
         // 背景
@@ -322,8 +345,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private function drawIconTextGroup(dc as Dc, bmp as BitmapResource?,
                                        text as String,
                                        centerX as Number, centerY as Number) as Void {
-        var iconSize = METRIC_ICON_PX;
-        var iconHalf = METRIC_ICON_PX / 2;
+        var iconSize = _metricIconPx;
+        var iconHalf = _metricIconPx / 2;
         var iconTextGap = s(28);
         var textW  = dc.getTextWidthInPixels(text, _uiFont);
         var groupW = iconSize + iconTextGap + textW;
@@ -503,7 +526,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 在底部行绘制单个指标（图标在上，文字居中在下）
     private function drawMetricBottom(dc as Dc, metric as Number, centerX as Number,
                                       iconY as Number, valueY as Number) as Void {
-        var iconHalf = METRIC_ICON_PX / 2;
+        var iconHalf = _metricIconPx / 2;
         if (metric == 1) {
             var hr = getHeartRate();
             if (_heartBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _heartBmp); }
@@ -541,7 +564,15 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private function drawTintedBitmap(dc as Dc, x as Number, y as Number,
                                       bmp as BitmapResource) as Void {
         if (dc has :drawBitmap2) {
-            dc.drawBitmap2(x, y, bmp, {:tintColor => _accent});
+            var srcW = bmp.getWidth();
+            if (srcW > 0 && _metricIconPx > 0 && _metricIconPx != srcW) {
+                var scale = _metricIconPx.toFloat() / srcW;
+                var xf = new Graphics.AffineTransform();
+                xf.scale(scale, scale);
+                dc.drawBitmap2(x, y, bmp, {:tintColor => _accent, :transform => xf});
+            } else {
+                dc.drawBitmap2(x, y, bmp, {:tintColor => _accent});
+            }
         } else {
             dc.drawBitmap(x, y, bmp);
         }
