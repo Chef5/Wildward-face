@@ -5,6 +5,8 @@
     <property id="ShowDate" type="boolean">true</property>
     <property id="ShowLunar" type="boolean">true</property>
     <property id="ShowDividers" type="boolean">true</property>
+    <property id="ShowCompassRing" type="boolean">true</property>
+    <property id="SleepModeEnabled" type="boolean">true</property>
 
     <!-- 各位置指标 ID：0=不展示 1=心率 2=电量 3=步数 4=海拔 -->
     <property id="TopLeftMetric"     type="number">4</property>

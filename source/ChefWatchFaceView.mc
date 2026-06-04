@@ -14,6 +14,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // ---- 配色 ----
     private const WHITE = 0xFFFFFF;
     private const BLACK = 0x000000;
+    // 睡眠模式下的暗白色（模拟降低亮度效果）
+    private const SLEEP_DIM = 0x888888;
 
     // ---- 中间区域（960 设计单位；圆形表盘上 Y 随屏宽缩放）----
     private const SPEC_TIME_CENTER_Y = 440;
@@ -48,6 +50,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _showDate as Boolean = true;
     private var _showLunar as Boolean = true;
     private var _showDividers as Boolean = true;
+    private var _showCompassRing as Boolean = true;
+    private var _sleepModeEnabled as Boolean = true;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
@@ -100,6 +104,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (v != null) { _showLunar = v as Boolean; }
         v = p.getValue("ShowDividers");
         if (v != null) { _showDividers = v as Boolean; }
+        v = p.getValue("ShowCompassRing");
+        if (v != null) { _showCompassRing = v as Boolean; }
+        v = p.getValue("SleepModeEnabled");
+        if (v != null) { _sleepModeEnabled = v as Boolean; }
         v = p.getValue("TopLeftMetric");
         if (v != null) { _topLeftMetric = v as Number; }
         v = p.getValue("TopRightMetric");
@@ -172,8 +180,16 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         dc.setColor(WHITE, BLACK);
         dc.clear();
 
-        drawCompassRing(dc);
-        drawNorth(dc);
+        // 睡眠模式：仅展示暗化的时分，其余全部跳过
+        if (_isAsleep && _sleepModeEnabled) {
+            drawCenterTime(dc);
+            return;
+        }
+
+        if (_showCompassRing) {
+            drawCompassRing(dc);
+            drawNorth(dc);
+        }
         drawTopMetrics(dc);
         var edgeInset = sf(SPEC_DIVIDER_EDGE_INSET);
         if (_showDividers) { drawHorizontalDivider(dc, edgeInset); }
@@ -319,6 +335,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // -------------------------------------------------------------
 
     private function drawCenterTime(dc as Dc) as Void {
+        var isSleepMode = _isAsleep && _sleepModeEnabled;
         var clock = System.getClockTime();
         var hour = clock.hour;
         if (!System.getDeviceSettings().is24Hour) {
@@ -343,12 +360,28 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var totalW = hourW + colonGap + colonW + colonGap + minW;
         // HH:MM 块居中；秒数置于「分」的右下角（可能向右伸出）
         var blockLeft = _cx - totalW / 2;
-        if (_showSeconds) {
+        if (!isSleepMode && _showSeconds) {
             blockLeft -= s(8);
         }
-        // 日期行和农历均不展示时，时间垂直居中于两条分割线之间（设计单位 480）
-        var hasDateContent = _showDate || _showLunar;
+        // 睡眠模式或日期行/农历均不展示时，时间垂直居中于两条分割线之间（设计单位 480）
+        var hasDateContent = !isSleepMode && (_showDate || _showLunar);
         var centerLineY = s(hasDateContent ? SPEC_TIME_CENTER_Y : 480);
+
+        var colonX = blockLeft + hourW + colonGap;
+        var minX = colonX + colonW + colonGap;
+
+        if (isSleepMode) {
+            // 睡眠模式：时分统一用暗白色（降低亮度），不绘制秒
+            dc.setColor(SLEEP_DIM, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(blockLeft, centerLineY, bigFont, hourStr,
+                        Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(colonX, centerLineY, colonFont, ":",
+                        Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+            dc.drawText(minX, centerLineY, bigFont, minStr,
+                        Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+            return;
+        }
+
         var bigH = dc.getFontHeight(bigFont);
 
         // 小时
@@ -358,17 +391,15 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
         // 冒号——较小字号；与数字共用 centerLineY（不做逐字体 Y 偏移）
         dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
-        var colonX = blockLeft + hourW + colonGap;
         dc.drawText(colonX, centerLineY, colonFont, ":",
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 
         // 分钟
-        var minX = colonX + colonW + colonGap;
         dc.drawText(minX, centerLineY, bigFont, minStr,
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 
         // 秒——分右下角；按基线对齐（用 box-bottom − descent 跨字体对齐效果差）
-        if (_showSeconds && !_isAsleep) {
+        if (_showSeconds) {
             dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
             var secH = dc.getFontHeight(secFont);
             var descBig = Graphics.getFontDescent(bigFont);

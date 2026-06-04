@@ -38,7 +38,11 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 | `ShowDate` | 显示日期 |
 | `ShowLunar` | 显示农历 |
 | `ShowDividers` | 显示上下横线 |
+| `ShowCompassRing` | 显示表盘外圈刻度（含北向三角），默认开启 |
+| `SleepModeEnabled` | 启用睡眠模式控制，默认开启；关闭时睡眠期间按用户设置正常展示 |
 | `TopLeftMetric` / `TopRightMetric` / `BottomLeftMetric` / `BottomRightMetric` | 四象限指标 |
+
+> **睡眠模式说明**：`SleepModeEnabled` 开启时，抬腕熄屏后仅显示时分（暗白色降亮），其余所有元素隐藏；关闭时不对睡眠状态做特殊处理，完全按用户配置展示。
 
 ---
 

@@ -31,6 +31,14 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.ShowCompassRing" title="@Strings.ShowCompassRingTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.SleepModeEnabled" title="@Strings.SleepModeEnabledTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
     <setting propertyKey="@Properties.TopLeftMetric" title="@Strings.TopLeftMetricTitle">
         <settingConfig type="list">
             <listEntry value="4">@Strings.MetricAltitude</listEntry>

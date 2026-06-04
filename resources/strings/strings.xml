@@ -7,6 +7,8 @@
     <string id="ShowDateTitle">显示日期</string>
     <string id="ShowLunarTitle">显示农历</string>
     <string id="ShowDividersTitle">显示分割线</string>
+    <string id="ShowCompassRingTitle">显示外圈刻度</string>
+    <string id="SleepModeEnabledTitle">启用睡眠模式</string>
 
     <string id="TopLeftMetricTitle">左上数据</string>
     <string id="TopRightMetricTitle">右上数据</string>
