@@ -23,6 +23,9 @@
       "display" : "ColorGreen",
       "value" : 5635993
     }, {
+      "display" : "ColorFieldGreen",
+      "value" : 4040789
+    }, {
       "display" : "ColorYellow",
       "value" : 16772676
     }, {
@@ -274,6 +277,7 @@
       "ColorWhite" : "月光白",
       "ShowDateTitle" : "显示日期",
       "ColorGreen" : "翡翠绿",
+      "ColorFieldGreen" : "原野绿",
       "AccentColorTitle" : "主题色",
       "FontSizeSmall" : "小",
       "TopLeftMetricTitle" : "左上数据",

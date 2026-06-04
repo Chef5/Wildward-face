@@ -6,6 +6,7 @@
             <listEntry value="0x55AAFF">@Strings.ColorBlue</listEntry>
             <listEntry value="0x00DDCC">@Strings.ColorCyan</listEntry>
             <listEntry value="0x55FF99">@Strings.ColorGreen</listEntry>
+            <listEntry value="0x3DA855">@Strings.ColorFieldGreen</listEntry>
             <listEntry value="0xFFEE44">@Strings.ColorYellow</listEntry>
             <listEntry value="0xFFCC33">@Strings.ColorGold</listEntry>
             <listEntry value="0xFFAA55">@Strings.ColorOrange</listEntry>
