@@ -5,6 +5,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.Math;
 import Toybox.System;
+import Toybox.Complications;
 import Toybox.SensorHistory;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
@@ -33,6 +34,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 指标图标：设计稿约 104×104（960 画布）；SVG 栅格 32×32，运行时按屏宽缩放并绘制缩放。
     private const SPEC_METRIC_ICON = 104;
     private const METRIC_ICON_MAX_PX = 32;
+    // 大气压趋势：与 30 分钟前对比；差值在此阈值内视为平稳（hPa）
+    private const PRESSURE_TREND_COMPARE_SEC = 1800;
+    private const PRESSURE_TREND_TOLERANCE_SEC = 600;
+    private const PRESSURE_STABLE_HPA = 1;
 
     // ---- 运行时状态 ----
     private var _w as Number = 0;
@@ -52,6 +57,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _showLunar as Boolean = true;
     private var _showDividers as Boolean = true;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
+    //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
     private var _bottomLeftMetric  as Number = 1; // 默认：心率
@@ -63,6 +69,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _altBmp   as BitmapResource?;
     private var _caloriesBmp as BitmapResource?;
     private var _spo2Bmp as BitmapResource?;
+    private var _pressureBmp as BitmapResource?;
+    private var _bodyBatteryBmp as BitmapResource?;
+    private var _stressBmp as BitmapResource?;
+    private var _sunriseBmp as BitmapResource?;
+    private var _sunsetBmp as BitmapResource?;
 
     // ---- 字体 ----
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
@@ -184,6 +195,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         System.println("DBG caloriesBmp ok");
         _spo2Bmp = WatchUi.loadResource(Rez.Drawables.Spo2Icon) as BitmapResource;
         System.println("DBG spo2Bmp ok");
+        _pressureBmp = WatchUi.loadResource(Rez.Drawables.PressureIcon) as BitmapResource;
+        _bodyBatteryBmp = WatchUi.loadResource(Rez.Drawables.BodyBatteryIcon) as BitmapResource;
+        _stressBmp = WatchUi.loadResource(Rez.Drawables.StressIcon) as BitmapResource;
+        _sunriseBmp = WatchUi.loadResource(Rez.Drawables.SunriseIcon) as BitmapResource;
+        _sunsetBmp = WatchUi.loadResource(Rez.Drawables.SunsetIcon) as BitmapResource;
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
@@ -351,6 +367,18 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         } else if (metric == 6) {
             var spo2 = getSpO2();
             drawIconTextGroup(dc, _spo2Bmp, (spo2 == null) ? "--" : spo2.format("%d") + "%", centerX, rowCenterY);
+        } else if (metric == 7) {
+            drawIconTextGroup(dc, _pressureBmp, getBarometricPressureText(), centerX, rowCenterY);
+        } else if (metric == 8) {
+            var bb = getBodyBattery();
+            drawIconTextGroup(dc, _bodyBatteryBmp, (bb == null) ? "--" : bb.format("%d"), centerX, rowCenterY);
+        } else if (metric == 9) {
+            var stress = getStress();
+            drawIconTextGroup(dc, _stressBmp, (stress == null) ? "--" : stress.format("%d"), centerX, rowCenterY);
+        } else if (metric == 10) {
+            drawIconTextGroup(dc, _sunriseBmp, getSunriseTimeText(), centerX, rowCenterY);
+        } else if (metric == 11) {
+            drawIconTextGroup(dc, _sunsetBmp, getSunsetTimeText(), centerX, rowCenterY);
         }
     }
 
@@ -578,6 +606,33 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (spo2 == null) ? "--" : spo2.format("%d") + "%",
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 7) {
+            if (_pressureBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _pressureBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getBarometricPressureText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 8) {
+            var bb = getBodyBattery();
+            if (_bodyBatteryBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _bodyBatteryBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, (bb == null) ? "--" : bb.format("%d"),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 9) {
+            var stress = getStress();
+            if (_stressBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _stressBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, (stress == null) ? "--" : stress.format("%d"),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 10) {
+            if (_sunriseBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _sunriseBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getSunriseTimeText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 11) {
+            if (_sunsetBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _sunsetBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getSunsetTimeText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
@@ -717,5 +772,213 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             return null;
         }
         return sample.data.toNumber();
+    }
+
+    private function getComplicationNumericValue(complicationType as Number) as Number? {
+        if (!(Toybox has :Complications)) {
+            return null;
+        }
+        var comp = Complications.getComplication(new Complications.Id(complicationType));
+        if (comp == null || comp.value == null) {
+            return null;
+        }
+        var v = comp.value;
+        if (v instanceof Float) {
+            return (v as Float).toNumber();
+        }
+        return v as Number;
+    }
+
+    private function pressurePaToNumber(pa as Numeric) as Number {
+        if (pa instanceof Float) {
+            return ((pa as Float) / 100.0).toNumber();
+        }
+        return ((pa as Number).toFloat() / 100.0).toNumber();
+    }
+
+    private function getBarometricPressureText() as String {
+        var data = getBarometricPressureData();
+        if (data == null) {
+            return "--";
+        }
+        var hPa = data.get(:hpa) as Number;
+        var trend = data.get(:trend) as Number;
+        var text = hPa.format("%d");
+        if (trend > 0) {
+            text += "\u2191";
+        } else if (trend < 0) {
+            text += "\u2193";
+        }
+        return text;
+    }
+
+    private function getBarometricPressureData() as Dictionary? {
+        var currentPa = null as Float?;
+
+        if (Toybox has :Complications) {
+            var comp = Complications.getComplication(
+                new Complications.Id(Complications.COMPLICATION_TYPE_SEA_LEVEL_PRESSURE)
+            );
+            if (comp != null && comp.value != null) {
+                if (comp.value instanceof Float) {
+                    currentPa = comp.value as Float;
+                } else if (comp.value instanceof Number) {
+                    currentPa = (comp.value as Number).toFloat();
+                }
+            }
+        }
+
+        if (!(Toybox has :SensorHistory) || !(SensorHistory has :getPressureHistory)) {
+            if (currentPa == null) {
+                return null;
+            }
+            return {:hpa => pressurePaToNumber(currentPa), :trend => 0};
+        }
+
+        var periodSec = PRESSURE_TREND_COMPARE_SEC + PRESSURE_TREND_TOLERANCE_SEC;
+        var iter = SensorHistory.getPressureHistory({
+            :period => periodSec,
+            :order => SensorHistory.ORDER_NEWEST_FIRST
+        });
+        if (iter == null) {
+            if (currentPa == null) {
+                return null;
+            }
+            return {:hpa => pressurePaToNumber(currentPa), :trend => 0};
+        }
+
+        var now = Time.now();
+        var newestPa = currentPa;
+        var pastPa = null as Float?;
+        var bestAgeDiff = 999999;
+
+        while (true) {
+            var sample = iter.next();
+            if (sample == null) {
+                break;
+            }
+            if (sample.data == null || sample.when == null) {
+                continue;
+            }
+            var paF = sample.data instanceof Float
+                ? sample.data as Float
+                : (sample.data as Number).toFloat();
+            if (newestPa == null) {
+                newestPa = paF;
+            }
+            var ageSec = now.subtract(sample.when).value();
+            if (ageSec < 0) {
+                ageSec = 0;
+            }
+            var ageDiff = ageSec - PRESSURE_TREND_COMPARE_SEC;
+            if (ageDiff < 0) {
+                ageDiff = -ageDiff;
+            }
+            if (ageDiff < bestAgeDiff) {
+                bestAgeDiff = ageDiff;
+                pastPa = paF;
+            }
+        }
+
+        if (newestPa == null) {
+            return null;
+        }
+
+        var hPa = pressurePaToNumber(newestPa);
+        var trend = 0;
+        if (pastPa != null && bestAgeDiff <= PRESSURE_TREND_TOLERANCE_SEC) {
+            var delta = hPa - pressurePaToNumber(pastPa);
+            if (delta > PRESSURE_STABLE_HPA) {
+                trend = 1;
+            } else if (delta < -PRESSURE_STABLE_HPA) {
+                trend = -1;
+            }
+        }
+        return {:hpa => hPa, :trend => trend};
+    }
+
+    private function getBodyBattery() as Number? {
+        var v = getComplicationNumericValue(Complications.COMPLICATION_TYPE_BODY_BATTERY);
+        if (v != null) {
+            return v;
+        }
+        if (!(Toybox has :SensorHistory) || !(SensorHistory has :getBodyBatteryHistory)) {
+            return null;
+        }
+        var iter = SensorHistory.getBodyBatteryHistory({
+            :period => 1,
+            :order => SensorHistory.ORDER_NEWEST_FIRST
+        });
+        if (iter == null) {
+            return null;
+        }
+        var sample = iter.next();
+        if (sample == null || sample.data == null) {
+            return null;
+        }
+        return sample.data.toNumber();
+    }
+
+    private function getStress() as Number? {
+        var v = getComplicationNumericValue(Complications.COMPLICATION_TYPE_STRESS);
+        if (v != null) {
+            return v;
+        }
+        var info = ActivityMonitor.getInfo();
+        if (info has :stressScore) {
+            var score = info.stressScore;
+            if (score != null) {
+                return score;
+            }
+        }
+        if (!(Toybox has :SensorHistory) || !(SensorHistory has :getStressHistory)) {
+            return null;
+        }
+        var iter = SensorHistory.getStressHistory({
+            :period => 1,
+            :order => SensorHistory.ORDER_NEWEST_FIRST
+        });
+        if (iter == null) {
+            return null;
+        }
+        var sample = iter.next();
+        if (sample == null || sample.data == null) {
+            return null;
+        }
+        return sample.data.toNumber();
+    }
+
+    // 将「距午夜秒数」格式化为时:分，12/24 小时制跟随系统设置。
+    private function formatTimeOfDay(secondsSinceMidnight as Number) as String {
+        var totalSec = secondsSinceMidnight;
+        if (totalSec < 0) {
+            totalSec = 0;
+        }
+        var hour = totalSec / 3600;
+        var minute = (totalSec % 3600) / 60;
+        if (!System.getDeviceSettings().is24Hour) {
+            if (hour == 0) {
+                hour = 12;
+            } else if (hour > 12) {
+                hour -= 12;
+            }
+        }
+        return hour.format("%02d") + ":" + minute.format("%02d");
+    }
+
+    private function getSunriseTimeText() as String {
+        var sec = getComplicationNumericValue(Complications.COMPLICATION_TYPE_SUNRISE);
+        if (sec == null) {
+            return "--";
+        }
+        return formatTimeOfDay(sec);
+    }
+
+    private function getSunsetTimeText() as String {
+        var sec = getComplicationNumericValue(Complications.COMPLICATION_TYPE_SUNSET);
+        if (sec == null) {
+            return "--";
+        }
+        return formatTimeOfDay(sec);
     }
 }

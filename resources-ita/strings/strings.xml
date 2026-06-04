@@ -21,6 +21,11 @@
     <string id="MetricAltitude">Altitudine</string>
     <string id="MetricCalories">Calorie</string>
     <string id="MetricSpO2">Ossigeno nel sangue</string>
+    <string id="MetricPressure">Pressione atmosferica</string>
+    <string id="MetricBodyBattery">Body Battery</string>
+    <string id="MetricStress">Stress</string>
+    <string id="MetricSunrise">Ora dell&apos;alba</string>
+    <string id="MetricSunset">Ora del tramonto</string>
 
     <string id="ColorPurple">Viola</string>
     <string id="ColorBlue">Blu oceano</string>

@@ -21,6 +21,11 @@
     <string id="MetricAltitude">海拔</string>
     <string id="MetricCalories">卡路里</string>
     <string id="MetricSpO2">血氧</string>
+    <string id="MetricPressure">大氣壓</string>
+    <string id="MetricBodyBattery">身體電量</string>
+    <string id="MetricStress">壓力值</string>
+    <string id="MetricSunrise">日出時間</string>
+    <string id="MetricSunset">日落時間</string>
 
     <string id="ColorPurple">高雅紫</string>
     <string id="ColorBlue">深海藍</string>

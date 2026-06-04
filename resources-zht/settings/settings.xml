@@ -45,6 +45,11 @@
             <listEntry value="3">@Strings.MetricSteps</listEntry>
             <listEntry value="5">@Strings.MetricCalories</listEntry>
             <listEntry value="6">@Strings.MetricSpO2</listEntry>
+            <listEntry value="7">@Strings.MetricPressure</listEntry>
+            <listEntry value="8">@Strings.MetricBodyBattery</listEntry>
+            <listEntry value="9">@Strings.MetricStress</listEntry>
+            <listEntry value="10">@Strings.MetricSunrise</listEntry>
+            <listEntry value="11">@Strings.MetricSunset</listEntry>
         </settingConfig>
     </setting>
 
@@ -57,6 +62,11 @@
             <listEntry value="3">@Strings.MetricSteps</listEntry>
             <listEntry value="5">@Strings.MetricCalories</listEntry>
             <listEntry value="6">@Strings.MetricSpO2</listEntry>
+            <listEntry value="7">@Strings.MetricPressure</listEntry>
+            <listEntry value="8">@Strings.MetricBodyBattery</listEntry>
+            <listEntry value="9">@Strings.MetricStress</listEntry>
+            <listEntry value="10">@Strings.MetricSunrise</listEntry>
+            <listEntry value="11">@Strings.MetricSunset</listEntry>
         </settingConfig>
     </setting>
 
@@ -69,6 +79,11 @@
             <listEntry value="3">@Strings.MetricSteps</listEntry>
             <listEntry value="5">@Strings.MetricCalories</listEntry>
             <listEntry value="6">@Strings.MetricSpO2</listEntry>
+            <listEntry value="7">@Strings.MetricPressure</listEntry>
+            <listEntry value="8">@Strings.MetricBodyBattery</listEntry>
+            <listEntry value="9">@Strings.MetricStress</listEntry>
+            <listEntry value="10">@Strings.MetricSunrise</listEntry>
+            <listEntry value="11">@Strings.MetricSunset</listEntry>
         </settingConfig>
     </setting>
 
@@ -81,6 +96,11 @@
             <listEntry value="1">@Strings.MetricHeartRate</listEntry>
             <listEntry value="5">@Strings.MetricCalories</listEntry>
             <listEntry value="6">@Strings.MetricSpO2</listEntry>
+            <listEntry value="7">@Strings.MetricPressure</listEntry>
+            <listEntry value="8">@Strings.MetricBodyBattery</listEntry>
+            <listEntry value="9">@Strings.MetricStress</listEntry>
+            <listEntry value="10">@Strings.MetricSunrise</listEntry>
+            <listEntry value="11">@Strings.MetricSunset</listEntry>
         </settingConfig>
     </setting>
 

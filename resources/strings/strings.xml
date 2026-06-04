@@ -21,6 +21,11 @@
     <string id="MetricAltitude">Altitude</string>
     <string id="MetricCalories">Calories</string>
     <string id="MetricSpO2">Blood Oxygen</string>
+    <string id="MetricPressure">Barometric Pressure</string>
+    <string id="MetricBodyBattery">Body Battery</string>
+    <string id="MetricStress">Stress</string>
+    <string id="MetricSunrise">Sunrise Time</string>
+    <string id="MetricSunset">Sunset Time</string>
 
     <string id="ColorPurple">Purple</string>
     <string id="ColorBlue">Ocean Blue</string>

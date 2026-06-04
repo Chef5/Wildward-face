@@ -21,6 +21,11 @@
     <string id="MetricAltitude">Höhe</string>
     <string id="MetricCalories">Kalorien</string>
     <string id="MetricSpO2">Blutsauerstoff</string>
+    <string id="MetricPressure">Luftdruck</string>
+    <string id="MetricBodyBattery">Body Battery</string>
+    <string id="MetricStress">Stress</string>
+    <string id="MetricSunrise">Sonnenaufgangszeit</string>
+    <string id="MetricSunset">Sonnenuntergangszeit</string>
 
     <string id="ColorPurple">Lila</string>
     <string id="ColorBlue">Ozeanblau</string>

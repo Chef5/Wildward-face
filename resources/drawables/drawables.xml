@@ -5,4 +5,9 @@
     <bitmap id="AltIcon"      filename="altitude.svg"      dithering="none" automaticPalette="false" />
     <bitmap id="CaloriesIcon" filename="calories.svg"      dithering="none" automaticPalette="false" />
     <bitmap id="Spo2Icon"     filename="spo2.svg"          dithering="none" automaticPalette="false" />
+    <bitmap id="PressureIcon" filename="pressure.svg"      dithering="none" automaticPalette="false" />
+    <bitmap id="BodyBatteryIcon" filename="body_battery.svg" dithering="none" automaticPalette="false" />
+    <bitmap id="StressIcon"   filename="stress.svg"        dithering="none" automaticPalette="false" />
+    <bitmap id="SunriseIcon"  filename="sunrise.svg"       dithering="none" automaticPalette="false" />
+    <bitmap id="SunsetIcon"   filename="sunset.svg"        dithering="none" automaticPalette="false" />
 </drawables>
