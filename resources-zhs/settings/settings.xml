@@ -40,9 +40,11 @@
         <settingConfig type="list">
             <listEntry value="4">@Strings.MetricAltitude</listEntry>
             <listEntry value="0">@Strings.MetricNone</listEntry>
-            <listEntry value="1">@Strings.MetricHeartRate</listEntry>
             <listEntry value="2">@Strings.MetricBattery</listEntry>
+            <listEntry value="1">@Strings.MetricHeartRate</listEntry>
             <listEntry value="3">@Strings.MetricSteps</listEntry>
+            <listEntry value="5">@Strings.MetricCalories</listEntry>
+            <listEntry value="6">@Strings.MetricSpO2</listEntry>
         </settingConfig>
     </setting>
 
@@ -50,9 +52,11 @@
         <settingConfig type="list">
             <listEntry value="2">@Strings.MetricBattery</listEntry>
             <listEntry value="0">@Strings.MetricNone</listEntry>
+            <listEntry value="4">@Strings.MetricAltitude</listEntry>
             <listEntry value="1">@Strings.MetricHeartRate</listEntry>
             <listEntry value="3">@Strings.MetricSteps</listEntry>
-            <listEntry value="4">@Strings.MetricAltitude</listEntry>
+            <listEntry value="5">@Strings.MetricCalories</listEntry>
+            <listEntry value="6">@Strings.MetricSpO2</listEntry>
         </settingConfig>
     </setting>
 
@@ -60,9 +64,11 @@
         <settingConfig type="list">
             <listEntry value="1">@Strings.MetricHeartRate</listEntry>
             <listEntry value="0">@Strings.MetricNone</listEntry>
+            <listEntry value="4">@Strings.MetricAltitude</listEntry>
             <listEntry value="2">@Strings.MetricBattery</listEntry>
             <listEntry value="3">@Strings.MetricSteps</listEntry>
-            <listEntry value="4">@Strings.MetricAltitude</listEntry>
+            <listEntry value="5">@Strings.MetricCalories</listEntry>
+            <listEntry value="6">@Strings.MetricSpO2</listEntry>
         </settingConfig>
     </setting>
 
@@ -70,9 +76,11 @@
         <settingConfig type="list">
             <listEntry value="3">@Strings.MetricSteps</listEntry>
             <listEntry value="0">@Strings.MetricNone</listEntry>
-            <listEntry value="1">@Strings.MetricHeartRate</listEntry>
-            <listEntry value="2">@Strings.MetricBattery</listEntry>
             <listEntry value="4">@Strings.MetricAltitude</listEntry>
+            <listEntry value="2">@Strings.MetricBattery</listEntry>
+            <listEntry value="1">@Strings.MetricHeartRate</listEntry>
+            <listEntry value="5">@Strings.MetricCalories</listEntry>
+            <listEntry value="6">@Strings.MetricSpO2</listEntry>
         </settingConfig>
     </setting>
 

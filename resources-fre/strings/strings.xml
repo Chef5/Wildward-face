@@ -3,7 +3,7 @@
     <string id="AppName">Wildward</string>
 
     <string id="AccentColorTitle">Couleur du thème</string>
-    <string id="CustomAccentColorTitle">Couleur personnalisée (hex RGB, ex. #B77CFF)</string>
+    <string id="CustomAccentColorTitle">Couleur du thème - Paramètres avancés (exemple RGB : #B77CFF)</string>
     <string id="ShowSecondsTitle">Afficher les secondes</string>
     <string id="ShowDateTitle">Afficher la date</string>
     <string id="ShowLunarTitle">Afficher le calendrier lunaire</string>
@@ -19,6 +19,8 @@
     <string id="MetricBattery">Batterie</string>
     <string id="MetricSteps">Pas</string>
     <string id="MetricAltitude">Altitude</string>
+    <string id="MetricCalories">Calories</string>
+    <string id="MetricSpO2">Oxygène sanguin</string>
 
     <string id="ColorPurple">Violet</string>
     <string id="ColorBlue">Bleu océan</string>

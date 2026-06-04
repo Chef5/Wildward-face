@@ -3,7 +3,7 @@
     <string id="AppName">Wildward</string>
 
     <string id="AccentColorTitle">テーマカラー</string>
-    <string id="CustomAccentColorTitle">カスタムテーマカラー（RGB値、例：#B77CFF）</string>
+    <string id="CustomAccentColorTitle">テーマカラー-詳細設定（RGB例：#B77CFF）</string>
     <string id="ShowSecondsTitle">秒を表示</string>
     <string id="ShowDateTitle">日付を表示</string>
     <string id="ShowLunarTitle">旧暦を表示</string>
@@ -19,6 +19,8 @@
     <string id="MetricBattery">バッテリー</string>
     <string id="MetricSteps">歩数</string>
     <string id="MetricAltitude">高度</string>
+    <string id="MetricCalories">カロリー</string>
+    <string id="MetricSpO2">血中酸素</string>
 
     <string id="ColorPurple">パープル</string>
     <string id="ColorBlue">オーシャンブルー</string>

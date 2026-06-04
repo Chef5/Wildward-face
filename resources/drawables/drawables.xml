@@ -3,4 +3,6 @@
     <bitmap id="BpmIcon"      filename="bpm.svg"           dithering="none" automaticPalette="false" />
     <bitmap id="StepsIcon"    filename="steps.svg"         dithering="none" automaticPalette="false" />
     <bitmap id="AltIcon"      filename="altitude.svg"      dithering="none" automaticPalette="false" />
+    <bitmap id="CaloriesIcon" filename="calories.svg"      dithering="none" automaticPalette="false" />
+    <bitmap id="Spo2Icon"     filename="spo2.svg"          dithering="none" automaticPalette="false" />
 </drawables>

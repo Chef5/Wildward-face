@@ -5,6 +5,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.Math;
 import Toybox.System;
+import Toybox.SensorHistory;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
 import Toybox.WatchUi;
@@ -50,7 +51,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _showDate as Boolean = true;
     private var _showLunar as Boolean = true;
     private var _showDividers as Boolean = true;
-    // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔
+    // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
     private var _bottomLeftMetric  as Number = 1; // 默认：心率
@@ -60,6 +61,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _heartBmp as BitmapResource?;
     private var _stepsBmp as BitmapResource?;
     private var _altBmp   as BitmapResource?;
+    private var _caloriesBmp as BitmapResource?;
+    private var _spo2Bmp as BitmapResource?;
 
     // ---- 字体 ----
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
@@ -177,6 +180,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         System.println("DBG stepsBmp ok");
         _altBmp   = WatchUi.loadResource(Rez.Drawables.AltIcon)    as BitmapResource;
         System.println("DBG altBmp ok");
+        _caloriesBmp = WatchUi.loadResource(Rez.Drawables.CaloriesIcon) as BitmapResource;
+        System.println("DBG caloriesBmp ok");
+        _spo2Bmp = WatchUi.loadResource(Rez.Drawables.Spo2Icon) as BitmapResource;
+        System.println("DBG spo2Bmp ok");
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
@@ -338,6 +345,12 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         } else if (metric == 4) {
             var alt = getAltitude();
             drawIconTextGroup(dc, _altBmp, (alt == null) ? "--" : alt.format("%d"), centerX, rowCenterY);
+        } else if (metric == 5) {
+            var cal = getCalories();
+            drawIconTextGroup(dc, _caloriesBmp, (cal == null) ? "--" : cal.format("%d"), centerX, rowCenterY);
+        } else if (metric == 6) {
+            var spo2 = getSpO2();
+            drawIconTextGroup(dc, _spo2Bmp, (spo2 == null) ? "--" : spo2.format("%d") + "%", centerX, rowCenterY);
         }
     }
 
@@ -553,6 +566,18 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (alt == null) ? "--" : alt.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 5) {
+            var cal = getCalories();
+            if (_caloriesBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _caloriesBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, (cal == null) ? "--" : cal.format("%d"),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 6) {
+            var spo2 = getSpO2();
+            if (_spo2Bmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _spo2Bmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, (spo2 == null) ? "--" : spo2.format("%d") + "%",
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
@@ -670,5 +695,27 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             if (alt != null) { return alt.toNumber(); }
         }
         return null;
+    }
+
+    private function getCalories() as Number? {
+        return ActivityMonitor.getInfo().calories;
+    }
+
+    private function getSpO2() as Number? {
+        if (!(Toybox has :SensorHistory) || !(SensorHistory has :getOxygenSaturationHistory)) {
+            return null;
+        }
+        var iter = SensorHistory.getOxygenSaturationHistory({
+            :period => 1,
+            :order => SensorHistory.ORDER_NEWEST_FIRST
+        });
+        if (iter == null) {
+            return null;
+        }
+        var sample = iter.next();
+        if (sample == null || sample.data == null) {
+            return null;
+        }
+        return sample.data.toNumber();
     }
 }

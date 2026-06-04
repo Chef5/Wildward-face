@@ -3,7 +3,7 @@
     <string id="AppName">赴山野</string>
 
     <string id="AccentColorTitle">主题色</string>
-    <string id="CustomAccentColorTitle">自定义主题色（使用RGB值，例如：#B77CFF）</string>
+    <string id="CustomAccentColorTitle">主题色-高级设置（RGB示例：#B77CFF）</string>
     <string id="ShowSecondsTitle">显示秒数</string>
     <string id="ShowDateTitle">显示日期</string>
     <string id="ShowLunarTitle">显示农历</string>
@@ -19,6 +19,8 @@
     <string id="MetricBattery">电量</string>
     <string id="MetricSteps">步数</string>
     <string id="MetricAltitude">海拔</string>
+    <string id="MetricCalories">卡路里</string>
+    <string id="MetricSpO2">血氧</string>
 
     <string id="ColorPurple">高雅紫</string>
     <string id="ColorBlue">深海蓝</string>
