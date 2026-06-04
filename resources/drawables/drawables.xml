@@ -20,4 +20,5 @@
     <bitmap id="WeatherFogIcon"           filename="weather_fog.svg"           dithering="none" automaticPalette="false" />
     <bitmap id="WeatherWindyIcon"         filename="weather_windy.svg"         dithering="none" automaticPalette="false" />
     <bitmap id="WeatherExtremeIcon"       filename="weather_extreme.svg"       dithering="none" automaticPalette="false" />
+    <bitmap id="RespirationIcon"        filename="respiration.svg"         dithering="none" automaticPalette="false" />
 </drawables>

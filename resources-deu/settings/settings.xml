@@ -47,6 +47,7 @@
             <listEntry value="9">@Strings.MetricStress</listEntry>
             <listEntry value="10">@Strings.MetricSunrise</listEntry>
             <listEntry value="11">@Strings.MetricSunset</listEntry>
+            <listEntry value="13">@Strings.MetricRespiration</listEntry>
         </settingConfig>
     </setting>
 
@@ -65,6 +66,7 @@
             <listEntry value="9">@Strings.MetricStress</listEntry>
             <listEntry value="10">@Strings.MetricSunrise</listEntry>
             <listEntry value="11">@Strings.MetricSunset</listEntry>
+            <listEntry value="13">@Strings.MetricRespiration</listEntry>
         </settingConfig>
     </setting>
 
@@ -83,6 +85,7 @@
             <listEntry value="9">@Strings.MetricStress</listEntry>
             <listEntry value="10">@Strings.MetricSunrise</listEntry>
             <listEntry value="11">@Strings.MetricSunset</listEntry>
+            <listEntry value="13">@Strings.MetricRespiration</listEntry>
         </settingConfig>
     </setting>
 
@@ -101,6 +104,7 @@
             <listEntry value="9">@Strings.MetricStress</listEntry>
             <listEntry value="10">@Strings.MetricSunrise</listEntry>
             <listEntry value="11">@Strings.MetricSunset</listEntry>
+            <listEntry value="13">@Strings.MetricRespiration</listEntry>
         </settingConfig>
     </setting>
 

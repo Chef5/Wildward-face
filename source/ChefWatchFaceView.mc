@@ -58,7 +58,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _showLunar as Boolean = true;
     private var _showDividers as Boolean = true;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
-    //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落  12=天气
+    //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落  12=天气  13=呼吸频率
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
     private var _bottomLeftMetric  as Number = 1; // 默认：心率
@@ -85,6 +85,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _weatherFogBmp as BitmapResource?;
     private var _weatherWindyBmp as BitmapResource?;
     private var _weatherExtremeBmp as BitmapResource?;
+    private var _respirationBmp as BitmapResource?;
 
     // ---- 字体 ----
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
@@ -221,6 +222,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _weatherFogBmp = WatchUi.loadResource(Rez.Drawables.WeatherFogIcon) as BitmapResource;
         _weatherWindyBmp = WatchUi.loadResource(Rez.Drawables.WeatherWindyIcon) as BitmapResource;
         _weatherExtremeBmp = WatchUi.loadResource(Rez.Drawables.WeatherExtremeIcon) as BitmapResource;
+        _respirationBmp = WatchUi.loadResource(Rez.Drawables.RespirationIcon) as BitmapResource;
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
@@ -402,6 +404,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             drawIconTextGroup(dc, _sunsetBmp, getSunsetTimeText(), centerX, rowCenterY);
         } else if (metric == 12) {
             drawWeatherMetricTop(dc, centerX, rowCenterY);
+        } else if (metric == 13) {
+            var rr = getRespirationRate();
+            drawIconTextGroup(dc, _respirationBmp, (rr == null) ? "--" : rr.format("%d"), centerX, rowCenterY);
         }
     }
 
@@ -664,6 +669,12 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 12) {
             drawWeatherMetricBottom(dc, centerX, iconY, valueY);
+        } else if (metric == 13) {
+            var rr = getRespirationRate();
+            if (_respirationBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _respirationBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, (rr == null) ? "--" : rr.format("%d"),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
@@ -989,6 +1000,21 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             return null;
         }
         return sample.data.toNumber();
+    }
+
+    private function getRespirationRate() as Number? {
+        var v = getComplicationNumericValue(Complications.COMPLICATION_TYPE_RESPIRATION_RATE);
+        if (v != null) {
+            return v;
+        }
+        var info = ActivityMonitor.getInfo();
+        if (info has :respirationRate) {
+            var rr = info.respirationRate;
+            if (rr != null) {
+                return rr;
+            }
+        }
+        return null;
     }
 
     // 将「距午夜秒数」格式化为时:分，12/24 小时制跟随系统设置。

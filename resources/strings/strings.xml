@@ -27,6 +27,7 @@
     <string id="MetricSunrise">Sunrise Time</string>
     <string id="MetricSunset">Sunset Time</string>
     <string id="MetricWeather">Weather</string>
+    <string id="MetricRespiration">Respiration Rate</string>
 
     <string id="ColorPurple">Purple</string>
     <string id="ColorBlue">Ocean Blue</string>
