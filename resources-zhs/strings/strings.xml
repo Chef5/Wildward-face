@@ -26,6 +26,7 @@
     <string id="MetricStress">压力值</string>
     <string id="MetricSunrise">日出时间</string>
     <string id="MetricSunset">日落时间</string>
+    <string id="MetricWeather">天气</string>
 
     <string id="ColorPurple">高雅紫</string>
     <string id="ColorBlue">深海蓝</string>

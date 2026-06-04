@@ -10,4 +10,14 @@
     <bitmap id="StressIcon"   filename="stress.svg"        dithering="none" automaticPalette="false" />
     <bitmap id="SunriseIcon"  filename="sunrise.svg"       dithering="none" automaticPalette="false" />
     <bitmap id="SunsetIcon"   filename="sunset.svg"        dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherClearIcon"         filename="weather_clear.svg"         dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherPartlyCloudyIcon"  filename="weather_partly_cloudy.svg" dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherCloudyIcon"        filename="weather_cloudy.svg"        dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherRainIcon"          filename="weather_rain.svg"          dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherShowersIcon"       filename="weather_showers.svg"       dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherThunderIcon"       filename="weather_thunder.svg"       dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherSnowIcon"          filename="weather_snow.svg"          dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherFogIcon"           filename="weather_fog.svg"           dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherWindyIcon"         filename="weather_windy.svg"         dithering="none" automaticPalette="false" />
+    <bitmap id="WeatherExtremeIcon"       filename="weather_extreme.svg"       dithering="none" automaticPalette="false" />
 </drawables>

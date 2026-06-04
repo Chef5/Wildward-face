@@ -9,6 +9,7 @@ import Toybox.Complications;
 import Toybox.SensorHistory;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
+import Toybox.Weather;
 import Toybox.WatchUi;
 
 class ChefWatchFaceView extends WatchUi.WatchFace {
@@ -57,7 +58,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _showLunar as Boolean = true;
     private var _showDividers as Boolean = true;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
-    //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落
+    //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落  12=天气
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
     private var _bottomLeftMetric  as Number = 1; // 默认：心率
@@ -74,6 +75,16 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _stressBmp as BitmapResource?;
     private var _sunriseBmp as BitmapResource?;
     private var _sunsetBmp as BitmapResource?;
+    private var _weatherClearBmp as BitmapResource?;
+    private var _weatherPartlyCloudyBmp as BitmapResource?;
+    private var _weatherCloudyBmp as BitmapResource?;
+    private var _weatherRainBmp as BitmapResource?;
+    private var _weatherShowersBmp as BitmapResource?;
+    private var _weatherThunderBmp as BitmapResource?;
+    private var _weatherSnowBmp as BitmapResource?;
+    private var _weatherFogBmp as BitmapResource?;
+    private var _weatherWindyBmp as BitmapResource?;
+    private var _weatherExtremeBmp as BitmapResource?;
 
     // ---- 字体 ----
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
@@ -200,6 +211,16 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _stressBmp = WatchUi.loadResource(Rez.Drawables.StressIcon) as BitmapResource;
         _sunriseBmp = WatchUi.loadResource(Rez.Drawables.SunriseIcon) as BitmapResource;
         _sunsetBmp = WatchUi.loadResource(Rez.Drawables.SunsetIcon) as BitmapResource;
+        _weatherClearBmp = WatchUi.loadResource(Rez.Drawables.WeatherClearIcon) as BitmapResource;
+        _weatherPartlyCloudyBmp = WatchUi.loadResource(Rez.Drawables.WeatherPartlyCloudyIcon) as BitmapResource;
+        _weatherCloudyBmp = WatchUi.loadResource(Rez.Drawables.WeatherCloudyIcon) as BitmapResource;
+        _weatherRainBmp = WatchUi.loadResource(Rez.Drawables.WeatherRainIcon) as BitmapResource;
+        _weatherShowersBmp = WatchUi.loadResource(Rez.Drawables.WeatherShowersIcon) as BitmapResource;
+        _weatherThunderBmp = WatchUi.loadResource(Rez.Drawables.WeatherThunderIcon) as BitmapResource;
+        _weatherSnowBmp = WatchUi.loadResource(Rez.Drawables.WeatherSnowIcon) as BitmapResource;
+        _weatherFogBmp = WatchUi.loadResource(Rez.Drawables.WeatherFogIcon) as BitmapResource;
+        _weatherWindyBmp = WatchUi.loadResource(Rez.Drawables.WeatherWindyIcon) as BitmapResource;
+        _weatherExtremeBmp = WatchUi.loadResource(Rez.Drawables.WeatherExtremeIcon) as BitmapResource;
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
@@ -379,7 +400,15 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             drawIconTextGroup(dc, _sunriseBmp, getSunriseTimeText(), centerX, rowCenterY);
         } else if (metric == 11) {
             drawIconTextGroup(dc, _sunsetBmp, getSunsetTimeText(), centerX, rowCenterY);
+        } else if (metric == 12) {
+            drawWeatherMetricTop(dc, centerX, rowCenterY);
         }
+    }
+
+    private function drawWeatherMetricTop(dc as Dc, centerX as Number, rowCenterY as Number) as Void {
+        var condition = getWeatherCondition();
+        var icon = getWeatherIconBmp(condition);
+        drawIconTextGroup(dc, icon, getWeatherTemperatureText(), centerX, rowCenterY);
     }
 
     // 顶部行通用绘制：指标图标在左，文字在右，整体以 centerX 居中
@@ -633,7 +662,21 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getSunsetTimeText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 12) {
+            drawWeatherMetricBottom(dc, centerX, iconY, valueY);
         }
+    }
+
+    private function drawWeatherMetricBottom(dc as Dc, centerX as Number,
+                                             iconY as Number, valueY as Number) as Void {
+        var iconHalf = _metricIconPx / 2;
+        var icon = getWeatherIconBmp(getWeatherCondition());
+        if (icon != null) {
+            drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, icon);
+        }
+        dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(centerX, valueY, _uiFont, getWeatherTemperatureText(),
+                    Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
     // 用主题色着色后绘制图标位图。
@@ -980,5 +1023,102 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             return "--";
         }
         return formatTimeOfDay(sec);
+    }
+
+    private function getWeatherCondition() as Number? {
+        if (!(Toybox has :Weather)) {
+            return null;
+        }
+        var wx = Weather.getCurrentConditions();
+        if (wx == null || wx.condition == null) {
+            return null;
+        }
+        return wx.condition as Number;
+    }
+
+    private function isTemperatureMetric() as Boolean {
+        var settings = System.getDeviceSettings();
+        if (settings has :temperatureUnits) {
+            return settings.temperatureUnits == System.UNIT_METRIC;
+        }
+        return true;
+    }
+
+    private function celsiusToDisplayNumber(celsius as Float) as Number {
+        if (isTemperatureMetric()) {
+            return Math.round(celsius).toNumber();
+        }
+        return Math.round(celsius * 9.0 / 5.0 + 32.0).toNumber();
+    }
+
+    private function getWeatherTemperatureText() as String {
+        if (!(Toybox has :Weather)) {
+            return "--";
+        }
+        var wx = Weather.getCurrentConditions();
+        if (wx == null || wx.temperature == null) {
+            return "--";
+        }
+        var celsius = wx.temperature instanceof Float
+            ? (wx.temperature as Float)
+            : (wx.temperature as Number).toFloat();
+        var displayTemp = celsiusToDisplayNumber(celsius);
+        if (isTemperatureMetric()) {
+            return displayTemp.format("%d") + "\u00B0C";
+        }
+        return displayTemp.format("%d") + "\u00B0F";
+    }
+
+    // Garmin Weather.CONDITION_* → 表盘天气图标
+    private function getWeatherIconBmp(condition as Number?) as BitmapResource? {
+        // 少云：无数据
+        if (condition == null) {
+            return _weatherPartlyCloudyBmp;
+        }
+        // 极端天气：冰雹、龙卷风、飓风、热带风暴
+        if (condition == 10 || condition == 32 || condition == 41 || condition == 42) {
+            return _weatherExtremeBmp;
+        }
+        // 风：大风、飑线
+        if (condition == 5 || condition == 36) {
+            return _weatherWindyBmp;
+        }
+        // 雾：雾、薄雾、轻雾、霾、扬尘、烟霾、沙尘、沙暴、火山灰
+        if (condition == 8 || condition == 9 || condition == 29 || condition == 39
+            || condition == 30 || condition == 33 || condition == 35 || condition == 37 || condition == 38) {
+            return _weatherFogBmp;
+        }
+        // 雪：雪、小雪、大雪、可能下雪、阴天可能下雪、阵雪、雨雪混合、小雨夹雪、大雨夹雪、雨夹雪、可能雨夹雪、阴天可能雨夹雪、霰、冰雪、结冰
+        if (condition == 4 || condition == 16 || condition == 17 || condition == 43 || condition == 46 || condition == 48
+            || condition == 7 || condition == 18 || condition == 19 || condition == 21 || condition == 44 || condition == 47
+            || condition == 50 || condition == 51 || condition == 34) {
+            return _weatherSnowBmp;
+        }
+        // 雷暴：雷暴、分散雷暴、可能有雷暴
+        if (condition == 6 || condition == 12 || condition == 28) {
+            return _weatherThunderBmp;
+        }
+        // 阵雨：分散阵雨、未知降水、小阵雨、可能有阵雨、阴天可能下雨
+        if (condition == 11 || condition == 13 || condition == 24 || condition == 27 || condition == 45) {
+            return _weatherShowersBmp;
+        }
+        // 雨：雨、小雨、大雨、阵雨、大阵雨、毛毛雨、冻雨
+        if (condition == 3 || condition == 14 || condition == 15 || condition == 25 || condition == 26 || condition == 31 || condition == 49) {
+            return _weatherRainBmp;
+        }
+        // 多云：大部多云、阴
+        if (condition == 2 || condition == 20) {
+            return _weatherCloudyBmp;
+        }
+        // 晴天：晴、局部晴朗、大部晴朗、晴好
+        if (condition == 0 || condition == 22 || condition == 23 || condition == 40) {
+            return _weatherClearBmp;
+        }
+        // 少云：局部多云、薄云、未知
+        if (condition == 1 || condition == 52 || condition == 53) {
+            return _weatherPartlyCloudyBmp;
+        }
+        // 少云：未识别类型
+        return _weatherPartlyCloudyBmp;
     }
 }

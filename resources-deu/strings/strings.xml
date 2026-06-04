@@ -26,6 +26,7 @@
     <string id="MetricStress">Stress</string>
     <string id="MetricSunrise">Sonnenaufgangszeit</string>
     <string id="MetricSunset">Sonnenuntergangszeit</string>
+    <string id="MetricWeather">Wetter</string>
 
     <string id="ColorPurple">Lila</string>
     <string id="ColorBlue">Ozeanblau</string>
