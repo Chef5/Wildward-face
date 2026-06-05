@@ -828,7 +828,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         return sample.data.toNumber();
     }
 
-    private function getComplicationNumericValue(complicationType as Number) as Number? {
+    private function getComplicationNumericValue(complicationType as Complications.Type) as Number? {
         if (!(Toybox has :Complications)) {
             return null;
         }
