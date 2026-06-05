@@ -93,9 +93,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
     // _uiFont：由 rebuildUiFont() 计算，用于所有指标数值和日期/农历文字。
     // _isChineseLocale：设备系统语言为简体/繁体中文时为 true；控制中文日期格式与农历展示。
+    // _systemLanguage：当前系统语言，用于本地化日期/星期格式。
     private var _baseFontH as Number = 0;
     private var _uiFont as Graphics.FontType = Graphics.FONT_XTINY;
     private var _isChineseLocale as Boolean = false;
+    private var _systemLanguage as Number = System.LANGUAGE_ENG;
 
     // ---- 按日缓存的值 ----
     private var _lunarStr as String = "";
@@ -104,6 +106,39 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // Gregorian day_of_week：1=周日 … 7=周六 → 0..6
     private const WEEKDAYS_ZH = [
         "周日", "周一", "周二", "周三", "周四", "周五", "周六"
+    ];
+    private const WEEKDAYS_ZHT = [
+        "週日", "週一", "週二", "週三", "週四", "週五", "週六"
+    ];
+    private const WEEKDAYS_JA = [
+        "日", "月", "火", "水", "木", "金", "土"
+    ];
+    private const WEEKDAYS_DE = [
+        "So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"
+    ];
+    private const WEEKDAYS_FR = [
+        "Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"
+    ];
+    private const WEEKDAYS_ES = [
+        "Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"
+    ];
+    private const WEEKDAYS_IT = [
+        "Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"
+    ];
+    private const WEEKDAYS_NL = [
+        "Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"
+    ];
+    private const WEEKDAYS_NO = [
+        "Søn", "Man", "Tir", "Ons", "Tor", "Fre", "Lør"
+    ];
+    private const WEEKDAYS_PL = [
+        "Nd", "Pn", "Wt", "Śr", "Cz", "Pt", "Sb"
+    ];
+    private const WEEKDAYS_RU = [
+        "Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"
+    ];
+    private const WEEKDAYS_KO = [
+        "일", "월", "화", "수", "목", "금", "토"
     ];
     private const WEEKDAYS_EN = [
         "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
@@ -149,8 +184,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     private function updateLocaleFlags() as Void {
-        var lang = System.getDeviceSettings().systemLanguage;
-        _isChineseLocale = (lang == System.LANGUAGE_CHS || lang == System.LANGUAGE_CHT);
+        _systemLanguage = System.getDeviceSettings().systemLanguage;
+        _isChineseLocale = (_systemLanguage == System.LANGUAGE_CHS || _systemLanguage == System.LANGUAGE_CHT);
     }
 
     private function shouldShowLunar() as Boolean {
@@ -602,11 +637,54 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
     }
 
+    // 按系统语言返回本地化日期字符串。
+    // 欧洲语言（德/法/西/意/荷/挪/波/俄）使用日.月 格式；东亚语言保留各自月日顺序。
     private function buildDateLineString(month as Number, day as Number, dayOfWeekIdx as Number) as String {
-        if (_isChineseLocale) {
-            return month.format("%d") + "月" + day.format("%d") + "日 " + WEEKDAYS_ZH[dayOfWeekIdx];
+        var m = month.format("%d");
+        var d = day.format("%d");
+        var lang = _systemLanguage;
+
+        if (lang == System.LANGUAGE_CHS) {
+            return m + "月" + d + "日 " + WEEKDAYS_ZH[dayOfWeekIdx];
         }
-        return month.format("%d") + "." + day.format("%d") + " " + WEEKDAYS_EN[dayOfWeekIdx];
+        if (lang == System.LANGUAGE_CHT) {
+            return m + "月" + d + "日 " + WEEKDAYS_ZHT[dayOfWeekIdx];
+        }
+        if (lang == System.LANGUAGE_JPN) {
+            // 日本語：6月5日(金)
+            return m + "月" + d + "日(" + WEEKDAYS_JA[dayOfWeekIdx] + ")";
+        }
+        if (lang == System.LANGUAGE_KOR) {
+            // 한국어：6월 5일 금
+            return m + "월 " + d + "일 " + WEEKDAYS_KO[dayOfWeekIdx];
+        }
+        // 欧洲语言：日.月 星期缩写（日优先格式）
+        if (lang == System.LANGUAGE_DEU) {
+            return d + "." + m + ". " + WEEKDAYS_DE[dayOfWeekIdx];
+        }
+        if (lang == System.LANGUAGE_FRE) {
+            return d + "." + m + " " + WEEKDAYS_FR[dayOfWeekIdx];
+        }
+        if (lang == System.LANGUAGE_SPA) {
+            return d + "." + m + " " + WEEKDAYS_ES[dayOfWeekIdx];
+        }
+        if (lang == System.LANGUAGE_ITA) {
+            return d + "." + m + " " + WEEKDAYS_IT[dayOfWeekIdx];
+        }
+        if (lang == System.LANGUAGE_DUT) {
+            return d + "." + m + " " + WEEKDAYS_NL[dayOfWeekIdx];
+        }
+        if (lang == System.LANGUAGE_NOB) {
+            return d + "." + m + " " + WEEKDAYS_NO[dayOfWeekIdx];
+        }
+        if (lang == System.LANGUAGE_POL) {
+            return d + "." + m + " " + WEEKDAYS_PL[dayOfWeekIdx];
+        }
+        if (lang == System.LANGUAGE_RUS) {
+            return d + "." + m + " " + WEEKDAYS_RU[dayOfWeekIdx];
+        }
+        // 默认英语及其他未适配语言
+        return m + "." + d + " " + WEEKDAYS_EN[dayOfWeekIdx];
     }
 
     // -------------------------------------------------------------
@@ -740,7 +818,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
     }
 
-    // 根据 _fontSize 和 _baseFontH 重新计算 _uiFont。
+    // 根据 _fontSize、_baseFontH 及当前系统语言重新计算 _uiFont。
     // 在 onLayout 缓存完 _baseFontH 之后调用，以及设置变更后调用。
     private function rebuildUiFont() as Void {
         if (_baseFontH <= 0) { return; }
@@ -755,15 +833,27 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         else                     { ratio = 1.8; }
         var targetH = (_baseFontH * ratio).toNumber();
         System.println("DBG targetH=" + targetH.format("%d"));
-        // AMOLED 设备（fr265 等）：getVectorFont 返回可缩放 NotoSansSC
-        // → 支持任意尺寸 CJK，且位图编译为 PNG 支持 drawBitmap2 tintColor
-        var vf = (Graphics has :getVectorFont)
-            ? Graphics.getVectorFont({ :face => "NotoSansSCMedium", :size => targetH })
-            : null;
-        System.println("DBG vf=" + (vf != null ? "ok" : "null"));
-        if (vf != null) {
-            _uiFont = vf;
-            return;
+
+        if (Graphics has :getVectorFont) {
+            // AMOLED 设备：按语言选择最佳矢量字体，以 NotoSansSCMedium 兜底。
+            // `:face` 支持字符串数组，按顺序尝试直到找到设备可用的字体。
+            // - 韩语：NanumGothicRegular（谚文专用字体）
+            // - 俄语：RobotoCondensedRegular（Roboto 全系含西里尔字符集）
+            // - 其他：NotoSansSCMedium（CJK + Latin，含简/繁中文、日语）
+            var faceName;
+            if (_systemLanguage == System.LANGUAGE_KOR) {
+                faceName = ["NanumGothicRegular", "NotoSansSCMedium"];
+            } else if (_systemLanguage == System.LANGUAGE_RUS) {
+                faceName = ["RobotoCondensedRegular", "NotoSansSCMedium"];
+            } else {
+                faceName = "NotoSansSCMedium";
+            }
+            var vf = Graphics.getVectorFont({ :face => faceName, :size => targetH });
+            System.println("DBG vf=" + (vf != null ? "ok" : "null"));
+            if (vf != null) {
+                _uiFont = vf;
+                return;
+            }
         }
         // MIP 设备（fr255 等）：无向量字体，退回系统字体常量
         if (_fontSize <= 2)      { _uiFont = Graphics.FONT_XTINY; }
