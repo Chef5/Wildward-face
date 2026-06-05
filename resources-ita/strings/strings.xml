@@ -8,6 +8,9 @@
     <string id="ShowDateTitle">Mostra data</string>
     <string id="ShowLunarTitle">Mostra calendario lunare</string>
     <string id="ShowDividersTitle">Mostra divisori</string>
+    <string id="BatteryDisplayTitle">Visualizzazione batteria</string>
+    <string id="BatteryDisplayPercent">Percentuale</string>
+    <string id="BatteryDisplayEndurance">Autonomia</string>
 
     <string id="TopLeftMetricTitle">In alto a sinistra</string>
     <string id="TopRightMetricTitle">In alto a destra</string>

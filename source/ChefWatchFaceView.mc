@@ -57,6 +57,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _showDate as Boolean = true;
     private var _showLunar as Boolean = true;
     private var _showDividers as Boolean = true;
+    // 电量展示：0=百分制  1=续航时间（8d11h / 11h）
+    private var _batteryDisplay as Number = 0;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
     //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落  12=天气  13=呼吸频率
     private var _topLeftMetric     as Number = 4; // 默认：海拔
@@ -131,6 +133,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (v != null) { _showLunar = v as Boolean; }
         v = p.getValue("ShowDividers");
         if (v != null) { _showDividers = v as Boolean; }
+        v = p.getValue("BatteryDisplay");
+        if (v != null) { _batteryDisplay = v as Number; }
         v = p.getValue("TopLeftMetric");
         if (v != null) { _topLeftMetric = v as Number; }
         v = p.getValue("TopRightMetric");
@@ -366,7 +370,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             drawIconTextGroup(dc, _heartBmp, (hr == null) ? "--" : hr.format("%d"), centerX, rowCenterY);
         } else if (metric == 2) {
             var pct = System.getSystemStats().battery;
-            var battText = pct.format("%d") + "%";
+            var battText = getBatteryDisplayText(pct);
             var battValueW = dc.getTextWidthInPixels(battText, _uiFont);
             var battW = s(92);
             var battH = s(46);
@@ -457,6 +461,30 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (fillW > maxFillW) { fillW = maxFillW; }
         dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
         dc.fillRectangle(x + inset, y + inset, fillW, h - inset * 2);
+    }
+
+    // 电量数值：百分制，或续航时间（≥1 天 8d11h，不足 1 天 11h）。
+    private function getBatteryDisplayText(pct as Float) as String {
+        if (_batteryDisplay == 1) {
+            var stats = System.getSystemStats();
+            if (stats has :batteryInDays) {
+                var days = stats.batteryInDays;
+                if (days != null && days >= 1.0) {
+                    var d = days.toNumber();
+                    var h = ((days - d) * 24).toNumber();
+                    if (h > 0) {
+                        return d.format("%d") + "d" + h.format("%d") + "h";
+                    }
+                    return d.format("%d") + "d";
+                }
+                if (days != null) {
+                    var hours = (days * 24).toNumber();
+                    if (hours < 1) { hours = 1; }
+                    return hours.format("%d") + "h";
+                }
+            }
+        }
+        return pct.format("%d") + "%";
     }
 
     // -------------------------------------------------------------
@@ -614,7 +642,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             var battH = s(46);
             drawBatteryIcon(dc, centerX - battW / 2, iconY - battH / 2, battW, battH, pct);
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
-            dc.drawText(centerX, valueY, _uiFont, pct.format("%d") + "%",
+            dc.drawText(centerX, valueY, _uiFont, getBatteryDisplayText(pct),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 3) {
             var steps = getSteps();

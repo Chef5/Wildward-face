@@ -108,6 +108,13 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.BatteryDisplay" title="@Strings.BatteryDisplayTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.BatteryDisplayPercent</listEntry>
+            <listEntry value="1">@Strings.BatteryDisplayEndurance</listEntry>
+        </settingConfig>
+    </setting>
+
     <setting propertyKey="@Properties.CustomAccentColor" title="@Strings.CustomAccentColorTitle">
         <settingConfig type="alphaNumeric" maxLength="7" />
     </setting>

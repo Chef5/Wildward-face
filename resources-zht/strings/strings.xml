@@ -8,6 +8,9 @@
     <string id="ShowDateTitle">顯示日期</string>
     <string id="ShowLunarTitle">顯示農曆</string>
     <string id="ShowDividersTitle">顯示分割線</string>
+    <string id="BatteryDisplayTitle">電量展示</string>
+    <string id="BatteryDisplayPercent">百分制</string>
+    <string id="BatteryDisplayEndurance">續航時間</string>
 
     <string id="TopLeftMetricTitle">左上數據</string>
     <string id="TopRightMetricTitle">右上數據</string>
