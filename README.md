@@ -92,7 +92,7 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 ## 项目结构
 
 ```
-trailhead-face/
+Wildward-face/
 ├── manifest.xml                      # Connect IQ 应用清单（入口、目标机型、支持语言等）
 ├── monkey.jungle                     # 工程与资源路径（含多分辨率启动图标 & 图标颜色覆盖）
 ├── source/                           # Monkey C 源码
@@ -168,7 +168,7 @@ trailhead-face/
 
 本项目采用 **MIT License**，详见仓库根目录 [LICENSE](LICENSE)。  
 
-默认版权行中的「赴山野 (trailhead-face) contributors」为集体署名；若你希望以本人或组织名义持有版权，可将 `LICENSE` 文件首段 `Copyright` 行改为你的法定署名信息。
+默认版权行中的「赴山野 (Wildward-face) contributors」为集体署名；若你希望以本人或组织名义持有版权，可将 `LICENSE` 文件首段 `Copyright` 行改为你的法定署名信息。
 
 ---
 

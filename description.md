@@ -10,7 +10,7 @@ Head into the wild, driven by passion. Designed for hiking and outdoor adventure
 If you find it useful, feel free to buy me a coffee~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 Added 10 new data metrics; battery now supports estimated endurance time display; theme color now supports custom RGB hex values.
+v1.3.1 Added 10 new data metrics; battery now supports estimated endurance time display; theme color now supports custom RGB hex values.
 Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
@@ -27,7 +27,7 @@ lang: zh_CN 简体中文
 如果觉得好用，可以打赏一杯咖啡支持一下啦~  :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 增加10项数据指标；电量支持续航时间格式展示；主题色支持自定义RGB值设置。
+v1.3.1 增加10项数据指标；电量支持续航时间格式展示；主题色支持自定义RGB值设置。
 项目开源地址：https://github.com/Chef5/Wildward-face
 建议反馈地址：https://github.com/Chef5/Wildward-face/issues
 
@@ -44,7 +44,7 @@ lang: zh_TW 繁體中文
 如果覺得好用，可以打賞一杯咖啡支持一下啦~  :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 新增10項數據指標；電量支援續航時間格式展示；主題色支援自定義RGB值設定。
+v1.3.1 新增10項數據指標；電量支援續航時間格式展示；主題色支援自定義RGB值設定。
 開源專案地址：https://github.com/Chef5/Wildward-face
 建議反饋地址：https://github.com/Chef5/Wildward-face/issues
 
@@ -53,14 +53,14 @@ lang: ja 日本語
 ---
 
 # Title (Maximum 50 Characters)
-山野へ
+Wildward
 
 # Description (Maximum 4000 Characters)
 山野へ出発、情熱を胸に前へ。ハイキング・アウトドアシーンに最適。高度・心拍・バッテリー・歩数の4大データに集中し、カロリー、血中酸素、天気、気圧、ボディバッテリー、ストレス、呼吸数、日の出・日の入りなど10項目以上もサポート。手首を上げるだけで体の状態と周囲の環境を把握できます！
 お役に立てたら、コーヒー1杯のご支援をいただけると嬉しいです~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 データ指標を10項目追加；バッテリー残量に持続時間表示を追加；テーマカラーのカスタムRGB設定に対応。
+v1.3.1 データ指標を10項目追加；バッテリー残量に持続時間表示を追加；テーマカラーのカスタムRGB設定に対応。
 オープンソース: https://github.com/Chef5/Wildward-face
 フィードバック: https://github.com/Chef5/Wildward-face/issues
 
@@ -76,7 +76,7 @@ Auf in die Wildnis – angetrieben von Leidenschaft. Für Wanderungen und Outdoo
 Wenn dir das Zifferblatt gefällt, freue ich mich über einen Kaffee~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 10 neue Datenpunkte hinzugefügt; Akkuanzeige unterstützt jetzt die Laufzeitanzeige; Designfarbe unterstützt jetzt benutzerdefinierte RGB-Werte.
+v1.3.1 10 neue Datenpunkte hinzugefügt; Akkuanzeige unterstützt jetzt die Laufzeitanzeige; Designfarbe unterstützt jetzt benutzerdefinierte RGB-Werte.
 Open Source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
@@ -92,7 +92,7 @@ En route vers la nature, porté par la passion. Conçu pour la randonnée et les
 Si ce cadran vous plaît, vous pouvez m'offrir un café~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 Ajout de 10 nouvelles métriques ; affichage de l'autonomie de la batterie disponible ; la couleur du thème supporte désormais les valeurs RGB personnalisées.
+v1.3.1 Ajout de 10 nouvelles métriques ; affichage de l'autonomie de la batterie disponible ; la couleur du thème supporte désormais les valeurs RGB personnalisées.
 Open source : https://github.com/Chef5/Wildward-face
 Retours : https://github.com/Chef5/Wildward-face/issues
 
@@ -108,7 +108,7 @@ Rumbo a la naturaleza, movido por la pasión. Diseñado para senderismo y aventu
 Si te resulta útil, puedes invitarme un café~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 Se añadieron 10 nuevos indicadores de datos; la batería ahora muestra el tiempo de autonomía estimado; el color del tema ahora admite valores RGB personalizados.
+v1.3.1 Se añadieron 10 nuevos indicadores de datos; la batería ahora muestra el tiempo de autonomía estimado; el color del tema ahora admite valores RGB personalizados.
 Código abierto: https://github.com/Chef5/Wildward-face
 Comentarios: https://github.com/Chef5/Wildward-face/issues
 
@@ -124,7 +124,7 @@ Verso la natura, spinti dalla passione. Progettato per escursionismo e avventure
 Se ti piace il quadrante, puoi offrirmi un caffè~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 Aggiunti 10 nuovi indicatori dati; la batteria ora mostra il tempo di autonomia stimato; il colore del tema ora supporta valori RGB personalizzati.
+v1.3.1 Aggiunti 10 nuovi indicatori dati; la batteria ora mostra il tempo di autonomia stimato; il colore del tema ora supporta valori RGB personalizzati.
 Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
@@ -140,7 +140,7 @@ De wildernis in, gedreven door passie. Ontworpen voor wandelen en outdoor-avontu
 Als je het nuttig vindt, trakteer me gerust op een kopje koffie~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 10 nieuwe gegevensindicatoren toegevoegd; batterij ondersteunt nu weergave van geschatte gebruiksduur; themakleur ondersteunt nu aangepaste RGB-waarden.
+v1.3.1 10 nieuwe gegevensindicatoren toegevoegd; batterij ondersteunt nu weergave van geschatte gebruiksduur; themakleur ondersteunt nu aangepaste RGB-waarden.
 Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
@@ -156,7 +156,7 @@ Ut i villmarken, drevet av lidenskap. Designet for fotturer og friluftsliv. Kjer
 Hvis du liker urskiven, kan du gjerne kjøpe meg en kaffe~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 Lagt til 10 nye dataindikatorer; batteriet støtter nå visning av estimert batteritid; temafarge støtter nå egendefinerte RGB-verdier.
+v1.3.1 Lagt til 10 nye dataindikatorer; batteriet støtter nå visning av estimert batteritid; temafarge støtter nå egendefinerte RGB-verdier.
 Åpen kildekode: https://github.com/Chef5/Wildward-face
 Tilbakemelding: https://github.com/Chef5/Wildward-face/issues
 
@@ -172,7 +172,7 @@ W stronę dziczy, z pasją w sercu. Stworzony na wędrówki i przygody na świe�
 Jeśli Ci się podoba, możesz postawić mi kawę~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 Dodano 10 nowych wskaźników danych; bateria obsługuje teraz wyświetlanie szacowanego czasu pracy; kolor motywu obsługuje teraz niestandardowe wartości RGB.
+v1.3.1 Dodano 10 nowych wskaźników danych; bateria obsługuje teraz wyświetlanie szacowanego czasu pracy; kolor motywu obsługuje teraz niestandardowe wartości RGB.
 Kod źródłowy: https://github.com/Chef5/Wildward-face
 Opinie: https://github.com/Chef5/Wildward-face/issues
 
@@ -188,7 +188,7 @@ Wildward
 Если вам нравится циферблат, можете угостить меня кофе~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 Добавлено 10 новых показателей; батарея теперь поддерживает отображение расчётного времени работы; цвет темы теперь поддерживает пользовательские RGB-значения.
+v1.3.1 Добавлено 10 новых показателей; батарея теперь поддерживает отображение расчётного времени работы; цвет темы теперь поддерживает пользовательские RGB-значения.
 Открытый код: https://github.com/Chef5/Wildward-face
 Обратная связь: https://github.com/Chef5/Wildward-face/issues
 
@@ -204,6 +204,6 @@ Wildward
 유용하셨다면 커피 한 잔 후원해 주세요~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.0 데이터 지표 10개 추가; 배터리 사용 시간 표시 지원; 테마 색상 사용자 지정 RGB 값 설정 지원.
+v1.3.1 데이터 지표 10개 추가; 배터리 사용 시간 표시 지원; 테마 색상 사용자 지정 RGB 값 설정 지원.
 오픈 소스: https://github.com/Chef5/Wildward-face
 피드백: https://github.com/Chef5/Wildward-face/issues
