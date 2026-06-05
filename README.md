@@ -41,7 +41,7 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 
 ### 多语言
 
-表盘在 `manifest.xml` 中声明支持 **8 种语言**。`resources/` 为**英文默认资源包**（应用名 **Wildward**）；未单独翻译的语言会自动回退到英文。
+表盘在 `manifest.xml` 中声明支持 **13 种语言**。`resources/` 为**英文默认资源包**（应用名 **Wildward**）；未单独翻译的语言会自动回退到英文。
 
 | 代码 | 语言 | 资源目录 | 应用名 | 设置页农历开关 |
 |------|------|----------|--------|----------------|
@@ -53,6 +53,11 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 | `fre` | 法语 | `resources-fre/` | Wildward | 无 |
 | `spa` | 西班牙语 | `resources-spa/` | Wildward | 无 |
 | `ita` | 意大利语 | `resources-ita/` | Wildward | 无 |
+| `dut` | 荷兰语 | `resources-dut/` | Wildward | 无 |
+| `nob` | 挪威语 | `resources-nob/` | Wildward | 无 |
+| `pol` | 波兰语 | `resources-pol/` | Wildward | 无 |
+| `rus` | 俄语 | `resources-rus/` | Wildward | 无 |
+| `kor` | 韩语 | `resources-kor/` | Wildward | 无 |
 
 各语言包包含 `strings/strings.xml`（文案）与 `settings/settings.xml`（设置页布局）；属性默认值统一定义在 `resources/settings/properties.xml`。
 
@@ -106,11 +111,16 @@ trailhead-face/
 │   ├── strings/strings.xml           # 应用名「赴山野」
 │   └── settings/settings.xml         # 含农历开关
 ├── resources-zht/                    # 繁体中文
-├── resources-jpn/                    # 日语
-├── resources-deu/                    # 德语
-├── resources-fre/                    # 法语
-├── resources-spa/                    # 西班牙语
-├── resources-ita/                    # 意大利语
+├── resources-jpn/                    # 日语（ja 日本語）
+├── resources-deu/                    # 德语（de Deutsch）
+├── resources-fre/                    # 法语（fr Français）
+├── resources-spa/                    # 西班牙语（es Español）
+├── resources-ita/                    # 意大利语（it Italiano）
+├── resources-dut/                    # 荷兰语（nl Nederlands）
+├── resources-nob/                    # 挪威语（nb Norsk）
+├── resources-pol/                    # 波兰语（pl Polski）
+├── resources-rus/                    # 俄语（ru Русский）
+├── resources-kor/                    # 韩语（ko 한국어）
 │   └── （各语言目录均含 strings/ 与 settings/，结构同上）
 ├── resources-icons-amoled/           # AMOLED 机型图标覆盖（packingFormat="png"）
 ├── resources-launcher-*-*/           # 各机型启动图标像素规格覆盖

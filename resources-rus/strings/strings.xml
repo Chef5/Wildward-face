@@ -1,0 +1,47 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Wildward</string>
+
+    <string id="AccentColorTitle">Цвет темы</string>
+    <string id="CustomAccentColorTitle">Цвет темы — расширенные (RGB, напр.: #B77CFF)</string>
+    <string id="ShowSecondsTitle">Показывать секунды</string>
+    <string id="ShowDateTitle">Показывать дату</string>
+    <string id="ShowLunarTitle">Показывать лунный календарь</string>
+    <string id="ShowDividersTitle">Показывать разделители</string>
+    <string id="BatteryDisplayTitle">Отображение батареи</string>
+    <string id="BatteryDisplayPercent">Процент</string>
+    <string id="BatteryDisplayEndurance">Время работы</string>
+
+    <string id="TopLeftMetricTitle">Слева вверху</string>
+    <string id="TopRightMetricTitle">Справа вверху</string>
+    <string id="BottomLeftMetricTitle">Слева внизу</string>
+    <string id="BottomRightMetricTitle">Справа внизу</string>
+
+    <string id="MetricNone">Нет</string>
+    <string id="MetricHeartRate">Пульс</string>
+    <string id="MetricBattery">Батарея</string>
+    <string id="MetricSteps">Шаги</string>
+    <string id="MetricAltitude">Высота</string>
+    <string id="MetricCalories">Калории</string>
+    <string id="MetricSpO2">Кислород в крови</string>
+    <string id="MetricPressure">Давление</string>
+    <string id="MetricBodyBattery">Body Battery</string>
+    <string id="MetricStress">Стресс</string>
+    <string id="MetricSunrise">Восход</string>
+    <string id="MetricSunset">Закат</string>
+    <string id="MetricWeather">Погода</string>
+    <string id="MetricRespiration">Частота дыхания</string>
+
+    <string id="ColorPurple">Фиолетовый</string>
+    <string id="ColorBlue">Океанский синий</string>
+    <string id="ColorCyan">Бирюза</string>
+    <string id="ColorGreen">Изумруд</string>
+    <string id="ColorFieldGreen">Полевая зелень</string>
+    <string id="ColorYellow">Жёлтый</string>
+    <string id="ColorGold">Золотой</string>
+    <string id="ColorOrange">Оранжевый</string>
+    <string id="ColorRed">Красный</string>
+    <string id="ColorPink">Розовый</string>
+    <string id="ColorWhite">Белый</string>
+
+</strings>

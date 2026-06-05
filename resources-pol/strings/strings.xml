@@ -1,0 +1,47 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Wildward</string>
+
+    <string id="AccentColorTitle">Kolor motywu</string>
+    <string id="CustomAccentColorTitle">Kolor motywu – zaawansowane (przykład RGB: #B77CFF)</string>
+    <string id="ShowSecondsTitle">Pokaż sekundy</string>
+    <string id="ShowDateTitle">Pokaż datę</string>
+    <string id="ShowLunarTitle">Pokaż kalendarz księżycowy</string>
+    <string id="ShowDividersTitle">Pokaż linie podziału</string>
+    <string id="BatteryDisplayTitle">Wyświetlanie baterii</string>
+    <string id="BatteryDisplayPercent">Procent</string>
+    <string id="BatteryDisplayEndurance">Czas pracy</string>
+
+    <string id="TopLeftMetricTitle">Lewy górny</string>
+    <string id="TopRightMetricTitle">Prawy górny</string>
+    <string id="BottomLeftMetricTitle">Lewy dolny</string>
+    <string id="BottomRightMetricTitle">Prawy dolny</string>
+
+    <string id="MetricNone">Brak</string>
+    <string id="MetricHeartRate">Tętno</string>
+    <string id="MetricBattery">Bateria</string>
+    <string id="MetricSteps">Kroki</string>
+    <string id="MetricAltitude">Wysokość</string>
+    <string id="MetricCalories">Kalorie</string>
+    <string id="MetricSpO2">Saturacja krwi</string>
+    <string id="MetricPressure">Ciśnienie</string>
+    <string id="MetricBodyBattery">Body Battery</string>
+    <string id="MetricStress">Stres</string>
+    <string id="MetricSunrise">Wschód słońca</string>
+    <string id="MetricSunset">Zachód słońca</string>
+    <string id="MetricWeather">Pogoda</string>
+    <string id="MetricRespiration">Częstość oddechów</string>
+
+    <string id="ColorPurple">Fiolet</string>
+    <string id="ColorBlue">Oceaniczny niebieski</string>
+    <string id="ColorCyan">Cyjan</string>
+    <string id="ColorGreen">Szmaragd</string>
+    <string id="ColorFieldGreen">Zieleń łąki</string>
+    <string id="ColorYellow">Żółty</string>
+    <string id="ColorGold">Złoty</string>
+    <string id="ColorOrange">Pomarańczowy</string>
+    <string id="ColorRed">Czerwony</string>
+    <string id="ColorPink">Różowy</string>
+    <string id="ColorWhite">Biały</string>
+
+</strings>

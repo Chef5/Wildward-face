@@ -1,0 +1,47 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Wildward</string>
+
+    <string id="AccentColorTitle">Temafarge</string>
+    <string id="CustomAccentColorTitle">Temafarge – Avansert (RGB-eksempel: #B77CFF)</string>
+    <string id="ShowSecondsTitle">Vis sekunder</string>
+    <string id="ShowDateTitle">Vis dato</string>
+    <string id="ShowLunarTitle">Vis månekalender</string>
+    <string id="ShowDividersTitle">Vis skillelinjer</string>
+    <string id="BatteryDisplayTitle">Batterivisning</string>
+    <string id="BatteryDisplayPercent">Prosent</string>
+    <string id="BatteryDisplayEndurance">Batteritid</string>
+
+    <string id="TopLeftMetricTitle">Øverst til venstre</string>
+    <string id="TopRightMetricTitle">Øverst til høyre</string>
+    <string id="BottomLeftMetricTitle">Nederst til venstre</string>
+    <string id="BottomRightMetricTitle">Nederst til høyre</string>
+
+    <string id="MetricNone">Ingen</string>
+    <string id="MetricHeartRate">Puls</string>
+    <string id="MetricBattery">Batteri</string>
+    <string id="MetricSteps">Skritt</string>
+    <string id="MetricAltitude">Høyde</string>
+    <string id="MetricCalories">Kalorier</string>
+    <string id="MetricSpO2">Blodoksygen</string>
+    <string id="MetricPressure">Lufttrykk</string>
+    <string id="MetricBodyBattery">Body Battery</string>
+    <string id="MetricStress">Stress</string>
+    <string id="MetricSunrise">Soloppgang</string>
+    <string id="MetricSunset">Solnedgang</string>
+    <string id="MetricWeather">Vær</string>
+    <string id="MetricRespiration">Pustefrekvens</string>
+
+    <string id="ColorPurple">Lilla</string>
+    <string id="ColorBlue">Havblå</string>
+    <string id="ColorCyan">Cyan</string>
+    <string id="ColorGreen">Smaragd</string>
+    <string id="ColorFieldGreen">Enggrønn</string>
+    <string id="ColorYellow">Gul</string>
+    <string id="ColorGold">Gull</string>
+    <string id="ColorOrange">Oransje</string>
+    <string id="ColorRed">Rød</string>
+    <string id="ColorPink">Rosa</string>
+    <string id="ColorWhite">Hvit</string>
+
+</strings>

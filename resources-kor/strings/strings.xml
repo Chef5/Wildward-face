@@ -1,0 +1,47 @@
+<strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+
+    <string id="AppName">Wildward</string>
+
+    <string id="AccentColorTitle">테마 색상</string>
+    <string id="CustomAccentColorTitle">테마 색상 - 고급 설정 (RGB 예: #B77CFF)</string>
+    <string id="ShowSecondsTitle">초 표시</string>
+    <string id="ShowDateTitle">날짜 표시</string>
+    <string id="ShowLunarTitle">음력 표시</string>
+    <string id="ShowDividersTitle">구분선 표시</string>
+    <string id="BatteryDisplayTitle">배터리 표시</string>
+    <string id="BatteryDisplayPercent">백분율</string>
+    <string id="BatteryDisplayEndurance">사용 시간</string>
+
+    <string id="TopLeftMetricTitle">왼쪽 상단</string>
+    <string id="TopRightMetricTitle">오른쪽 상단</string>
+    <string id="BottomLeftMetricTitle">왼쪽 하단</string>
+    <string id="BottomRightMetricTitle">오른쪽 하단</string>
+
+    <string id="MetricNone">없음</string>
+    <string id="MetricHeartRate">심박수</string>
+    <string id="MetricBattery">배터리</string>
+    <string id="MetricSteps">걸음 수</string>
+    <string id="MetricAltitude">고도</string>
+    <string id="MetricCalories">칼로리</string>
+    <string id="MetricSpO2">혈중 산소</string>
+    <string id="MetricPressure">기압</string>
+    <string id="MetricBodyBattery">Body Battery</string>
+    <string id="MetricStress">스트레스</string>
+    <string id="MetricSunrise">일출</string>
+    <string id="MetricSunset">일몰</string>
+    <string id="MetricWeather">날씨</string>
+    <string id="MetricRespiration">호흡수</string>
+
+    <string id="ColorPurple">보라</string>
+    <string id="ColorBlue">바다 블루</string>
+    <string id="ColorCyan">시안</string>
+    <string id="ColorGreen">에메랄드</string>
+    <string id="ColorFieldGreen">들판 녹색</string>
+    <string id="ColorYellow">노랑</string>
+    <string id="ColorGold">골드</string>
+    <string id="ColorOrange">주황</string>
+    <string id="ColorRed">빨강</string>
+    <string id="ColorPink">분홍</string>
+    <string id="ColorWhite">흰색</string>
+
+</strings>
