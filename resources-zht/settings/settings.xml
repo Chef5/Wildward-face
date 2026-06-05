@@ -16,26 +16,6 @@
         </settingConfig>
     </setting>
 
-    <setting propertyKey="@Properties.CustomAccentColor" title="@Strings.CustomAccentColorTitle">
-        <settingConfig type="alphaNumeric" maxLength="7" />
-    </setting>
-
-    <setting propertyKey="@Properties.ShowSeconds" title="@Strings.ShowSecondsTitle">
-        <settingConfig type="boolean" />
-    </setting>
-
-    <setting propertyKey="@Properties.ShowDate" title="@Strings.ShowDateTitle">
-        <settingConfig type="boolean" />
-    </setting>
-
-    <setting propertyKey="@Properties.ShowLunar" title="@Strings.ShowLunarTitle">
-        <settingConfig type="boolean" />
-    </setting>
-
-    <setting propertyKey="@Properties.ShowDividers" title="@Strings.ShowDividersTitle">
-        <settingConfig type="boolean" />
-    </setting>
-
     <setting propertyKey="@Properties.TopLeftMetric" title="@Strings.TopLeftMetricTitle">
         <settingConfig type="list">
             <listEntry value="4">@Strings.MetricAltitude</listEntry>
@@ -110,6 +90,26 @@
             <listEntry value="11">@Strings.MetricSunset</listEntry>
             <listEntry value="13">@Strings.MetricRespiration</listEntry>
         </settingConfig>
+    </setting>
+
+    <setting propertyKey="@Properties.ShowSeconds" title="@Strings.ShowSecondsTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.ShowDate" title="@Strings.ShowDateTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.ShowDividers" title="@Strings.ShowDividersTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.ShowLunar" title="@Strings.ShowLunarTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.CustomAccentColor" title="@Strings.CustomAccentColorTitle">
+        <settingConfig type="alphaNumeric" maxLength="7" />
     </setting>
 
 </settings>
