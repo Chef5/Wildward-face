@@ -4,6 +4,8 @@ import Toybox.WatchUi;
 
 class ChefWatchFaceApp extends Application.AppBase {
 
+    private var _view as ChefWatchFaceView?;
+
     function initialize() {
         AppBase.initialize();
     }
@@ -18,16 +20,16 @@ class ChefWatchFaceApp extends Application.AppBase {
 
     // 在此返回应用的初始界面
     function getInitialView() as [Views] or [Views, InputDelegates] {
-        return [ new ChefWatchFaceView() ];
+        _view = new ChefWatchFaceView();
+        return [ _view ];
     }
 
-    // 收到新的应用设置后触发界面刷新
+    // 收到新的应用设置后触发界面刷新（须在 AppBase 中实现，不能放在 View）
     function onSettingsChanged() as Void {
-        var view = WatchUi.getCurrentView();
-        if (view instanceof ChefWatchFaceView) {
-            (view as ChefWatchFaceView).loadSettings();
+        if (_view != null) {
+            _view.loadSettings();
+            WatchUi.requestUpdate();
         }
-        WatchUi.requestUpdate();
     }
 
 }
