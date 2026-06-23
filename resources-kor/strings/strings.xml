@@ -29,6 +29,7 @@
     <string id="MetricStress">스트레스</string>
     <string id="MetricSunrise">일출</string>
     <string id="MetricSunset">일몰</string>
+    <string id="MetricSunriseSunset">일출 / 일몰</string>
     <string id="MetricWeather">날씨</string>
     <string id="MetricRespiration">호흡수</string>
 

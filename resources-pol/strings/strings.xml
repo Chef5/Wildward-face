@@ -29,6 +29,7 @@
     <string id="MetricStress">Stres</string>
     <string id="MetricSunrise">Wschód słońca</string>
     <string id="MetricSunset">Zachód słońca</string>
+    <string id="MetricSunriseSunset">Wschód / Zachód</string>
     <string id="MetricWeather">Pogoda</string>
     <string id="MetricRespiration">Częstość oddechów</string>
 

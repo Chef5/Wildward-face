@@ -29,6 +29,7 @@
     <string id="MetricStress">Стресс</string>
     <string id="MetricSunrise">Восход</string>
     <string id="MetricSunset">Закат</string>
+    <string id="MetricSunriseSunset">Восход / Закат</string>
     <string id="MetricWeather">Погода</string>
     <string id="MetricRespiration">Частота дыхания</string>
 

@@ -29,6 +29,7 @@
     <string id="MetricStress">Stress</string>
     <string id="MetricSunrise">Zonsopgang</string>
     <string id="MetricSunset">Zonsondergang</string>
+    <string id="MetricSunriseSunset">Op-/Ondergang</string>
     <string id="MetricWeather">Weer</string>
     <string id="MetricRespiration">Ademhalingsfrequentie</string>
 

@@ -441,6 +441,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             drawIconTextGroup(dc, _sunriseBmp, getSunriseTimeText(), centerX, rowCenterY);
         } else if (metric == 11) {
             drawIconTextGroup(dc, _sunsetBmp, getSunsetTimeText(), centerX, rowCenterY);
+        } else if (metric == 14) {
+            drawIconTextGroup(dc, getSunriseSunsetAutoBmp(), getSunriseSunsetAutoText(), centerX, rowCenterY);
         } else if (metric == 12) {
             drawWeatherMetricTop(dc, centerX, rowCenterY);
         } else if (metric == 13) {
@@ -772,6 +774,12 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             if (_sunsetBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _sunsetBmp); }
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getSunsetTimeText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 14) {
+            var autoBmp = getSunriseSunsetAutoBmp();
+            if (autoBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, autoBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getSunriseSunsetAutoText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 12) {
             drawWeatherMetricBottom(dc, centerX, iconY, valueY);
@@ -1151,6 +1159,32 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             }
         }
         return hour.format("%02d") + ":" + minute.format("%02d");
+    }
+
+    // 日出日落自动切换：
+    // 切换点 = 事件整点小时 + 2，例如 7:35 日出 → 9:00 起显示日落；19:02 日落 → 21:00 起显示日出
+    private function isBetweenSunriseAndSunset() as Boolean {
+        var ct = System.getClockTime();
+        var nowSec = ct.hour * 3600 + ct.min * 60 + ct.sec;
+        var riseSec = getComplicationNumericValue(Complications.COMPLICATION_TYPE_SUNRISE);
+        var setSec = getComplicationNumericValue(Complications.COMPLICATION_TYPE_SUNSET);
+        if (riseSec == null || setSec == null) { return false; }
+        var switchToSunset  = ((riseSec / 3600) + 2) * 3600;
+        var switchToSunrise = ((setSec  / 3600) + 2) * 3600;
+        return nowSec >= switchToSunset && nowSec < switchToSunrise;
+    }
+
+    private function getSunriseSunsetAutoBmp() as BitmapResource? {
+        return isBetweenSunriseAndSunset() ? _sunsetBmp : _sunriseBmp;
+    }
+
+    private function getSunriseSunsetAutoText() as String {
+        if (isBetweenSunriseAndSunset()) {
+            var sec = getComplicationNumericValue(Complications.COMPLICATION_TYPE_SUNSET);
+            return sec != null ? formatTimeOfDay(sec) : "--";
+        }
+        var sec = getComplicationNumericValue(Complications.COMPLICATION_TYPE_SUNRISE);
+        return sec != null ? formatTimeOfDay(sec) : "--";
     }
 
     private function getSunriseTimeText() as String {

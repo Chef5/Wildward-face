@@ -29,6 +29,7 @@
     <string id="MetricStress">Stress</string>
     <string id="MetricSunrise">Soloppgang</string>
     <string id="MetricSunset">Solnedgang</string>
+    <string id="MetricSunriseSunset">Opp-/Nedgang</string>
     <string id="MetricWeather">Vær</string>
     <string id="MetricRespiration">Pustefrekvens</string>
 

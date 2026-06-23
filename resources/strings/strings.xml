@@ -29,6 +29,7 @@
     <string id="MetricStress">Stress</string>
     <string id="MetricSunrise">Sunrise Time</string>
     <string id="MetricSunset">Sunset Time</string>
+    <string id="MetricSunriseSunset">Sunrise / Sunset</string>
     <string id="MetricWeather">Weather</string>
     <string id="MetricRespiration">Respiration Rate</string>
 

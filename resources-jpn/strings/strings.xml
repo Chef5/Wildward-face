@@ -29,6 +29,7 @@
     <string id="MetricStress">ストレス</string>
     <string id="MetricSunrise">日の出時刻</string>
     <string id="MetricSunset">日の入り時刻</string>
+    <string id="MetricSunriseSunset">日の出/日の入り</string>
     <string id="MetricWeather">天気</string>
     <string id="MetricRespiration">呼吸数</string>
 
