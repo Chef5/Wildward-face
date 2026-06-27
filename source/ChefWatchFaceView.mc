@@ -588,6 +588,22 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             var secX = minX + minW + s(2);
             dc.drawText(secX, secY, secFont, secStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+
+            // 12 小时制：AM / PM 与秒数同列，与时分垂直居中
+            if (!System.getDeviceSettings().is24Hour) {
+                var ampmStr = clock.hour < 12 ? "AM" : "PM";
+                var ampmFont = secFont;
+                if (Graphics has :getVectorFont) {
+                    var smallSize = (secH * 0.7).toNumber();
+                    if (smallSize < 7) { smallSize = 7; }
+                    var vf = Graphics.getVectorFont({ :face => "RobotoCondensedRegular", :size => smallSize });
+                    if (vf != null) {
+                        ampmFont = vf;
+                    }
+                }
+                dc.drawText(secX, centerLineY, ampmFont, ampmStr,
+                            Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+            }
         }
     }
 
