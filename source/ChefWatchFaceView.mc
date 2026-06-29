@@ -39,6 +39,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private const PRESSURE_TREND_COMPARE_SEC = 1800;
     private const PRESSURE_TREND_TOLERANCE_SEC = 600;
     private const PRESSURE_STABLE_HPA = 1;
+    // 长按命中区域（960 设计单位，与绘制布局对齐）
+    private const SPEC_TOP_HIT_HALF_W = 140;
+    private const SPEC_TOP_HIT_HALF_H = 80;
+    private const SPEC_BOTTOM_HIT_HALF_W = 140;
+    private const SPEC_BOTTOM_HIT_HALF_H = 120;
 
     // ---- 运行时状态 ----
     private var _w as Number = 0;
@@ -1314,5 +1319,112 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
         // 少云：未识别类型
         return _weatherPartlyCloudyBmp;
+    }
+
+    // -------------------------------------------------------------
+    // 长按跳转系统 Widget（Complications.exitTo）
+    // -------------------------------------------------------------
+
+    // 由 ChefWatchFaceDelegate.onPress 调用；命中象限则 exitTo 并返回 true。
+    function handleMetricLongPress(x as Number, y as Number) as Boolean {
+        if (!(Toybox has :Complications)) {
+            return false;
+        }
+        var metricId = hitTestMetricAt(x, y);
+        if (metricId == null) {
+            return false;
+        }
+        var compType = getComplicationTypeForMetric(metricId);
+        if (compType == null) {
+            return false;
+        }
+        try {
+            Complications.exitTo(new Complications.Id(compType as Complications.Type));
+            return true;
+        } catch (ex) {
+            return false;
+        }
+    }
+
+    private function hitTestMetricAt(x as Number, y as Number) as Number? {
+        var rowCenterY = s(SPEC_DIVIDER_EDGE_INSET - SPEC_TOP_METRICS_ABOVE_DIVIDER);
+        var bottomDividerSpecY = 960 - SPEC_DIVIDER_EDGE_INSET;
+        var bottomCenterY = s(bottomDividerSpecY +
+            (SPEC_BOTTOM_ICON_BELOW_DIVIDER + SPEC_BOTTOM_VALUE_BELOW_DIVIDER) / 2);
+        var topHalfW = s(SPEC_TOP_HIT_HALF_W);
+        var topHalfH = s(SPEC_TOP_HIT_HALF_H);
+        var bottomHalfW = s(SPEC_BOTTOM_HIT_HALF_W);
+        var bottomHalfH = s(SPEC_BOTTOM_HIT_HALF_H);
+
+        var hasTopLeft = (_topLeftMetric != 0);
+        var hasTopRight = (_topRightMetric != 0);
+        var topBoth = hasTopLeft && hasTopRight;
+        var topLeftX = topBoth ? _cx - s(165) : _cx;
+        var topRightX = topBoth ? _cx + s(165) : _cx;
+
+        if (hasTopLeft && isPointInRect(x, y, topLeftX, rowCenterY, topHalfW, topHalfH)) {
+            return _topLeftMetric;
+        }
+        if (hasTopRight && isPointInRect(x, y, topRightX, rowCenterY, topHalfW, topHalfH)) {
+            return _topRightMetric;
+        }
+
+        var hasBottomLeft = (_bottomLeftMetric != 0);
+        var hasBottomRight = (_bottomRightMetric != 0);
+        var bottomBoth = hasBottomLeft && hasBottomRight;
+        var bottomLeftX = bottomBoth ? _cx - s(150) : _cx;
+        var bottomRightX = bottomBoth ? _cx + s(150) : _cx;
+
+        if (hasBottomLeft && isPointInRect(x, y, bottomLeftX, bottomCenterY, bottomHalfW, bottomHalfH)) {
+            return _bottomLeftMetric;
+        }
+        if (hasBottomRight && isPointInRect(x, y, bottomRightX, bottomCenterY, bottomHalfW, bottomHalfH)) {
+            return _bottomRightMetric;
+        }
+        return null;
+    }
+
+    private function isPointInRect(x as Number, y as Number,
+                                   centerX as Number, centerY as Number,
+                                   halfW as Number, halfH as Number) as Boolean {
+        return x >= centerX - halfW && x <= centerX + halfW
+            && y >= centerY - halfH && y <= centerY + halfH;
+    }
+
+    private function getComplicationTypeForMetric(metricId as Number) as Complications.Type? {
+        switch (metricId) {
+            case 1:
+                return Complications.COMPLICATION_TYPE_HEART_RATE;
+            case 2:
+                return Complications.COMPLICATION_TYPE_BATTERY;
+            case 3:
+                return Complications.COMPLICATION_TYPE_STEPS;
+            case 4:
+                return Complications.COMPLICATION_TYPE_ALTITUDE;
+            case 5:
+                return Complications.COMPLICATION_TYPE_CALORIES;
+            case 6:
+                return Complications.COMPLICATION_TYPE_PULSE_OX;
+            case 7:
+                return Complications.COMPLICATION_TYPE_SEA_LEVEL_PRESSURE;
+            case 8:
+                return Complications.COMPLICATION_TYPE_BODY_BATTERY;
+            case 9:
+                return Complications.COMPLICATION_TYPE_STRESS;
+            case 10:
+                return Complications.COMPLICATION_TYPE_SUNRISE;
+            case 11:
+                return Complications.COMPLICATION_TYPE_SUNSET;
+            case 12:
+                return Complications.COMPLICATION_TYPE_CURRENT_WEATHER;
+            case 13:
+                return Complications.COMPLICATION_TYPE_RESPIRATION_RATE;
+            case 14:
+                return isBetweenSunriseAndSunset()
+                    ? Complications.COMPLICATION_TYPE_SUNSET
+                    : Complications.COMPLICATION_TYPE_SUNRISE;
+            default:
+                return null;
+        }
     }
 }

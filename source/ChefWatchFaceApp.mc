@@ -21,7 +21,7 @@ class ChefWatchFaceApp extends Application.AppBase {
     // 在此返回应用的初始界面
     function getInitialView() as [Views] or [Views, InputDelegates] {
         _view = new ChefWatchFaceView();
-        return [ _view ];
+        return [ _view, new ChefWatchFaceDelegate(_view) ];
     }
 
     // 收到新的应用设置后触发界面刷新（须在 AppBase 中实现，不能放在 View）
