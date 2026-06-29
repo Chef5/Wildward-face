@@ -70,7 +70,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _batteryDisplay as Number = 0;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
     //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落  12=天气  13=呼吸频率
-    //                  14=日出日落  15=周跑量  16=月跑量
+    //                  14=日出日落  15=周跑量  16=月跑量  17=消息通知
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
     private var _bottomLeftMetric  as Number = 1; // 默认：心率
@@ -99,6 +99,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _weatherExtremeBmp as BitmapResource?;
     private var _respirationBmp as BitmapResource?;
     private var _runningBmp as BitmapResource?;
+    private var _notificationsBmp as BitmapResource?;
     // 月跑量缓存（米）；cacheKey = year*100+month
     private var _monthlyRunDistanceM as Float = 0.0;
     private var _monthlyRunCacheKey as Number = 0;
@@ -281,6 +282,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _weatherExtremeBmp = WatchUi.loadResource(Rez.Drawables.WeatherExtremeIcon) as BitmapResource;
         _respirationBmp = WatchUi.loadResource(Rez.Drawables.RespirationIcon) as BitmapResource;
         _runningBmp = WatchUi.loadResource(Rez.Drawables.RunningIcon) as BitmapResource;
+        _notificationsBmp = WatchUi.loadResource(Rez.Drawables.NotificationsIcon) as BitmapResource;
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
@@ -471,6 +473,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             drawIconTextGroup(dc, _runningBmp, getWeeklyRunDistanceText(), centerX, rowCenterY);
         } else if (metric == 16) {
             drawIconTextGroup(dc, _runningBmp, getMonthlyRunDistanceText(), centerX, rowCenterY);
+        } else if (metric == 17) {
+            drawIconTextGroup(dc, _notificationsBmp, getNotificationCountText(), centerX, rowCenterY);
         }
     }
 
@@ -838,6 +842,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getMonthlyRunDistanceText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 17) {
+            if (_notificationsBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _notificationsBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getNotificationCountText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
@@ -1190,6 +1199,22 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             }
         }
         return null;
+    }
+
+    private function getNotificationCount() as Number? {
+        var settings = System.getDeviceSettings();
+        if (settings has :notificationCount) {
+            return settings.notificationCount;
+        }
+        return getComplicationNumericValue(Complications.COMPLICATION_TYPE_NOTIFICATION_COUNT);
+    }
+
+    private function getNotificationCountText() as String {
+        var count = getNotificationCount();
+        if (count == null) {
+            return "--";
+        }
+        return count.format("%d");
     }
 
     // 与 Garmin 周跑量 Complication 一致：SPORT_RUNNING（含路跑、越野跑、跑步机等子类型）
@@ -1555,6 +1580,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             case 16:
                 // 系统无月跑量 Complication；跑步类指标统一跳转周跑量关联的 Glance
                 return Complications.COMPLICATION_TYPE_WEEKLY_RUN_DISTANCE;
+            case 17:
+                return Complications.COMPLICATION_TYPE_NOTIFICATION_COUNT;
             case 14:
                 return isBetweenSunriseAndSunset()
                     ? Complications.COMPLICATION_TYPE_SUNSET

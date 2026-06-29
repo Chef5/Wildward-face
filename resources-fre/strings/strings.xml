@@ -34,6 +34,8 @@
     <string id="MetricRespiration">Fréquence respiratoire</string>
     <string id="MetricWeeklyRun">Course hebdo</string>
     <string id="MetricMonthlyRun">Course mensuelle</string>
+    <string id="MetricNotifications">Notifications</string>
+    <string id="MetricNotifications">Notifications</string>
 
     <string id="ColorPurple">Violet</string>
     <string id="ColorBlue">Bleu océan</string>

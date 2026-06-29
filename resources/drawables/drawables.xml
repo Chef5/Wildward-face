@@ -22,4 +22,5 @@
     <bitmap id="WeatherExtremeIcon"       filename="weather_extreme.svg"       dithering="none" automaticPalette="false" />
     <bitmap id="RespirationIcon"        filename="respiration.svg"         dithering="none" automaticPalette="false" />
     <bitmap id="RunningIcon"            filename="running.svg"             dithering="none" automaticPalette="false" />
+    <bitmap id="NotificationsIcon"      filename="notifications.svg"       dithering="none" automaticPalette="false" />
 </drawables>

@@ -34,6 +34,7 @@
     <string id="MetricRespiration">Częstość oddechów</string>
     <string id="MetricWeeklyRun">Bieg tygodniowy</string>
     <string id="MetricMonthlyRun">Bieg miesięczny</string>
+    <string id="MetricNotifications">Powiadomienia</string>
 
     <string id="ColorPurple">Fiolet</string>
     <string id="ColorBlue">Oceaniczny niebieski</string>

@@ -34,6 +34,7 @@
     <string id="MetricRespiration">Ademhalingsfrequentie</string>
     <string id="MetricWeeklyRun">Weekloop</string>
     <string id="MetricMonthlyRun">Maandloop</string>
+    <string id="MetricNotifications">Meldingen</string>
 
     <string id="ColorPurple">Paars</string>
     <string id="ColorBlue">Oceaanblauw</string>
