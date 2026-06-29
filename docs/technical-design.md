@@ -110,3 +110,45 @@ private function drawTintedBitmap(dc as Dc, x as Number, y as Number,
 
 - `packingFormat="png"` 在 MIP 设备上会产生编译警告（"not supported, default format will be used"）。通过 `resources-icons-amoled` 覆盖机制，MIP 机型的 bitmap 定义中不包含此属性，从而消除警告。
 - `Graphics has :getVectorFont` 的检查必须用于**调用前的 `has` 判断**，不能以 early-return 的形式绕过，否则编译器会对不支持该符号的设备报 `Undefined symbol` 错误。
+
+---
+
+## 日出日落自动切换（Metric ID 14）
+
+四象限可选「日出日落」：根据当前时刻在日出/日落 Complication 之间自动切换图标与时刻文本。
+
+切换规则（`ChefWatchFaceView.mc`）：
+
+- 切换点 = 事件整点小时 + 2（例：7:35 日出 → 9:00 起显示日落；19:02 日落 → 21:00 起显示日出）
+- 日出后至切换点之前：显示日出图标 + 日出时刻
+- 日落后至切换点之前：显示日落图标 + 日落时刻
+
+长按跳转：按当前展示内容映射到 `COMPLICATION_TYPE_SUNRISE` 或 `COMPLICATION_TYPE_SUNSET`。
+
+---
+
+## 周跑量 / 月跑量（Metric ID 15 / 16）
+
+| 指标 | 数据来源 | 说明 |
+|------|----------|------|
+| 周跑量 | `Complications.COMPLICATION_TYPE_WEEKLY_RUN_DISTANCE` | 与系统「本周跑步距离」一致 |
+| 月跑量 | `UserProfile.getUserActivityHistory()` | 自然月内 `SPORT_RUNNING` 活动距离累加 |
+
+显示：固定换算为 km，表盘不标单位；无数据为 `0`；整数不显示小数，否则保留 1 位。
+
+月跑量性能：`onShow` / 设置变更时刷新缓存，同月内最多 30 分钟重算一次；四象限均未选月跑量时不遍历历史。
+
+---
+
+## 长按跳转系统 Glance
+
+触屏设备通过 `ChefWatchFaceDelegate.onPress` → `ChefWatchFaceView.handleMetricLongPress` 实现。
+
+1. 按触摸坐标命中四象限（`hitTestMetricAt`）
+2. `getComplicationTypeForMetric` 映射到原生 Complication 类型
+3. `isComplicationAvailable` 检查 `getComplication` 是否非 null
+4. `Complications.exitTo` 跳转；不支持时直接返回，不降级到其他页面
+
+需在 `manifest.xml` 声明 `ComplicationSubscriber` 权限。周/月跑量均映射到 `WEEKLY_RUN_DISTANCE`（系统无月跑量 Complication）。
+
+支持长按的指标与 Complication 映射见 `getComplicationTypeForMetric()`。

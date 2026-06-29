@@ -6,11 +6,11 @@ lang: en English
 Wildward
 
 # Description (Maximum 4000 Characters)
-Head into the wild, driven by passion. Designed for hiking and outdoor adventures. Focus on four core metrics — altitude, heart rate, battery, and steps — plus over ten more: calories, SpO₂, weather, barometric pressure, Body Battery, stress, respiration rate, sunrise/sunset, and more. Glance at your wrist to stay in tune with your body and surroundings. Enjoy every adventure!
+Head into the wild, driven by passion. Designed for hiking and outdoor adventures. Focus on four core metrics — altitude, heart rate, battery, and steps — plus over ten more: calories, SpO₂, weather, barometric pressure, Body Battery, stress, respiration rate, sunrise/sunset, weekly/monthly run distance, and more. Glance at your wrist to stay in tune with your body and surroundings. Enjoy every adventure!
 If you find it useful, feel free to buy me a coffee~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 Added 10 new data metrics; battery now supports estimated endurance time display; theme color now supports custom RGB hex values.
+v1.3.4 Added sunrise/sunset auto metric, weekly and monthly run distance; long-press a metric to open its system glance on touch devices; AM/PM indicator in 12-hour mode when seconds are shown.
 Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
@@ -23,11 +23,11 @@ lang: zh_CN 简体中文
 
 # Description (Maximum 4000 Characters)
 向山野出发，为热爱前行。适配徒步、山野出行场景。聚焦海拔、心率、电量、步数四大核心数据，抬腕即刻洞悉身体状态与户外环境，自在奔赴每一场热爱！
-此外还支持以下展示：卡路里、血氧、天气、大气压、身体电量、压力值、呼吸频率、日出日落等。
+此外还支持以下展示：卡路里、血氧、天气、大气压、身体电量、压力值、呼吸频率、日出日落、周跑量、月跑量等。
 如果觉得好用，可以打赏一杯咖啡支持一下啦~  :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 增加10项数据指标；电量支持续航时间格式展示；主题色支持自定义RGB值设置。
+v1.3.4 新增「日出日落」数据项、周跑量与月跑量；触屏设备支持长按数据项跳转系统 Glance；12 小时制且显示秒数时展示 AM/PM。
 项目开源地址：https://github.com/Chef5/Wildward-face
 建议反馈地址：https://github.com/Chef5/Wildward-face/issues
 
@@ -40,11 +40,11 @@ lang: zh_TW 繁體中文
 
 # Description (Maximum 4000 Characters)
 向山野出發，為熱愛前行。適配徒步、山野出行場景。聚焦海拔、心率、電量、步數四大核心數據，抬腕即刻洞悉身體狀態與戶外環境，自在奔赴每一場熱愛！
-此外還支援以下展示：卡路里、血氧、天氣、大氣壓、身體電量、壓力值、呼吸頻率、日出日落等。
+此外還支援以下展示：卡路里、血氧、天氣、大氣壓、身體電量、壓力值、呼吸頻率、日出日落、週跑量、月跑量等。
 如果覺得好用，可以打賞一杯咖啡支持一下啦~  :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 新增10項數據指標；電量支援續航時間格式展示；主題色支援自定義RGB值設定。
+v1.3.4 新增「日出日落」數據項、週跑量與月跑量；觸屏設備支援長按數據項跳轉系統 Glance；12 小時制且顯示秒數時展示 AM/PM。
 開源專案地址：https://github.com/Chef5/Wildward-face
 建議反饋地址：https://github.com/Chef5/Wildward-face/issues
 
@@ -60,7 +60,7 @@ Wildward
 お役に立てたら、コーヒー1杯のご支援をいただけると嬉しいです~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 データ指標を10項目追加；バッテリー残量に持続時間表示を追加；テーマカラーのカスタムRGB設定に対応。
+v1.3.4 日の出/日の入り自動切替、週間/月間走行距離を追加；タッチ端末でデータ長押しからシステム Glance へ遷移；12時間制かつ秒表示時に AM/PM を表示。
 オープンソース: https://github.com/Chef5/Wildward-face
 フィードバック: https://github.com/Chef5/Wildward-face/issues
 
@@ -76,7 +76,7 @@ Auf in die Wildnis – angetrieben von Leidenschaft. Für Wanderungen und Outdoo
 Wenn dir das Zifferblatt gefällt, freue ich mich über einen Kaffee~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 10 neue Datenpunkte hinzugefügt; Akkuanzeige unterstützt jetzt die Laufzeitanzeige; Designfarbe unterstützt jetzt benutzerdefinierte RGB-Werte.
+v1.3.4 Sonnenauf-/untergang automatisch, Wochen- und Monatslauf-Distanz; langes Drücken öffnet System-Glance (Touch); AM/PM bei 12-Stunden-Format mit Sekunden.
 Open Source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
@@ -92,7 +92,7 @@ En route vers la nature, porté par la passion. Conçu pour la randonnée et les
 Si ce cadran vous plaît, vous pouvez m'offrir un café~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 Ajout de 10 nouvelles métriques ; affichage de l'autonomie de la batterie disponible ; la couleur du thème supporte désormais les valeurs RGB personnalisées.
+v1.3.4 Lever/coucher auto, distance hebdo/mensuelle de course ; appui long vers le Glance système (écran tactile) ; indicateur AM/PM en mode 12 h avec secondes.
 Open source : https://github.com/Chef5/Wildward-face
 Retours : https://github.com/Chef5/Wildward-face/issues
 
@@ -108,7 +108,7 @@ Rumbo a la naturaleza, movido por la pasión. Diseñado para senderismo y aventu
 Si te resulta útil, puedes invitarme un café~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 Se añadieron 10 nuevos indicadores de datos; la batería ahora muestra el tiempo de autonomía estimado; el color del tema ahora admite valores RGB personalizados.
+v1.3.4 Amanecer/atardecer automático, distancia semanal y mensual de carrera; pulsación larga abre el Glance del sistema (táctil); AM/PM en formato 12 h con segundos.
 Código abierto: https://github.com/Chef5/Wildward-face
 Comentarios: https://github.com/Chef5/Wildward-face/issues
 
@@ -124,7 +124,7 @@ Verso la natura, spinti dalla passione. Progettato per escursionismo e avventure
 Se ti piace il quadrante, puoi offrirmi un caffè~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 Aggiunti 10 nuovi indicatori dati; la batteria ora mostra il tempo di autonomia stimato; il colore del tema ora supporta valori RGB personalizzati.
+v1.3.4 Alba/tramonto automatico, distanza corsa settimanale e mensile; pressione lunga apre il Glance di sistema (touch); indicatore AM/PM in formato 12 ore con secondi.
 Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
@@ -140,7 +140,7 @@ De wildernis in, gedreven door passie. Ontworpen voor wandelen en outdoor-avontu
 Als je het nuttig vindt, trakteer me gerust op een kopje koffie~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 10 nieuwe gegevensindicatoren toegevoegd; batterij ondersteunt nu weergave van geschatte gebruiksduur; themakleur ondersteunt nu aangepaste RGB-waarden.
+v1.3.4 Automatische zonsop-/ondergang, wekelijkse en maandelijkse hardloopafstand; lang indrukken opent systeem-Glance (touch); AM/PM bij 12-uursformaat met seconden.
 Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
@@ -156,7 +156,7 @@ Ut i villmarken, drevet av lidenskap. Designet for fotturer og friluftsliv. Kjer
 Hvis du liker urskiven, kan du gjerne kjøpe meg en kaffe~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 Lagt til 10 nye dataindikatorer; batteriet støtter nå visning av estimert batteritid; temafarge støtter nå egendefinerte RGB-verdier.
+v1.3.4 Automatisk solopp-/nedgang, ukentlig og månedlig løpedistanse; langt trykk åpner system-Glance (berøring); AM/PM ved 12-timersformat med sekunder.
 Åpen kildekode: https://github.com/Chef5/Wildward-face
 Tilbakemelding: https://github.com/Chef5/Wildward-face/issues
 
@@ -172,7 +172,7 @@ W stronę dziczy, z pasją w sercu. Stworzony na wędrówki i przygody na świe�
 Jeśli Ci się podoba, możesz postawić mi kawę~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 Dodano 10 nowych wskaźników danych; bateria obsługuje teraz wyświetlanie szacowanego czasu pracy; kolor motywu obsługuje teraz niestandardowe wartości RGB.
+v1.3.4 Automatyczne wschód/zachód słońca, tygodniowy i miesięczny dystans biegu; długie naciśnięcie otwiera Glance systemowy (dotyk); AM/PM w formacie 12 h z sekundami.
 Kod źródłowy: https://github.com/Chef5/Wildward-face
 Opinie: https://github.com/Chef5/Wildward-face/issues
 
@@ -188,7 +188,7 @@ Wildward
 Если вам нравится циферблат, можете угостить меня кофе~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 Добавлено 10 новых показателей; батарея теперь поддерживает отображение расчётного времени работы; цвет темы теперь поддерживает пользовательские RGB-значения.
+v1.3.4 Автопереключение восход/закат, недельный и месячный беговой объём; долгое нажатие открывает системный Glance (сенсор); AM/PM в 12-часовом формате с секундами.
 Открытый код: https://github.com/Chef5/Wildward-face
 Обратная связь: https://github.com/Chef5/Wildward-face/issues
 
@@ -204,6 +204,6 @@ Wildward
 유용하셨다면 커피 한 잔 후원해 주세요~ :)
 
 # What's New (Optional) (Maximum 4000 Characters)
-v1.3.1 데이터 지표 10개 추가; 배터리 사용 시간 표시 지원; 테마 색상 사용자 지정 RGB 값 설정 지원.
+v1.3.4 일출/일몰 자동 전환, 주간/월간 러닝 거리 추가; 터치 기기에서 데이터 길게 눌러 시스템 Glance 이동; 12시간제·초 표시 시 AM/PM 표시.
 오픈 소스: https://github.com/Chef5/Wildward-face
 피드백: https://github.com/Chef5/Wildward-face/issues

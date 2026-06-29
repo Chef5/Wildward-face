@@ -33,6 +33,8 @@
             <listEntry value="11">@Strings.MetricSunset</listEntry>
             <listEntry value="14">@Strings.MetricSunriseSunset</listEntry>
             <listEntry value="13">@Strings.MetricRespiration</listEntry>
+            <listEntry value="15">@Strings.MetricWeeklyRun</listEntry>
+            <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
         </settingConfig>
     </setting>
 
@@ -53,6 +55,8 @@
             <listEntry value="11">@Strings.MetricSunset</listEntry>
             <listEntry value="14">@Strings.MetricSunriseSunset</listEntry>
             <listEntry value="13">@Strings.MetricRespiration</listEntry>
+            <listEntry value="15">@Strings.MetricWeeklyRun</listEntry>
+            <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
         </settingConfig>
     </setting>
 
@@ -73,6 +77,8 @@
             <listEntry value="11">@Strings.MetricSunset</listEntry>
             <listEntry value="14">@Strings.MetricSunriseSunset</listEntry>
             <listEntry value="13">@Strings.MetricRespiration</listEntry>
+            <listEntry value="15">@Strings.MetricWeeklyRun</listEntry>
+            <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
         </settingConfig>
     </setting>
 
@@ -93,6 +99,8 @@
             <listEntry value="11">@Strings.MetricSunset</listEntry>
             <listEntry value="14">@Strings.MetricSunriseSunset</listEntry>
             <listEntry value="13">@Strings.MetricRespiration</listEntry>
+            <listEntry value="15">@Strings.MetricWeeklyRun</listEntry>
+            <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
         </settingConfig>
     </setting>
 

@@ -9,6 +9,7 @@ import Toybox.Complications;
 import Toybox.SensorHistory;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
+import Toybox.UserProfile;
 import Toybox.Weather;
 import Toybox.WatchUi;
 
@@ -39,6 +40,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private const PRESSURE_TREND_COMPARE_SEC = 1800;
     private const PRESSURE_TREND_TOLERANCE_SEC = 600;
     private const PRESSURE_STABLE_HPA = 1;
+    // 月跑量：同月内重算间隔；活动 startTime 异常 epoch 修正（秒）
+    private const MONTHLY_RUN_REFRESH_MIN_MS = 1800000;
+    private const ACTIVITY_EPOCH_OFFSET_SEC = 631065600;
     // 长按命中区域（960 设计单位，与绘制布局对齐）
     private const SPEC_TOP_HIT_HALF_W = 140;
     private const SPEC_TOP_HIT_HALF_H = 80;
@@ -66,6 +70,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _batteryDisplay as Number = 0;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
     //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落  12=天气  13=呼吸频率
+    //                  14=日出日落  15=周跑量  16=月跑量
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
     private var _bottomLeftMetric  as Number = 1; // 默认：心率
@@ -93,6 +98,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _weatherWindyBmp as BitmapResource?;
     private var _weatherExtremeBmp as BitmapResource?;
     private var _respirationBmp as BitmapResource?;
+    private var _runningBmp as BitmapResource?;
+    // 月跑量缓存（米）；cacheKey = year*100+month
+    private var _monthlyRunDistanceM as Float = 0.0;
+    private var _monthlyRunCacheKey as Number = 0;
+    private var _monthlyRunLastRefreshMs as Number = 0;
 
     // ---- 字体 ----
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
@@ -186,6 +196,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         // 设置变更后重新计算字体（_baseFontH 为 0 时说明 onLayout 尚未运行，跳过）
         updateLocaleFlags();
         rebuildUiFont();
+        if (isMonthlyRunMetricActive()) {
+            refreshMonthlyRunDistance(true);
+        }
     }
 
     private function updateLocaleFlags() as Void {
@@ -267,6 +280,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _weatherWindyBmp = WatchUi.loadResource(Rez.Drawables.WeatherWindyIcon) as BitmapResource;
         _weatherExtremeBmp = WatchUi.loadResource(Rez.Drawables.WeatherExtremeIcon) as BitmapResource;
         _respirationBmp = WatchUi.loadResource(Rez.Drawables.RespirationIcon) as BitmapResource;
+        _runningBmp = WatchUi.loadResource(Rez.Drawables.RunningIcon) as BitmapResource;
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
@@ -453,6 +467,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         } else if (metric == 13) {
             var rr = getRespirationRate();
             drawIconTextGroup(dc, _respirationBmp, (rr == null) ? "--" : rr.format("%d"), centerX, rowCenterY);
+        } else if (metric == 15) {
+            drawIconTextGroup(dc, _runningBmp, getWeeklyRunDistanceText(), centerX, rowCenterY);
+        } else if (metric == 16) {
+            drawIconTextGroup(dc, _runningBmp, getMonthlyRunDistanceText(), centerX, rowCenterY);
         }
     }
 
@@ -810,6 +828,16 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (rr == null) ? "--" : rr.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 15) {
+            if (_runningBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _runningBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getWeeklyRunDistanceText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 16) {
+            if (_runningBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _runningBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getMonthlyRunDistanceText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
@@ -1164,6 +1192,102 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         return null;
     }
 
+    // 与 Garmin 周跑量 Complication 一致：SPORT_RUNNING（含路跑、越野跑、跑步机等子类型）
+    private function isRunningActivityType(sportType as Number) as Boolean {
+        return sportType == Activity.SPORT_RUNNING;
+    }
+
+    private function isMonthlyRunMetricActive() as Boolean {
+        return _topLeftMetric == 16 || _topRightMetric == 16
+            || _bottomLeftMetric == 16 || _bottomRightMetric == 16;
+    }
+
+    private function normalizeActivityStartSec(startTime as Time.Moment, todayVal as Number) as Number {
+        var stVal = startTime.value();
+        if ((todayVal - stVal) > 315576000) {
+            stVal += ACTIVITY_EPOCH_OFFSET_SEC;
+        }
+        return stVal;
+    }
+
+    private function formatRunDistanceKmText(meters as Float) as String {
+        var tenths = Math.round(meters / 100.0).toNumber();
+        if (tenths <= 0) {
+            return "0";
+        }
+        if (tenths % 10 == 0) {
+            return (tenths / 10).format("%d");
+        }
+        return (tenths / 10.0).format("%.1f");
+    }
+
+    private function getWeeklyRunDistanceText() as String {
+        if (!(Toybox has :Complications)) {
+            return "0";
+        }
+        var comp = Complications.getComplication(
+            new Complications.Id(Complications.COMPLICATION_TYPE_WEEKLY_RUN_DISTANCE)
+        );
+        if (comp == null || comp.value == null) {
+            return "0";
+        }
+        var meters = comp.value instanceof Float
+            ? comp.value as Float
+            : (comp.value as Number).toFloat();
+        return formatRunDistanceKmText(meters);
+    }
+
+    private function getMonthlyRunDistanceText() as String {
+        var nowInfo = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var cacheKey = nowInfo.year * 100 + nowInfo.month;
+        if (cacheKey != _monthlyRunCacheKey) {
+            refreshMonthlyRunDistance(true);
+        }
+        return formatRunDistanceKmText(_monthlyRunDistanceM);
+    }
+
+    private function refreshMonthlyRunDistance(force as Boolean) as Void {
+        var nowInfo = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var cacheKey = nowInfo.year * 100 + nowInfo.month;
+        if (!force && cacheKey == _monthlyRunCacheKey) {
+            var elapsed = System.getTimer() - _monthlyRunLastRefreshMs;
+            if (elapsed >= 0 && elapsed < MONTHLY_RUN_REFRESH_MIN_MS) {
+                return;
+            }
+        }
+
+        _monthlyRunDistanceM = 0.0;
+        _monthlyRunCacheKey = cacheKey;
+        _monthlyRunLastRefreshMs = System.getTimer();
+
+        if (!(Toybox has :UserProfile) || !(UserProfile has :getUserActivityHistory)) {
+            return;
+        }
+
+        var itr = UserProfile.getUserActivityHistory();
+        if (itr == null) {
+            return;
+        }
+
+        var todayVal = Time.today().value();
+        var activity = itr.next();
+        while (activity != null) {
+            if (activity.startTime != null && activity.distance != null && activity.type != null) {
+                if (isRunningActivityType(activity.type as Number)) {
+                    var stVal = normalizeActivityStartSec(activity.startTime as Time.Moment, todayVal);
+                    var actInfo = Gregorian.info(new Time.Moment(stVal), Time.FORMAT_SHORT);
+                    if (actInfo.year == nowInfo.year && actInfo.month == nowInfo.month) {
+                        var distM = activity.distance instanceof Float
+                            ? activity.distance as Float
+                            : (activity.distance as Number).toFloat();
+                        _monthlyRunDistanceM += distM;
+                    }
+                }
+            }
+            activity = itr.next();
+        }
+    }
+
     // 将「距午夜秒数」格式化为时:分，12/24 小时制跟随系统设置。
     private function formatTimeOfDay(secondsSinceMidnight as Number) as String {
         var totalSec = secondsSinceMidnight;
@@ -1338,12 +1462,20 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (compType == null) {
             return false;
         }
+        if (!isComplicationAvailable(compType as Complications.Type)) {
+            return false;
+        }
         try {
             Complications.exitTo(new Complications.Id(compType as Complications.Type));
             return true;
         } catch (ex) {
             return false;
         }
+    }
+
+    private function isComplicationAvailable(compType as Complications.Type) as Boolean {
+        var comp = Complications.getComplication(new Complications.Id(compType));
+        return comp != null;
     }
 
     private function hitTestMetricAt(x as Number, y as Number) as Number? {
@@ -1419,6 +1551,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
                 return Complications.COMPLICATION_TYPE_CURRENT_WEATHER;
             case 13:
                 return Complications.COMPLICATION_TYPE_RESPIRATION_RATE;
+            case 15:
+            case 16:
+                // 系统无月跑量 Complication；跑步类指标统一跳转周跑量关联的 Glance
+                return Complications.COMPLICATION_TYPE_WEEKLY_RUN_DISTANCE;
             case 14:
                 return isBetweenSunriseAndSunset()
                     ? Complications.COMPLICATION_TYPE_SUNSET

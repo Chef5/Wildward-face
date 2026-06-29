@@ -32,6 +32,8 @@
     <string id="MetricSunriseSunset">Opp-/Nedgang</string>
     <string id="MetricWeather">Vær</string>
     <string id="MetricRespiration">Pustefrekvens</string>
+    <string id="MetricWeeklyRun">Ukeløp</string>
+    <string id="MetricMonthlyRun">Månedsløp</string>
 
     <string id="ColorPurple">Lilla</string>
     <string id="ColorBlue">Havblå</string>

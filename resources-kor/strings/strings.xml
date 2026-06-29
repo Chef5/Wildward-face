@@ -32,6 +32,8 @@
     <string id="MetricSunriseSunset">일출 / 일몰</string>
     <string id="MetricWeather">날씨</string>
     <string id="MetricRespiration">호흡수</string>
+    <string id="MetricWeeklyRun">주간 러닝</string>
+    <string id="MetricMonthlyRun">월간 러닝</string>
 
     <string id="ColorPurple">보라</string>
     <string id="ColorBlue">바다 블루</string>

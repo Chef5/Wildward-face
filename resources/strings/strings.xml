@@ -32,6 +32,8 @@
     <string id="MetricSunriseSunset">Sunrise / Sunset</string>
     <string id="MetricWeather">Weather</string>
     <string id="MetricRespiration">Respiration Rate</string>
+    <string id="MetricWeeklyRun">Weekly Run</string>
+    <string id="MetricMonthlyRun">Monthly Run</string>
 
     <string id="ColorPurple">Purple</string>
     <string id="ColorBlue">Ocean Blue</string>

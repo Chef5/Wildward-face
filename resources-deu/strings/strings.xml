@@ -32,6 +32,8 @@
     <string id="MetricSunriseSunset">Auf-/Untergang</string>
     <string id="MetricWeather">Wetter</string>
     <string id="MetricRespiration">Atemfrequenz</string>
+    <string id="MetricWeeklyRun">Wochenlauf</string>
+    <string id="MetricMonthlyRun">Monatslauf</string>
 
     <string id="ColorPurple">Lila</string>
     <string id="ColorBlue">Ozeanblau</string>

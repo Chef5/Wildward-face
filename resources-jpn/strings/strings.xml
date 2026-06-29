@@ -32,6 +32,8 @@
     <string id="MetricSunriseSunset">日の出/日の入り</string>
     <string id="MetricWeather">天気</string>
     <string id="MetricRespiration">呼吸数</string>
+    <string id="MetricWeeklyRun">週間走行</string>
+    <string id="MetricMonthlyRun">月間走行</string>
 
     <string id="ColorPurple">パープル</string>
     <string id="ColorBlue">オーシャンブルー</string>

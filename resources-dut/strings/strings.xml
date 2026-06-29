@@ -32,6 +32,8 @@
     <string id="MetricSunriseSunset">Op-/Ondergang</string>
     <string id="MetricWeather">Weer</string>
     <string id="MetricRespiration">Ademhalingsfrequentie</string>
+    <string id="MetricWeeklyRun">Weekloop</string>
+    <string id="MetricMonthlyRun">Maandloop</string>
 
     <string id="ColorPurple">Paars</string>
     <string id="ColorBlue">Oceaanblauw</string>

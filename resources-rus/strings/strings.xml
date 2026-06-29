@@ -32,6 +32,8 @@
     <string id="MetricSunriseSunset">Восход / Закат</string>
     <string id="MetricWeather">Погода</string>
     <string id="MetricRespiration">Частота дыхания</string>
+    <string id="MetricWeeklyRun">Недельный бег</string>
+    <string id="MetricMonthlyRun">Месячный бег</string>
 
     <string id="ColorPurple">Фиолетовый</string>
     <string id="ColorBlue">Океанский синий</string>
