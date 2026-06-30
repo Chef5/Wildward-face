@@ -3,7 +3,8 @@
     <string id="AppName">Wildward</string>
 
     <string id="AccentColorTitle">Themakleur</string>
-    <string id="CustomAccentColorTitle">Themakleur – Geavanceerd (RGB-voorbeeld: #B77CFF)</string>
+    <string id="CustomAccentColorTitle">Themakleur – Geavanceerd</string>
+    <string id="CustomAccentColorPrompt">RGB-voorbeeld: #B77CFF</string>
     <string id="ShowSecondsTitle">Seconden tonen</string>
     <string id="ShowDateTitle">Datum tonen</string>
     <string id="ShowLunarTitle">Maankalender tonen</string>

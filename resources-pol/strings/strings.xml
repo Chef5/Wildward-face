@@ -3,7 +3,8 @@
     <string id="AppName">Wildward</string>
 
     <string id="AccentColorTitle">Kolor motywu</string>
-    <string id="CustomAccentColorTitle">Kolor motywu – zaawansowane (przykład RGB: #B77CFF)</string>
+    <string id="CustomAccentColorTitle">Kolor motywu – zaawansowane</string>
+    <string id="CustomAccentColorPrompt">przykład RGB: #B77CFF</string>
     <string id="ShowSecondsTitle">Pokaż sekundy</string>
     <string id="ShowDateTitle">Pokaż datę</string>
     <string id="ShowLunarTitle">Pokaż kalendarz księżycowy</string>

@@ -131,7 +131,7 @@
         </settingConfig>
     </setting>
 
-    <setting propertyKey="@Properties.CustomAccentColor" title="@Strings.CustomAccentColorTitle">
+    <setting propertyKey="@Properties.CustomAccentColor" title="@Strings.CustomAccentColorTitle" prompt="@Strings.CustomAccentColorPrompt" helpUrl="https://rgbcolorpicker.com">
         <settingConfig type="alphaNumeric" maxLength="7" />
     </setting>
 

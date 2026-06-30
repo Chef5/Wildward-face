@@ -3,7 +3,8 @@
     <string id="AppName">Wildward</string>
 
     <string id="AccentColorTitle">테마 색상</string>
-    <string id="CustomAccentColorTitle">테마 색상 - 고급 설정 (RGB 예: #B77CFF)</string>
+    <string id="CustomAccentColorTitle">테마 색상 - 고급 설정</string>
+    <string id="CustomAccentColorPrompt">RGB 예: #B77CFF</string>
     <string id="ShowSecondsTitle">초 표시</string>
     <string id="ShowDateTitle">날짜 표시</string>
     <string id="ShowLunarTitle">음력 표시</string>
