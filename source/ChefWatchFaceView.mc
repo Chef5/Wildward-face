@@ -557,8 +557,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     private function drawCenterTime(dc as Dc) as Void {
         var clock = System.getClockTime();
+        var is24Hour = System.getDeviceSettings().is24Hour;
         var hour = clock.hour;
-        if (!System.getDeviceSettings().is24Hour) {
+        if (!is24Hour) {
             if (hour == 0) { hour = 12; }
             else if (hour > 12) { hour -= 12; }
         }
@@ -578,9 +579,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         // 时、冒号、分之间紧间距（模拟设计稿中 letter_spacing: -12）
         var colonGap = s(2);
         var totalW = hourW + colonGap + colonW + colonGap + minW;
-        // HH:MM 块居中；秒数置于「分」的右下角（可能向右伸出）
+        // HH:MM 块居中；秒数/AM·PM 置于「分」右侧（可能向右伸出）
         var blockLeft = _cx - totalW / 2;
-        if (_showSeconds) {
+        var showSeconds = _showSeconds && !_isAsleep;
+        var showAmPm = !is24Hour;
+        if (showSeconds || showAmPm) {
             blockLeft -= s(8);
         }
         // 日期行和农历均不展示时，时间垂直居中于两条分割线之间（设计单位 480）
@@ -604,33 +607,35 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         dc.drawText(minX, centerLineY, bigFont, minStr,
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 
+        var suffixX = minX + minW + s(2);
+
         // 秒——分右下角；按基线对齐（用 box-bottom − descent 跨字体对齐效果差）
-        if (_showSeconds && !_isAsleep) {
+        if (showSeconds) {
             dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
             var secH = dc.getFontHeight(secFont);
             var descBig = Graphics.getFontDescent(bigFont);
             var descSec = Graphics.getFontDescent(secFont);
             var minBaseline = centerLineY + bigH / 2 - descBig;
             var secY = minBaseline - secH / 2 + descSec;
-            var secX = minX + minW + s(2);
-            dc.drawText(secX, secY, secFont, secStr,
+            dc.drawText(suffixX, secY, secFont, secStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+        }
 
-            // 12 小时制：AM / PM 与秒数同列，与时分垂直居中
-            if (!System.getDeviceSettings().is24Hour) {
-                var ampmStr = clock.hour < 12 ? "AM" : "PM";
-                var ampmFont = secFont;
-                if (Graphics has :getVectorFont) {
-                    var smallSize = (secH * 0.7).toNumber();
-                    if (smallSize < 7) { smallSize = 7; }
-                    var vf = Graphics.getVectorFont({ :face => "RobotoCondensedRegular", :size => smallSize });
-                    if (vf != null) {
-                        ampmFont = vf;
-                    }
+        // 12 小时制：AM / PM 与时分垂直居中（跟随系统时间制，独立于秒数设置）
+        if (showAmPm) {
+            var ampmStr = clock.hour < 12 ? "AM" : "PM";
+            var ampmFont = secFont;
+            if (Graphics has :getVectorFont) {
+                var secH = dc.getFontHeight(secFont);
+                var smallSize = (secH * 0.7).toNumber();
+                if (smallSize < 7) { smallSize = 7; }
+                var vf = Graphics.getVectorFont({ :face => "RobotoCondensedRegular", :size => smallSize });
+                if (vf != null) {
+                    ampmFont = vf;
                 }
-                dc.drawText(secX, centerLineY, ampmFont, ampmStr,
-                            Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
             }
+            dc.drawText(suffixX, centerLineY, ampmFont, ampmStr,
+                        Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
@@ -1212,7 +1217,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private function getNotificationCountText() as String {
         var count = getNotificationCount();
         if (count == null) {
-            return "--";
+            return "0";
         }
         return count.format("%d");
     }
