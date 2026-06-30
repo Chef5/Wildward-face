@@ -17,7 +17,7 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+June 30, 2026
 Added metrics: sunrise/sunset, weekly/monthly run distance, notifications;
 Touch devices support long-press on a metric to open its system Glance;
 
@@ -86,7 +86,7 @@ Wildward
 フィードバック: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+2026年6月30日
 新規データ項目：日の出・日の入り、週間/月間走行距離、通知；
 タッチ端末でデータ項目を長押ししてシステム Glance へ遷移可能；
 
@@ -109,7 +109,7 @@ Open Source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+30.06.2026
 Neue Datenfelder: Sonnenauf-/untergang, Wochen-/Monatslauf-Distanz, Benachrichtigungen;
 Touch-Geräte: langes Drücken auf ein Datenfeld öffnet den System-Glance;
 
@@ -132,7 +132,7 @@ Open source : https://github.com/Chef5/Wildward-face
 Retours : https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+30 juin 2026
 Nouvelles données : lever/coucher du soleil, distance de course hebdo/mensuelle, notifications ;
 Écrans tactiles : appui long sur une donnée pour ouvrir le Glance système ;
 
@@ -155,7 +155,7 @@ Código abierto: https://github.com/Chef5/Wildward-face
 Comentarios: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+30 de junio de 2026
 Nuevos datos: amanecer/atardecer, distancia semanal/mensual de carrera, notificaciones;
 Dispositivos táctiles: pulsación larga en un dato para abrir el Glance del sistema;
 
@@ -178,7 +178,7 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+30 giugno 2026
 Nuovi dati: alba/tramonto, distanza corsa settimanale/mensile, notifiche;
 Dispositivi touch: pressione lunga su un dato per aprire il Glance di sistema;
 
@@ -201,7 +201,7 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+30 juni 2026
 Nieuwe gegevens: zonsopgang/-ondergang, wekelijkse/maandelijkse hardloopafstand, meldingen;
 Touch-apparaten: lang indrukken opent systeem-Glance;
 
@@ -224,7 +224,7 @@ Hvis du liker urskiven, kan du gjerne kjøpe meg en kaffe~ :)
 Tilbakemelding: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+30. juni 2026
 Nye datafelt: soloppgang/solnedgang, ukentlig/månedlig løpedistanse, varsler;
 Berøringsskjermer: langt trykk åpner system-Glance;
 
@@ -247,7 +247,7 @@ Kod źródłowy: https://github.com/Chef5/Wildward-face
 Opinie: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+30 czerwca 2026
 Nowe dane: wschód/zachód słońca, tygodniowy/miesięczny dystans biegu, powiadomienia;
 Urządzenia dotykowe: długie naciśnięcie otwiera Glance systemowy;
 
@@ -270,7 +270,7 @@ Wildward
 Обратная связь: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+30 июня 2026 г.
 Новые данные: восход/закат, недельный/месячный беговой объём, уведомления;
 Сенсорные устройства: долгое нажатие открывает системный Glance;
 
@@ -293,6 +293,6 @@ Wildward
 피드백: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.6.30
+2026년 6월 30일
 신규 데이터: 일출/일몰, 주간/월간 러닝 거리, 알림;
 터치 기기에서 데이터 길게 눌러 시스템 Glance 이동;
