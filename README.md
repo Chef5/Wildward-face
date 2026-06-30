@@ -41,6 +41,7 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 | 呼吸频率 | 最近一次呼吸频率（次/分） |
 | 周跑量 | 本周累计跑步距离（km；整数不显示小数，否则保留 1 位；无数据时显示 `0`）；长按跳转本周跑步 Glance（需设备支持，否则无反应） |
 | 月跑量 | 本月自然月累计跑步距离（km；整数不显示小数，否则保留 1 位；无数据时显示 `0`）；长按跳转本周跑步 Glance（需设备支持，否则无反应） |
+| 消息通知 | 未读通知数量，无数据时显示 `--`；长按跳转通知 Glance（需设备支持，否则无反应） |
 | 不展示 | 该象限留空 |
 
 ### 多语言
@@ -83,8 +84,8 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 | 键名 | 说明 |
 |------|------|
 | `AccentColor` | 主题色预设：高雅紫、深海蓝、碧空蓝、翡翠绿、**原野绿**、柠檬黄、暖阳金、琥珀橙、朱砂红、樱花粉、月光白 |
-| `CustomAccentColor` | 自定义主题色（6 位 RGB，可选 `#` 前缀；有效时优先于 `AccentColor`） |
-| `TopLeftMetric` / `TopRightMetric` / `BottomLeftMetric` / `BottomRightMetric` | 四象限指标（见上表；ID：0=不展示，1=心率，2=电量，3=步数，4=海拔，5=卡路里，6=血氧，7=大气压，8=身体电量，9=压力值，10=日出，11=日落，12=天气，13=呼吸频率，14=日出日落，15=周跑量，16=月跑量） |
+| `CustomAccentColor` | 自定义主题色（6 位 RGB，可选 `#` 前缀；有效时优先于 `AccentColor`）；设置页以 `prompt` 展示格式示例，并提供 [rgbcolorpicker.com](https://rgbcolorpicker.com) 取色帮助链接 |
+| `TopLeftMetric` / `TopRightMetric` / `BottomLeftMetric` / `BottomRightMetric` | 四象限指标（见上表；ID：0=不展示，1=心率，2=电量，3=步数，4=海拔，5=卡路里，6=血氧，7=大气压，8=身体电量，9=压力值，10=日出，11=日落，12=天气，13=呼吸频率，14=日出日落，15=周跑量，16=月跑量，17=消息通知） |
 | `ShowSeconds` | 显示秒数 |
 | `ShowDate` | 显示日期 |
 | `ShowLunar` | 显示农历（仅简体/繁体中文环境生效；对应语言设置页提供开关） |
@@ -153,6 +154,14 @@ Wildward-face/
 - 编译、运行模拟器或安装到手表，均通过扩展提供的命令完成。  
 
 当前 `manifest.xml` 已列出多款圆形表（如 fēnix 7/8、Forerunner、epix、Venu、Instinct 3 等）；若你新增机型，可能需要在 `monkey.jungle` 中为该机补充 `resources-launcher-*` 及图标覆盖路径（与现有条目同模式）。
+
+应用权限（`manifest.xml` → `<iq:permissions>`）：
+
+| 权限 | 用途 |
+|------|------|
+| `SensorHistory` | 读取传感器历史（呼吸频率等） |
+| `ComplicationSubscriber` | 长按跳转系统 Glance、部分指标数据回退 |
+| `UserProfile` | 月跑量统计（活动历史） |
 
 ---
 
