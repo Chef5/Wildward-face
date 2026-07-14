@@ -38,6 +38,8 @@
     <string id="MetricNotifications">通知</string>
     <string id="MetricNotifications">通知</string>
 
+    <string id="MetricRecoveryTime">回復時間</string>
+
     <string id="ColorPurple">パープル</string>
     <string id="ColorBlue">オーシャンブルー</string>
     <string id="ColorCyan">シアン</string>

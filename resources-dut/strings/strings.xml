@@ -37,6 +37,8 @@
     <string id="MetricMonthlyRun">Maandloop</string>
     <string id="MetricNotifications">Meldingen</string>
 
+    <string id="MetricRecoveryTime">Hersteltijd</string>
+
     <string id="ColorPurple">Paars</string>
     <string id="ColorBlue">Oceaanblauw</string>
     <string id="ColorCyan">Cyaan</string>

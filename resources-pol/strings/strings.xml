@@ -37,6 +37,8 @@
     <string id="MetricMonthlyRun">Bieg miesięczny</string>
     <string id="MetricNotifications">Powiadomienia</string>
 
+    <string id="MetricRecoveryTime">Czas regeneracji</string>
+
     <string id="ColorPurple">Fiolet</string>
     <string id="ColorBlue">Oceaniczny niebieski</string>
     <string id="ColorCyan">Cyjan</string>

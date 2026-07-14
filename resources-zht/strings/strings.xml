@@ -39,6 +39,8 @@
     <string id="MetricNotifications">訊息通知</string>
     <string id="MetricNotifications">訊息通知</string>
 
+    <string id="MetricRecoveryTime">恢復時間</string>
+
     <string id="ColorPurple">高雅紫</string>
     <string id="ColorBlue">深海藍</string>
     <string id="ColorCyan">碧空藍</string>

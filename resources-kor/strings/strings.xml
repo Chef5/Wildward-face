@@ -38,6 +38,8 @@
     <string id="MetricNotifications">알림</string>
     <string id="MetricNotifications">알림</string>
 
+    <string id="MetricRecoveryTime">회복 시간</string>
+
     <string id="ColorPurple">보라</string>
     <string id="ColorBlue">바다 블루</string>
     <string id="ColorCyan">시안</string>

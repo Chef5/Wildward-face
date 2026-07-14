@@ -69,7 +69,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _batteryDisplay as Number = 0;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
     //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落  12=天气  13=呼吸频率
-    //                  14=日出日落  15=周跑量  16=月跑量  17=消息通知
+    //                  14=日出日落  15=周跑量  16=月跑量  17=消息通知  18=恢复时间
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
     private var _bottomLeftMetric  as Number = 1; // 默认：心率
@@ -99,6 +99,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _respirationBmp as BitmapResource?;
     private var _runningBmp as BitmapResource?;
     private var _notificationsBmp as BitmapResource?;
+    private var _recoveryBmp as BitmapResource?;
     // 月跑量缓存（米）；cacheKey = year*100+month
     private var _monthlyRunDistanceM as Float = 0.0;
     private var _monthlyRunCacheKey as Number = 0;
@@ -282,6 +283,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _respirationBmp = WatchUi.loadResource(Rez.Drawables.RespirationIcon) as BitmapResource;
         _runningBmp = WatchUi.loadResource(Rez.Drawables.RunningIcon) as BitmapResource;
         _notificationsBmp = WatchUi.loadResource(Rez.Drawables.NotificationsIcon) as BitmapResource;
+        _recoveryBmp = WatchUi.loadResource(Rez.Drawables.RecoveryIcon) as BitmapResource;
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
@@ -464,6 +466,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             drawIconTextGroup(dc, _runningBmp, getMonthlyRunDistanceText(), centerX, rowCenterY);
         } else if (metric == 17) {
             drawIconTextGroup(dc, _notificationsBmp, getNotificationCountText(), centerX, rowCenterY);
+        } else if (metric == 18) {
+            drawIconTextGroup(dc, _recoveryBmp, getRecoveryTimeText(), centerX, rowCenterY);
         }
     }
 
@@ -841,6 +845,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getNotificationCountText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 18) {
+            if (_recoveryBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _recoveryBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getRecoveryTimeText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
 
@@ -1211,6 +1220,45 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         return count.format("%d");
     }
 
+    // Complication 为分钟；ActivityMonitor.timeToRecovery 为小时
+    private function getRecoveryTimeMinutes() as Number? {
+        var v = getComplicationNumericValue(Complications.COMPLICATION_TYPE_RECOVERY_TIME);
+        if (v != null) {
+            return v;
+        }
+        var info = ActivityMonitor.getInfo();
+        if (info has :timeToRecovery) {
+            var hours = info.timeToRecovery;
+            if (hours != null) {
+                return hours * 60;
+            }
+        }
+        return null;
+    }
+
+    private function getRecoveryTimeText() as String {
+        var minutes = getRecoveryTimeMinutes();
+        if (minutes == null) {
+            return "--";
+        }
+        if (minutes <= 0) {
+            return "0h";
+        }
+        var hours = minutes / 60;
+        if (hours < 1) {
+            return "1h";
+        }
+        if (hours >= 24) {
+            var d = hours / 24;
+            var h = hours % 24;
+            if (h > 0) {
+                return d.format("%d") + "d" + h.format("%d") + "h";
+            }
+            return d.format("%d") + "d";
+        }
+        return hours.format("%d") + "h";
+    }
+
     // 与 Garmin 周跑量 Complication 一致：SPORT_RUNNING（含路跑、越野跑、跑步机等子类型）
     private function isRunningActivityType(sportType as Number) as Boolean {
         return sportType == Activity.SPORT_RUNNING;
@@ -1576,6 +1624,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
                 return Complications.COMPLICATION_TYPE_WEEKLY_RUN_DISTANCE;
             case 17:
                 return Complications.COMPLICATION_TYPE_NOTIFICATION_COUNT;
+            case 18:
+                return Complications.COMPLICATION_TYPE_RECOVERY_TIME;
             case 14:
                 return isBetweenSunriseAndSunset()
                     ? Complications.COMPLICATION_TYPE_SUNSET

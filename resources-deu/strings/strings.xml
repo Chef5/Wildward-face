@@ -38,6 +38,8 @@
     <string id="MetricNotifications">Benachrichtigungen</string>
     <string id="MetricNotifications">Benachrichtigungen</string>
 
+    <string id="MetricRecoveryTime">Erholungszeit</string>
+
     <string id="ColorPurple">Lila</string>
     <string id="ColorBlue">Ozeanblau</string>
     <string id="ColorCyan">Cyan</string>

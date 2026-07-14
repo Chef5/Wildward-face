@@ -36,6 +36,7 @@
             <listEntry value="15">@Strings.MetricWeeklyRun</listEntry>
             <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
             <listEntry value="17">@Strings.MetricNotifications</listEntry>
+            <listEntry value="18">@Strings.MetricRecoveryTime</listEntry>
         </settingConfig>
     </setting>
 
@@ -59,6 +60,7 @@
             <listEntry value="15">@Strings.MetricWeeklyRun</listEntry>
             <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
             <listEntry value="17">@Strings.MetricNotifications</listEntry>
+            <listEntry value="18">@Strings.MetricRecoveryTime</listEntry>
         </settingConfig>
     </setting>
 
@@ -82,6 +84,7 @@
             <listEntry value="15">@Strings.MetricWeeklyRun</listEntry>
             <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
             <listEntry value="17">@Strings.MetricNotifications</listEntry>
+            <listEntry value="18">@Strings.MetricRecoveryTime</listEntry>
         </settingConfig>
     </setting>
 
@@ -105,6 +108,7 @@
             <listEntry value="15">@Strings.MetricWeeklyRun</listEntry>
             <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
             <listEntry value="17">@Strings.MetricNotifications</listEntry>
+            <listEntry value="18">@Strings.MetricRecoveryTime</listEntry>
         </settingConfig>
     </setting>
 

@@ -37,6 +37,8 @@
     <string id="MetricMonthlyRun">Месячный бег</string>
     <string id="MetricNotifications">Уведомления</string>
 
+    <string id="MetricRecoveryTime">Время восстановления</string>
+
     <string id="ColorPurple">Фиолетовый</string>
     <string id="ColorBlue">Океанский синий</string>
     <string id="ColorCyan">Бирюза</string>

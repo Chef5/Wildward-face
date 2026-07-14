@@ -37,6 +37,8 @@
     <string id="MetricMonthlyRun">Månedsløp</string>
     <string id="MetricNotifications">Varsler</string>
 
+    <string id="MetricRecoveryTime">Restitusjonstid</string>
+
     <string id="ColorPurple">Lilla</string>
     <string id="ColorBlue">Havblå</string>
     <string id="ColorCyan">Cyan</string>
