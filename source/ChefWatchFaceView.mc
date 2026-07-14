@@ -56,7 +56,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _cy as Number = 0;
     private var _scale as Float = 1.0;
     private var _metricIconPx as Number = METRIC_ICON_MAX_PX;
-    private var _isAsleep as Boolean = false;
 
     // ---- 设置 ----
     private var _accent as Number = 0xB77CFF;
@@ -292,16 +291,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     function onShow() as Void {
         loadSettings();
-    }
-
-    function onEnterSleep() as Void {
-        _isAsleep = true;
-        WatchUi.requestUpdate();
-    }
-
-    function onExitSleep() as Void {
-        _isAsleep = false;
-        WatchUi.requestUpdate();
     }
 
     // 将规格坐标（1:960）换算为设备像素
@@ -581,7 +570,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var totalW = hourW + colonGap + colonW + colonGap + minW;
         // HH:MM 块居中；秒数/AM·PM 置于「分」右侧（可能向右伸出）
         var blockLeft = _cx - totalW / 2;
-        var showSeconds = _showSeconds && !_isAsleep;
+        var showSeconds = _showSeconds;
         var showAmPm = !is24Hour;
         if (showSeconds || showAmPm) {
             blockLeft -= s(8);
