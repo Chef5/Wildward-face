@@ -998,6 +998,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     private function getSpO2() as Number? {
+        var v = getComplicationNumericValue(Complications.COMPLICATION_TYPE_PULSE_OX);
+        if (v != null) {
+            return v;
+        }
         if (!(Toybox has :SensorHistory) || !(SensorHistory has :getOxygenSaturationHistory)) {
             return null;
         }
