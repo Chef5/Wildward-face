@@ -43,6 +43,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 月跑量：同月内重算间隔；活动 startTime 异常 epoch 修正（秒）
     private const MONTHLY_RUN_REFRESH_MIN_MS = 1800000;
     private const ACTIVITY_EPOCH_OFFSET_SEC = 631065600;
+    // 月强度/高强度：同月内重算间隔（History 遍历）
+    private const MONTHLY_INTENSITY_REFRESH_MIN_MS = 600000;
     // 长按命中区域（960 设计单位，与绘制布局对齐）
     private const SPEC_TOP_HIT_HALF_W = 140;
     private const SPEC_TOP_HIT_HALF_H = 80;
@@ -70,6 +72,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
     //                  7=大气压  8=身体电量  9=压力值  10=日出  11=日落  12=天气  13=呼吸频率
     //                  14=日出日落  15=周跑量  16=月跑量  17=消息通知  18=恢复时间
+    //                  19=周强度分钟  20=月强度分钟  21=周高强度分钟  22=月高强度分钟
     private var _topLeftMetric     as Number = 4; // 默认：海拔
     private var _topRightMetric    as Number = 2; // 默认：电量
     private var _bottomLeftMetric  as Number = 1; // 默认：心率
@@ -100,10 +103,16 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _runningBmp as BitmapResource?;
     private var _notificationsBmp as BitmapResource?;
     private var _recoveryBmp as BitmapResource?;
+    private var _intensityBmp as BitmapResource?;
     // 月跑量缓存（米）；cacheKey = year*100+month
     private var _monthlyRunDistanceM as Float = 0.0;
     private var _monthlyRunCacheKey as Number = 0;
     private var _monthlyRunLastRefreshMs as Number = 0;
+    // 月强度/高强度缓存（分钟）；cacheKey = year*100+month
+    private var _monthlyIntensityMin as Number = 0;
+    private var _monthlyVigorousMin as Number = 0;
+    private var _monthlyIntensityCacheKey as Number = 0;
+    private var _monthlyIntensityLastRefreshMs as Number = 0;
 
     // ---- 字体 ----
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
@@ -200,6 +209,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (isMonthlyRunMetricActive()) {
             refreshMonthlyRunDistance(true);
         }
+        if (isMonthlyIntensityMetricActive()) {
+            refreshMonthlyIntensityMinutes(true);
+        }
     }
 
     private function updateLocaleFlags() as Void {
@@ -284,6 +296,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _runningBmp = WatchUi.loadResource(Rez.Drawables.RunningIcon) as BitmapResource;
         _notificationsBmp = WatchUi.loadResource(Rez.Drawables.NotificationsIcon) as BitmapResource;
         _recoveryBmp = WatchUi.loadResource(Rez.Drawables.RecoveryIcon) as BitmapResource;
+        _intensityBmp = WatchUi.loadResource(Rez.Drawables.IntensityIcon) as BitmapResource;
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         System.println("DBG baseFontH=" + _baseFontH.format("%d"));
@@ -468,6 +481,14 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             drawIconTextGroup(dc, _notificationsBmp, getNotificationCountText(), centerX, rowCenterY);
         } else if (metric == 18) {
             drawIconTextGroup(dc, _recoveryBmp, getRecoveryTimeText(), centerX, rowCenterY);
+        } else if (metric == 19) {
+            drawIconTextGroup(dc, _intensityBmp, getWeeklyIntensityMinutesText(), centerX, rowCenterY);
+        } else if (metric == 20) {
+            drawIconTextGroup(dc, _intensityBmp, getMonthlyIntensityMinutesText(), centerX, rowCenterY);
+        } else if (metric == 21) {
+            drawIconTextGroup(dc, _intensityBmp, getWeeklyVigorousMinutesText(), centerX, rowCenterY);
+        } else if (metric == 22) {
+            drawIconTextGroup(dc, _intensityBmp, getMonthlyVigorousMinutesText(), centerX, rowCenterY);
         }
     }
 
@@ -849,6 +870,26 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             if (_recoveryBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _recoveryBmp); }
             dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getRecoveryTimeText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 19) {
+            if (_intensityBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _intensityBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getWeeklyIntensityMinutesText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 20) {
+            if (_intensityBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _intensityBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getMonthlyIntensityMinutesText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 21) {
+            if (_intensityBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _intensityBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getWeeklyVigorousMinutesText(),
+                        Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        } else if (metric == 22) {
+            if (_intensityBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _intensityBmp); }
+            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(centerX, valueY, _uiFont, getMonthlyVigorousMinutesText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
@@ -1263,6 +1304,105 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         return hours.format("%d") + "h";
     }
 
+    // 周强度分钟：优先 Complication（与系统 Glance 一致），回退 ActiveMinutes.total
+    private function getWeeklyIntensityMinutes() as Number {
+        var v = getComplicationNumericValue(Complications.COMPLICATION_TYPE_INTENSITY_MINUTES);
+        if (v != null) {
+            return v;
+        }
+        var info = ActivityMonitor.getInfo();
+        if (info.activeMinutesWeek != null) {
+            return info.activeMinutesWeek.total;
+        }
+        return 0;
+    }
+
+    private function getWeeklyIntensityMinutesText() as String {
+        return getWeeklyIntensityMinutes().format("%d");
+    }
+
+    // 周高强度分钟（vigorous，未 ×2）
+    private function getWeeklyVigorousMinutes() as Number {
+        var info = ActivityMonitor.getInfo();
+        if (info.activeMinutesWeek != null) {
+            return info.activeMinutesWeek.vigorous;
+        }
+        return 0;
+    }
+
+    private function getWeeklyVigorousMinutesText() as String {
+        return getWeeklyVigorousMinutes().format("%d");
+    }
+
+    private function isMonthlyIntensityMetricActive() as Boolean {
+        return _topLeftMetric == 20 || _topRightMetric == 20
+            || _bottomLeftMetric == 20 || _bottomRightMetric == 20
+            || _topLeftMetric == 22 || _topRightMetric == 22
+            || _bottomLeftMetric == 22 || _bottomRightMetric == 22;
+    }
+
+    private function getMonthlyIntensityMinutesText() as String {
+        var nowInfo = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var cacheKey = nowInfo.year * 100 + nowInfo.month;
+        if (cacheKey != _monthlyIntensityCacheKey) {
+            refreshMonthlyIntensityMinutes(true);
+        } else {
+            refreshMonthlyIntensityMinutes(false);
+        }
+        return _monthlyIntensityMin.format("%d");
+    }
+
+    private function getMonthlyVigorousMinutesText() as String {
+        var nowInfo = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var cacheKey = nowInfo.year * 100 + nowInfo.month;
+        if (cacheKey != _monthlyIntensityCacheKey) {
+            refreshMonthlyIntensityMinutes(true);
+        } else {
+            refreshMonthlyIntensityMinutes(false);
+        }
+        return _monthlyVigorousMin.format("%d");
+    }
+
+    // 自然月累计：今日 activeMinutesDay + History 中本月各日（设备 History 通常约最近 7 天）
+    private function refreshMonthlyIntensityMinutes(force as Boolean) as Void {
+        var nowInfo = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+        var cacheKey = nowInfo.year * 100 + nowInfo.month;
+        if (!force && cacheKey == _monthlyIntensityCacheKey) {
+            var elapsed = System.getTimer() - _monthlyIntensityLastRefreshMs;
+            if (elapsed >= 0 && elapsed < MONTHLY_INTENSITY_REFRESH_MIN_MS) {
+                return;
+            }
+        }
+
+        var intensity = 0;
+        var vigorous = 0;
+        var info = ActivityMonitor.getInfo();
+        if (info.activeMinutesDay != null) {
+            intensity += info.activeMinutesDay.total;
+            vigorous += info.activeMinutesDay.vigorous;
+        }
+
+        var history = ActivityMonitor.getHistory();
+        if (history != null) {
+            for (var i = 0; i < history.size(); i++) {
+                var day = history[i] as ActivityMonitor.History;
+                if (day.startOfDay == null || day.activeMinutes == null) {
+                    continue;
+                }
+                var dayInfo = Gregorian.info(day.startOfDay as Time.Moment, Time.FORMAT_SHORT);
+                if (dayInfo.year == nowInfo.year && dayInfo.month == nowInfo.month) {
+                    intensity += day.activeMinutes.total;
+                    vigorous += day.activeMinutes.vigorous;
+                }
+            }
+        }
+
+        _monthlyIntensityMin = intensity;
+        _monthlyVigorousMin = vigorous;
+        _monthlyIntensityCacheKey = cacheKey;
+        _monthlyIntensityLastRefreshMs = System.getTimer();
+    }
+
     // 与 Garmin 周跑量 Complication 一致：SPORT_RUNNING（含路跑、越野跑、跑步机等子类型）
     private function isRunningActivityType(sportType as Number) as Boolean {
         return sportType == Activity.SPORT_RUNNING;
@@ -1630,6 +1770,12 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
                 return Complications.COMPLICATION_TYPE_NOTIFICATION_COUNT;
             case 18:
                 return Complications.COMPLICATION_TYPE_RECOVERY_TIME;
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+                // 系统无月/高强度独立 Complication；统一跳转强度分钟 Glance
+                return Complications.COMPLICATION_TYPE_INTENSITY_MINUTES;
             case 14:
                 return isBetweenSunriseAndSunset()
                     ? Complications.COMPLICATION_TYPE_SUNSET

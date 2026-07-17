@@ -38,6 +38,10 @@
     <string id="MetricNotifications">Meldingen</string>
 
     <string id="MetricRecoveryTime">Hersteltijd</string>
+    <string id="MetricWeeklyIntensity">Intensiteitsminuten (week)</string>
+    <string id="MetricMonthlyIntensity">Intensiteitsminuten (maand)</string>
+    <string id="MetricWeeklyVigorous">Intensieve minuten (week)</string>
+    <string id="MetricMonthlyVigorous">Intensieve minuten (maand)</string>
 
     <string id="ColorPurple">Paars</string>
     <string id="ColorBlue">Oceaanblauw</string>

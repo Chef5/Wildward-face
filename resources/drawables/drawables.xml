@@ -24,4 +24,5 @@
     <bitmap id="RunningIcon"            filename="running.svg"             dithering="none" automaticPalette="false" />
     <bitmap id="NotificationsIcon"      filename="notifications.svg"       dithering="none" automaticPalette="false" />
     <bitmap id="RecoveryIcon"           filename="recovery.svg"            dithering="none" automaticPalette="false" />
+    <bitmap id="IntensityIcon"          filename="intensity.svg"           dithering="none" automaticPalette="false" />
 </drawables>

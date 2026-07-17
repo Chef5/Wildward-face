@@ -38,6 +38,10 @@
     <string id="MetricNotifications">Уведомления</string>
 
     <string id="MetricRecoveryTime">Время восстановления</string>
+    <string id="MetricWeeklyIntensity">Минуты интенсивности (неделя)</string>
+    <string id="MetricMonthlyIntensity">Минуты интенсивности (месяц)</string>
+    <string id="MetricWeeklyVigorous">Минуты высокой интенсивности (неделя)</string>
+    <string id="MetricMonthlyVigorous">Минуты высокой интенсивности (месяц)</string>
 
     <string id="ColorPurple">Фиолетовый</string>
     <string id="ColorBlue">Океанский синий</string>

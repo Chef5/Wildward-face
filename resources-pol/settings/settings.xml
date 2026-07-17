@@ -37,6 +37,10 @@
             <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
             <listEntry value="17">@Strings.MetricNotifications</listEntry>
             <listEntry value="18">@Strings.MetricRecoveryTime</listEntry>
+            <listEntry value="19">@Strings.MetricWeeklyIntensity</listEntry>
+            <listEntry value="20">@Strings.MetricMonthlyIntensity</listEntry>
+            <listEntry value="21">@Strings.MetricWeeklyVigorous</listEntry>
+            <listEntry value="22">@Strings.MetricMonthlyVigorous</listEntry>
         </settingConfig>
     </setting>
 
@@ -61,6 +65,10 @@
             <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
             <listEntry value="17">@Strings.MetricNotifications</listEntry>
             <listEntry value="18">@Strings.MetricRecoveryTime</listEntry>
+            <listEntry value="19">@Strings.MetricWeeklyIntensity</listEntry>
+            <listEntry value="20">@Strings.MetricMonthlyIntensity</listEntry>
+            <listEntry value="21">@Strings.MetricWeeklyVigorous</listEntry>
+            <listEntry value="22">@Strings.MetricMonthlyVigorous</listEntry>
         </settingConfig>
     </setting>
 
@@ -85,6 +93,10 @@
             <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
             <listEntry value="17">@Strings.MetricNotifications</listEntry>
             <listEntry value="18">@Strings.MetricRecoveryTime</listEntry>
+            <listEntry value="19">@Strings.MetricWeeklyIntensity</listEntry>
+            <listEntry value="20">@Strings.MetricMonthlyIntensity</listEntry>
+            <listEntry value="21">@Strings.MetricWeeklyVigorous</listEntry>
+            <listEntry value="22">@Strings.MetricMonthlyVigorous</listEntry>
         </settingConfig>
     </setting>
 
@@ -109,6 +121,10 @@
             <listEntry value="16">@Strings.MetricMonthlyRun</listEntry>
             <listEntry value="17">@Strings.MetricNotifications</listEntry>
             <listEntry value="18">@Strings.MetricRecoveryTime</listEntry>
+            <listEntry value="19">@Strings.MetricWeeklyIntensity</listEntry>
+            <listEntry value="20">@Strings.MetricMonthlyIntensity</listEntry>
+            <listEntry value="21">@Strings.MetricWeeklyVigorous</listEntry>
+            <listEntry value="22">@Strings.MetricMonthlyVigorous</listEntry>
         </settingConfig>
     </setting>
 

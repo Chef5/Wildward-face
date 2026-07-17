@@ -42,6 +42,11 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 | 周跑量 | 本周累计跑步距离（km；整数不显示小数，否则保留 1 位；无数据时显示 `0`）；长按跳转本周跑步 Glance（需设备支持，否则无反应） |
 | 月跑量 | 本月自然月累计跑步距离（km；整数不显示小数，否则保留 1 位；无数据时显示 `0`）；长按跳转本周跑步 Glance（需设备支持，否则无反应） |
 | 消息通知 | 未读通知数量，无通知时显示 `0`；长按跳转通知 Glance（需设备支持，否则无反应） |
+| 恢复时间 | 建议恢复时间（如 `8h` / `1d2h`）；长按跳转恢复时间 Glance |
+| 周强度活动时间(分钟) | 本周强度活动时间（`COMPLICATION_TYPE_INTENSITY_MINUTES`，无数据时显示 `0`）；长按跳转强度活动 Glance |
+| 月强度活动时间(分钟) | 本月强度活动时间（今日 + `ActivityMonitor.getHistory()` 本月各日合计；无数据时显示 `0`）；长按跳转强度活动 Glance |
+| 周高强度活动时间(分钟) | 本周高强度活动分钟（`activeMinutesWeek.vigorous`，未 ×2；无数据时显示 `0`）；长按跳转强度活动 Glance |
+| 月高强度活动时间(分钟) | 本月高强度活动分钟（今日 + History 本月 vigorous 合计；无数据时显示 `0`）；长按跳转强度活动 Glance |
 | 不展示 | 该象限留空 |
 
 ### 多语言
@@ -85,7 +90,7 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 |------|------|
 | `AccentColor` | 主题色预设：高雅紫、深海蓝、碧空蓝、翡翠绿、**原野绿**、柠檬黄、暖阳金、琥珀橙、朱砂红、樱花粉、月光白 |
 | `CustomAccentColor` | 自定义主题色（6 位 RGB，可选 `#` 前缀；有效时优先于 `AccentColor`）；设置页以 `prompt` 展示格式示例，并提供 [rgbcolorpicker.com](https://rgbcolorpicker.com) 取色帮助链接 |
-| `TopLeftMetric` / `TopRightMetric` / `BottomLeftMetric` / `BottomRightMetric` | 四象限指标（见上表；ID：0=不展示，1=心率，2=电量，3=步数，4=海拔，5=卡路里，6=血氧，7=大气压，8=身体电量，9=压力值，10=日出，11=日落，12=天气，13=呼吸频率，14=日出日落，15=周跑量，16=月跑量，17=消息通知） |
+| `TopLeftMetric` / `TopRightMetric` / `BottomLeftMetric` / `BottomRightMetric` | 四象限指标（见上表；ID：0=不展示，1=心率，2=电量，3=步数，4=海拔，5=卡路里，6=血氧，7=大气压，8=身体电量，9=压力值，10=日出，11=日落，12=天气，13=呼吸频率，14=日出日落，15=周跑量，16=月跑量，17=消息通知，18=恢复时间，19=周强度活动时间，20=月强度活动时间，21=周高强度活动时间，22=月高强度活动时间） |
 | `ShowSeconds` | 显示秒数 |
 | `ShowDate` | 显示日期 |
 | `ShowLunar` | 显示农历（仅简体/繁体中文环境生效；对应语言设置页提供开关） |

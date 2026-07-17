@@ -39,6 +39,10 @@
     <string id="MetricNotifications">알림</string>
 
     <string id="MetricRecoveryTime">회복 시간</string>
+    <string id="MetricWeeklyIntensity">주간 강도 활동 시간(분)</string>
+    <string id="MetricMonthlyIntensity">월간 강도 활동 시간(분)</string>
+    <string id="MetricWeeklyVigorous">주간 고강도 활동 시간(분)</string>
+    <string id="MetricMonthlyVigorous">월간 고강도 활동 시간(분)</string>
 
     <string id="ColorPurple">보라</string>
     <string id="ColorBlue">바다 블루</string>

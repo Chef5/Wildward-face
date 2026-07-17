@@ -39,6 +39,10 @@
     <string id="MetricNotifications">Notificaciones</string>
 
     <string id="MetricRecoveryTime">Tiempo de recuperación</string>
+    <string id="MetricWeeklyIntensity">Minutos de intensidad (semana)</string>
+    <string id="MetricMonthlyIntensity">Minutos de intensidad (mes)</string>
+    <string id="MetricWeeklyVigorous">Minutos vigorosos (semana)</string>
+    <string id="MetricMonthlyVigorous">Minutos vigorosos (mes)</string>
 
     <string id="ColorPurple">Púrpura</string>
     <string id="ColorBlue">Azul océano</string>

@@ -40,6 +40,10 @@
     <string id="MetricNotifications">Notifications</string>
 
     <string id="MetricRecoveryTime">Recovery Time</string>
+    <string id="MetricWeeklyIntensity">Weekly Intensity Minutes</string>
+    <string id="MetricMonthlyIntensity">Monthly Intensity Minutes</string>
+    <string id="MetricWeeklyVigorous">Weekly Vigorous Minutes</string>
+    <string id="MetricMonthlyVigorous">Monthly Vigorous Minutes</string>
 
     <string id="ColorPurple">Purple</string>
     <string id="ColorBlue">Ocean Blue</string>

@@ -40,6 +40,10 @@
     <string id="MetricNotifications">訊息通知</string>
 
     <string id="MetricRecoveryTime">恢復時間</string>
+    <string id="MetricWeeklyIntensity">週強度活動時間(分鐘)</string>
+    <string id="MetricMonthlyIntensity">月強度活動時間(分鐘)</string>
+    <string id="MetricWeeklyVigorous">週高強度活動時間(分鐘)</string>
+    <string id="MetricMonthlyVigorous">月高強度活動時間(分鐘)</string>
 
     <string id="ColorPurple">高雅紫</string>
     <string id="ColorBlue">深海藍</string>

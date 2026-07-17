@@ -38,6 +38,10 @@
     <string id="MetricNotifications">Varsler</string>
 
     <string id="MetricRecoveryTime">Restitusjonstid</string>
+    <string id="MetricWeeklyIntensity">Intensitetsminutter (uke)</string>
+    <string id="MetricMonthlyIntensity">Intensitetsminutter (måned)</string>
+    <string id="MetricWeeklyVigorous">Høyintensitetsminutter (uke)</string>
+    <string id="MetricMonthlyVigorous">Høyintensitetsminutter (måned)</string>
 
     <string id="ColorPurple">Lilla</string>
     <string id="ColorBlue">Havblå</string>

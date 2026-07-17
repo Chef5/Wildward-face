@@ -152,3 +152,16 @@ private function drawTintedBitmap(dc as Dc, x as Number, y as Number,
 需在 `manifest.xml` 声明 `ComplicationSubscriber` 权限。周/月跑量均映射到 `WEEKLY_RUN_DISTANCE`（系统无月跑量 Complication）。
 
 支持长按的指标与 Complication 映射见 `getComplicationTypeForMetric()`。
+
+---
+
+## 强度分钟 / 高强度（Metric ID 19–22）
+
+| 指标 | 数据来源 | 说明 |
+|------|----------|------|
+| 周强度活动时间(分钟) (19) | `COMPLICATION_TYPE_INTENSITY_MINUTES`，回退 `activeMinutesWeek.total` | 与系统「强度活动时间」一致（已加权） |
+| 月强度活动时间(分钟) (20) | 今日 `activeMinutesDay.total` + `getHistory()` 本月各日 `total` | 系统无月 Complication；History 通常约最近 7 天 |
+| 周高强度活动时间(分钟) (21) | `activeMinutesWeek.vigorous` | 未 ×2 的原始高强度分钟 |
+| 月高强度活动时间(分钟) (22) | 今日 `vigorous` + History 本月各日 `vigorous` | 同上 History 窗口限制 |
+
+无数据均显示 `0`。四项长按均跳转 `COMPLICATION_TYPE_INTENSITY_MINUTES` Glance。图标：`intensity.svg`。
