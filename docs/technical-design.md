@@ -1,6 +1,6 @@
 # 技术设计说明
 
-本文档说明「赴山野」表盘中两个关键模块的实现方案。
+本文档记录「赴山野」表盘中关键模块的实现方案与踩坑经验。
 
 ---
 
@@ -110,6 +110,55 @@ private function drawTintedBitmap(dc as Dc, x as Number, y as Number,
 
 - `packingFormat="png"` 在 MIP 设备上会产生编译警告（"not supported, default format will be used"）。通过 `resources-icons-amoled` 覆盖机制，MIP 机型的 bitmap 定义中不包含此属性，从而消除警告。
 - `Graphics has :getVectorFont` 的检查必须用于**调用前的 `has` 判断**，不能以 early-return 的形式绕过，否则编译器会对不支持该符号的设备报 `Undefined symbol` 错误。
+
+---
+
+## 主题色：MIP 64 色板映射
+
+设置项 `AccentColor` 存的是面向 AMOLED 的十六进制 RGB（如 `0xB77CFF`）。上线后 MIP 屏（ARGB2222 / 64 色）会出现明显色差：传入非色板内颜色时，固件会做不可控近似，观感与设计稿偏差大。
+
+### 结论与原则
+
+1. **AMOLED**：继续使用设置里的完整 RGB。
+2. **MIP**：必须使用官方 RGB222 64 色板内的色号（每通道仅 `0x00 / 0x55 / 0xAA / 0xFF`）。
+3. **设置值不改**：Connect IQ 设置跨机型共用同一 property；运行时按屏幕类型映射，避免 AMOLED 被降彩。
+4. **MIP 判定**：与字体逻辑一致，`!(Graphics has :getVectorFont)` 视为 MIP。
+
+### 实现位置
+
+`ChefWatchFaceView.loadSettings()` → `resolveAccentForDisplay()` → `toMipPaletteColor()`。
+
+自定义主题色（`CustomAccentColor`）在 MIP 上走 `quantizeToRgb222()`，按通道量化到四档。
+
+映射表注释同步写在 `resources/settings/settings.xml` 的 `AccentColor` 上方，便于对照。
+
+### 预设 → 64 色板色号
+
+| 主题色 | 设置 RGB（AMOLED） | MIP 色号 | 说明 |
+|--------|-------------------|----------|------|
+| 紫 | `0xB77CFF` | `0xAA55FF` | 最近邻 |
+| 蓝 | `0x55AAFF` | `0x55AAFF` | 已在色板内 |
+| 青 | `0x00DDCC` | `0x00FFAA` | 最近邻 |
+| 绿 | `0x55FF99` | `0x55FFAA` | 最近邻 |
+| 原野绿 | `0x3DA855` | `0x55AA55` | 最近邻 |
+| 黄 | `0xFFEE44` | `0xFFFF55` | 最近邻 |
+| 金 | `0xFFCC33` | `0xFFAA00` | 刻意不用最近邻（见下） |
+| 橙 | `0xFFAA55` | `0xFFAA55` | 已在色板内 |
+| 红 | `0xFF5566` | `0xFF5555` | 最近邻 |
+| 粉 | `0xFF77BB` | `0xFF55AA` | 最近邻 |
+| 白 | `0xFFFFFF` | `0xFFFFFF` | 已在色板内 |
+
+### 踩坑：纯欧氏距离会撞色
+
+按 RGB 欧氏距离，`0xFFCC33`（金）最近邻是 `0xFFAA55`，与橙预设完全相同，MIP 上金/橙无法区分。
+
+因此金改为 `0xFFAA00`（略远，但是色板内暖金色，且与橙 `0xFFAA55` 可区分）。以后新增预设时，映射后也要做一次**两两去重**检查。
+
+### 相关参考
+
+- 64 色板 = RGB222，通道取值 `{0x00, 0x55, 0xAA, 0xFF}` 的全部组合（共 64 色）
+- SDK 命名常量（`Graphics.COLOR_*`）只是色板子集；MIP 可用任意色板内 hex，不必局限于命名常量
+- 论坛/文档：newer MIP（fenix7、fr255 等）`compiler.json` 可能不列 palette，但 `pixelFormat: ARGB2222` / `bitsPerPixel: 8` 仍对应同一套 64 色
 
 ---
 
