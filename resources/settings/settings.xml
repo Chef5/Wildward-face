@@ -1,5 +1,20 @@
 <settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
 
+    <!--
+      AccentColor 存 AMOLED 用的 RGB。MIP（ARGB2222 / 64 色板）在运行时映射到相近色号：
+        0xB77CFF → 0xAA55FF  Purple
+        0x55AAFF → 0x55AAFF  Blue
+        0x00DDCC → 0x00FFAA  Cyan
+        0x55FF99 → 0x55FFAA  Green
+        0x3DA855 → 0x55AA55  FieldGreen
+        0xFFEE44 → 0xFFFF55  Yellow
+        0xFFCC33 → 0xFFAA00  Gold（刻意与 Orange 区分）
+        0xFFAA55 → 0xFFAA55  Orange
+        0xFF5566 → 0xFF5555  Red
+        0xFF77BB → 0xFF55AA  Pink
+        0xFFFFFF → 0xFFFFFF  White
+      见 ChefWatchFaceView.toMipPaletteColor()
+    -->
     <setting propertyKey="@Properties.AccentColor" title="@Strings.AccentColorTitle">
         <settingConfig type="list">
             <listEntry value="0xB77CFF">@Strings.ColorPurple</listEntry>

@@ -186,7 +186,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         clearCustomAccentIfAccentListChanged(accentColor);
         v = p.getValue("CustomAccentColor");
         var customAccent = parseCustomAccentColor(v != null ? v as String : "");
-        _accent = customAccent != null ? customAccent : accentColor;
+        _accent = resolveAccentForDisplay(customAccent != null ? customAccent : accentColor);
         v = p.getValue("ShowSeconds");
         if (v != null) { _showSeconds = v as Boolean; }
         v = p.getValue("ShowDate");
@@ -261,6 +261,51 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             value = (value << 4) | idx;
         }
         return value;
+    }
+
+    // MIP 无 getVectorFont；AMOLED 有。用于决定是否改用 64 色板色号。
+    private function isMipDisplay() as Boolean {
+        return !(Graphics has :getVectorFont);
+    }
+
+    // AMOLED 保留设置中的 RGB；MIP 映射到官方 RGB222 64 色板，避免硬件近似导致色差。
+    private function resolveAccentForDisplay(color as Number) as Number {
+        if (!isMipDisplay()) {
+            return color;
+        }
+        return toMipPaletteColor(color);
+    }
+
+    // 预设主题色 → 最接近的 64 色板色号；自定义色按通道量化到 0x00/0x55/0xAA/0xFF。
+    // Gold 刻意用 0xFFAA00，避免与 Orange(0xFFAA55) 在 MIP 上撞成同色。
+    private function toMipPaletteColor(color as Number) as Number {
+        if (color == 0xB77CFF) { return 0xAA55FF; } // Purple
+        if (color == 0x55AAFF) { return 0x55AAFF; } // Blue（已在色板内）
+        if (color == 0x00DDCC) { return 0x00FFAA; } // Cyan
+        if (color == 0x55FF99) { return 0x55FFAA; } // Green
+        if (color == 0x3DA855) { return 0x55AA55; } // FieldGreen
+        if (color == 0xFFEE44) { return 0xFFFF55; } // Yellow
+        if (color == 0xFFCC33) { return 0xFFAA00; } // Gold
+        if (color == 0xFFAA55) { return 0xFFAA55; } // Orange（已在色板内）
+        if (color == 0xFF5566) { return 0xFF5555; } // Red
+        if (color == 0xFF77BB) { return 0xFF55AA; } // Pink
+        if (color == 0xFFFFFF) { return 0xFFFFFF; } // White（已在色板内）
+        return quantizeToRgb222(color);
+    }
+
+    private function quantizeToRgb222(color as Number) as Number {
+        var r = quantizeRgb222Channel((color >> 16) & 0xFF);
+        var g = quantizeRgb222Channel((color >> 8) & 0xFF);
+        var b = quantizeRgb222Channel(color & 0xFF);
+        return (r << 16) | (g << 8) | b;
+    }
+
+    // 将单通道量化到 RGB222 四档：0x00 / 0x55 / 0xAA / 0xFF
+    private function quantizeRgb222Channel(c as Number) as Number {
+        if (c < 0x2B) { return 0x00; }
+        if (c < 0x80) { return 0x55; }
+        if (c < 0xD5) { return 0xAA; }
+        return 0xFF;
     }
 
     function onLayout(dc as Dc) as Void {
