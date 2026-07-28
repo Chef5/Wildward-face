@@ -9,6 +9,8 @@
     <string id="ShowDateTitle">日付を表示</string>
     <string id="ShowLunarTitle">旧暦を表示</string>
     <string id="ShowDividersTitle">区切り線を表示</string>
+    <string id="ShowRingTicksTitle">リング目盛りを表示</string>
+    <string id="ShowSecondHandTitle">秒針を表示</string>
     <string id="BatteryDisplayTitle">バッテリー表示</string>
     <string id="BatteryDisplayPercent">パーセント</string>
     <string id="BatteryDisplayEndurance">残り時間</string>

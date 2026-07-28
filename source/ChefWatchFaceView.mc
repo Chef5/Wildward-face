@@ -67,6 +67,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _showDate as Boolean = true;
     private var _showLunar as Boolean = true;
     private var _showDividers as Boolean = true;
+    private var _showRingTicks as Boolean = true;
+    private var _showSecondHand as Boolean = true;
     // 电量展示：0=百分制  1=续航时间（8d11h / 11h）
     private var _batteryDisplay as Number = 0;
     // 各位置指标 ID：0=不展示  1=心率  2=电量  3=步数  4=海拔  5=卡路里  6=血氧
@@ -193,6 +195,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (v != null) { _showLunar = v as Boolean; }
         v = p.getValue("ShowDividers");
         if (v != null) { _showDividers = v as Boolean; }
+        v = p.getValue("ShowRingTicks");
+        if (v != null) { _showRingTicks = v as Boolean; }
+        v = p.getValue("ShowSecondHand");
+        if (v != null) { _showSecondHand = v as Boolean; }
         v = p.getValue("BatteryDisplay");
         if (v != null) { _batteryDisplay = v as Number; }
         v = p.getValue("TopLeftMetric");
@@ -352,8 +358,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         dc.setColor(WHITE, BLACK);
         dc.clear();
 
-        drawCompassRing(dc);
-        drawNorth(dc);
+        if (_showRingTicks) { drawCompassRing(dc); }
+        if (_showSecondHand) { drawSecondHand(dc); }
         drawTopMetrics(dc);
         var edgeInset = sf(SPEC_DIVIDER_EDGE_INSET);
         if (_showDividers) { drawHorizontalDivider(dc, edgeInset); }
@@ -364,7 +370,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     // -------------------------------------------------------------
-    // 罗盘圈与北向指示
+    // 圆环刻度与秒针
     // -------------------------------------------------------------
 
     private function drawCompassRing(dc as Dc) as Void {
@@ -381,8 +387,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (minorPen < 1) { minorPen = 1; }
 
         for (var i = 0; i < 60; i++) {
-            // 跳过正上方刻度——北向三角标记占据该位置
-            if (i == 0) { continue; }
             var rad = i * 6.0 * Math.PI / 180.0;
             var sa = Math.sin(rad);
             var ca = -Math.cos(rad);
@@ -396,15 +400,31 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         dc.setPenWidth(1);
     }
 
-    private function drawNorth(dc as Dc) as Void {
+    // 箭头秒针：尖端朝表缘；靠圆心侧底边内凹（类似指针/光标折角）
+    private function drawSecondHand(dc as Dc) as Void {
         dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
-        var triTopY = s(18);
-        var triBaseY = s(40);
-        var halfW = s(11);
+        var sec = System.getClockTime().sec;
+        var rad = sec * 6.0 * Math.PI / 180.0;
+        var sa = Math.sin(rad);
+        var ca = -Math.cos(rad);
+        // 径向 (sa, ca)；横向 (ca, -sa)。尖端更锐；底边折角朝尖端内凹。
+        var tipR = (_w / 2.0) - s(30);
+        var baseR = (_w / 2.0) - s(58);
+        var notchR = (_w / 2.0) - s(52);
+        var halfW = s(11).toFloat();
+
+        var tipX = (_cx + tipR * sa).toNumber();
+        var tipY = (_cy + tipR * ca).toNumber();
+        var baseX = _cx + baseR * sa;
+        var baseY = _cy + baseR * ca;
+        var notchX = (_cx + notchR * sa).toNumber();
+        var notchY = (_cy + notchR * ca).toNumber();
+        // 顶点顺序：尖端 → 右底 → 内凹折角 → 左底
         dc.fillPolygon([
-            [_cx, triTopY],
-            [_cx - halfW, triBaseY],
-            [_cx + halfW, triBaseY]
+            [tipX, tipY],
+            [(baseX + halfW * ca).toNumber(), (baseY - halfW * sa).toNumber()],
+            [notchX, notchY],
+            [(baseX - halfW * ca).toNumber(), (baseY + halfW * sa).toNumber()]
         ]);
     }
 

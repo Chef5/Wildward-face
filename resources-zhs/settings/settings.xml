@@ -140,6 +140,14 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.ShowRingTicks" title="@Strings.ShowRingTicksTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.ShowSecondHand" title="@Strings.ShowSecondHandTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
     <setting propertyKey="@Properties.ShowLunar" title="@Strings.ShowLunarTitle">
         <settingConfig type="boolean" />
     </setting>

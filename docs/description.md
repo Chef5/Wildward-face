@@ -17,6 +17,10 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+July 27, 2026
+Added settings: show ring ticks, show second hand (triangle hand moves each second, tip points outward);
+Redefined the top triangle as a second hand (no longer a fixed north marker);
+
 June 30, 2026
 Added metrics: sunrise/sunset, weekly/monthly run distance, notifications;
 Touch devices support long-press on a metric to open its system Glance;
@@ -40,6 +44,10 @@ lang: zh_CN 简体中文
 建议反馈地址：https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+2026.7.27
+新增设置项：显示圆环指针刻度、显示秒针（三角秒针每秒指向对应刻度，尖端朝外）；
+原顶部三角改为秒针（不再固定表示北向）；
+
 2026.6.30
 新增数据项：日出日落、周跑量、月跑量、消息通知；
 触屏设备支持长按数据项跳转系统 Glance；
@@ -63,6 +71,10 @@ lang: zh_TW 繁體中文
 建議反饋地址：https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+2026.7.27
+新增設定項：顯示圓環指針刻度、顯示秒針（三角秒針每秒指向對應刻度，尖端朝外）；
+原頂部三角改為秒針（不再固定表示北向）；
+
 2026.6.30
 新增數據項：日出日落、週跑量、月跑量、訊息通知；
 觸屏設備支援長按數據項跳轉系統 Glance；
@@ -86,6 +98,10 @@ Wildward
 フィードバック: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+2026年7月27日
+新規設定：リング目盛り表示、秒針表示（三角秒針が毎秒対応目盛りを指し、先端は外側向き）；
+上部の三角を秒針に変更（固定の北向きマーカーではありません）；
+
 2026年6月30日
 新規データ項目：日の出・日の入り、週間/月間走行距離、通知；
 タッチ端末でデータ項目を長押ししてシステム Glance へ遷移可能；
@@ -109,6 +125,10 @@ Open Source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+27.07.2026
+Neue Einstellungen: Ringmarkierungen und Sekundenzeiger anzeigen (Dreieck springt jede Sekunde, Spitze nach außen);
+Oberes Dreieck ist jetzt der Sekundenzeiger (kein festes Nord-Marker mehr);
+
 30.06.2026
 Neue Datenfelder: Sonnenauf-/untergang, Wochen-/Monatslauf-Distanz, Benachrichtigungen;
 Touch-Geräte: langes Drücken auf ein Datenfeld öffnet den System-Glance;
@@ -132,6 +152,10 @@ Open source : https://github.com/Chef5/Wildward-face
 Retours : https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+27 juillet 2026
+Nouveaux réglages : graduations et aiguille des secondes (triangle qui avance chaque seconde, pointe vers l'extérieur);
+Le triangle supérieur devient une aiguille des secondes (plus un marqueur nord fixe);
+
 30 juin 2026
 Nouvelles données : lever/coucher du soleil, distance de course hebdo/mensuelle, notifications ;
 Écrans tactiles : appui long sur une donnée pour ouvrir le Glance système ;
@@ -155,6 +179,10 @@ Código abierto: https://github.com/Chef5/Wildward-face
 Comentarios: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+27 de julio de 2026
+Nuevos ajustes: marcas del anillo y segundero (triángulo que avanza cada segundo, punta hacia fuera);
+El triángulo superior pasa a ser el segundero (ya no es un marcador norte fijo);
+
 30 de junio de 2026
 Nuevos datos: amanecer/atardecer, distancia semanal/mensual de carrera, notificaciones;
 Dispositivos táctiles: pulsación larga en un dato para abrir el Glance del sistema;
@@ -178,6 +206,10 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+27 luglio 2026
+Nuove impostazioni: tacche anello e lancetta dei secondi (triangolo che avanza ogni secondo, punta verso l'esterno);
+Il triangolo superiore diventa la lancetta dei secondi (non più un marcatore nord fisso);
+
 30 giugno 2026
 Nuovi dati: alba/tramonto, distanza corsa settimanale/mensile, notifiche;
 Dispositivi touch: pressione lunga su un dato per aprire il Glance di sistema;
@@ -201,6 +233,10 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+27 juli 2026
+Nieuwe instellingen: ringmarkeringen en secondenwijzer (driehoek springt elke seconde, punt naar buiten);
+Bovenste driehoek is nu de secondenwijzer (geen vaste noordmarker meer);
+
 30 juni 2026
 Nieuwe gegevens: zonsopgang/-ondergang, wekelijkse/maandelijkse hardloopafstand, meldingen;
 Touch-apparaten: lang indrukken opent systeem-Glance;
@@ -224,6 +260,10 @@ Hvis du liker urskiven, kan du gjerne kjøpe meg en kaffe~ :)
 Tilbakemelding: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+27. juli 2026
+Nye innstillinger: ringmarkeringer og sekundviser (trekant hopper hvert sekund, spiss utover);
+Øvre trekant er nå sekundviser (ikke lenger fast nordmarkør);
+
 30. juni 2026
 Nye datafelt: soloppgang/solnedgang, ukentlig/månedlig løpedistanse, varsler;
 Berøringsskjermer: langt trykk åpner system-Glance;
@@ -247,6 +287,10 @@ Kod źródłowy: https://github.com/Chef5/Wildward-face
 Opinie: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+27 lipca 2026
+Nowe ustawienia: podziałka pierścienia i wskazówka sekund (trójkąt co sekundę, czubek na zewnątrz);
+Górny trójkąt to teraz wskazówka sekund (nie stały znacznik północy);
+
 30 czerwca 2026
 Nowe dane: wschód/zachód słońca, tygodniowy/miesięczny dystans biegu, powiadomienia;
 Urządzenia dotykowe: długie naciśnięcie otwiera Glance systemowy;
@@ -270,6 +314,10 @@ Wildward
 Обратная связь: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+27 июля 2026 г.
+Новые настройки: деления кольца и секундная стрелка (треугольник каждую секунду, острие наружу);
+Верхний треугольник теперь секундная стрелка (больше не фиксированный север);
+
 30 июня 2026 г.
 Новые данные: восход/закат, недельный/месячный беговой объём, уведомления;
 Сенсорные устройства: долгое нажатие открывает системный Glance;
@@ -293,6 +341,10 @@ Wildward
 피드백: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
+2026년 7월 27일
+신규 설정: 링 눈금 표시, 초침 표시(삼각 초침이 매초 해당 눈금을 가리키며 끝은 바깥쪽);
+상단 삼각을 초침으로 변경(고정 북쪽 표시가 아님);
+
 2026년 6월 30일
 신규 데이터: 일출/일몰, 주간/월간 러닝 거리, 알림;
 터치 기기에서 데이터 길게 눌러 시스템 Glance 이동;

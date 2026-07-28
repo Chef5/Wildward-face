@@ -9,6 +9,8 @@
     <string id="ShowDateTitle">Vis dato</string>
     <string id="ShowLunarTitle">Vis månekalender</string>
     <string id="ShowDividersTitle">Vis skillelinjer</string>
+    <string id="ShowRingTicksTitle">Vis ringmarkeringer</string>
+    <string id="ShowSecondHandTitle">Vis sekundviser</string>
     <string id="BatteryDisplayTitle">Batterivisning</string>
     <string id="BatteryDisplayPercent">Prosent</string>
     <string id="BatteryDisplayEndurance">Batteritid</string>

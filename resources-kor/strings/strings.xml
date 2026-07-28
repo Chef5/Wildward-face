@@ -9,6 +9,8 @@
     <string id="ShowDateTitle">날짜 표시</string>
     <string id="ShowLunarTitle">음력 표시</string>
     <string id="ShowDividersTitle">구분선 표시</string>
+    <string id="ShowRingTicksTitle">링 눈금 표시</string>
+    <string id="ShowSecondHandTitle">초침 표시</string>
     <string id="BatteryDisplayTitle">배터리 표시</string>
     <string id="BatteryDisplayPercent">백분율</string>
     <string id="BatteryDisplayEndurance">사용 시간</string>

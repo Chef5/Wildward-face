@@ -9,6 +9,8 @@
     <string id="ShowDateTitle">显示日期</string>
     <string id="ShowLunarTitle">显示农历</string>
     <string id="ShowDividersTitle">显示分割线</string>
+    <string id="ShowRingTicksTitle">显示圆环指针刻度</string>
+    <string id="ShowSecondHandTitle">显示秒针</string>
     <string id="BatteryDisplayTitle">电量展示</string>
     <string id="BatteryDisplayPercent">百分制</string>
     <string id="BatteryDisplayEndurance">续航时间</string>

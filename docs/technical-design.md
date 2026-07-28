@@ -165,3 +165,19 @@ private function drawTintedBitmap(dc as Dc, x as Number, y as Number,
 | 月高强度活动时间(分钟) (22) | 今日 `vigorous` + History 本月各日 `vigorous` | 同上 History 窗口限制 |
 
 无数据均显示 `0`。四项长按均跳转 `COMPLICATION_TYPE_INTENSITY_MINUTES` Glance。图标：`intensity.svg`。
+
+---
+
+## 圆环刻度与秒针
+
+原顶部固定「北向三角」已重新定义为**秒针**（`ShowSecondHand`，默认开启），与圆环刻度（`ShowRingTicks`）可分别开关。
+
+### 绘制（`ChefWatchFaceView.mc`）
+
+- `drawCompassRing`：60 刻度，每 6°（含当前秒刻度）。
+- `drawSecondHand`：按 `System.getClockTime().sec` 计算方位角（与刻度同一套 `sin` / `-cos` 约定，0 秒在正上方）。
+  - 形状：四边形箭头——尖端 → 右底 → 内凹折角 → 左底（尖端约 43°，底边浅内凹）
+  - 尖端半径 ≈ 半屏宽 − 30；底边半径 ≈ 半屏宽 − 58；折角半径 ≈ 半屏宽 − 52
+  - 半宽 ≈ 11 设计单位；尖端始终由圆心指向表缘
+
+高功耗模式下系统每秒调用 `onUpdate`，秒针与数字秒数同步跳动；低功耗模式通常按分钟刷新（与数字秒行为一致）。

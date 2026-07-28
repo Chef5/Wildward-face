@@ -9,6 +9,8 @@
     <string id="ShowDateTitle">Datum tonen</string>
     <string id="ShowLunarTitle">Maankalender tonen</string>
     <string id="ShowDividersTitle">Scheidingslijnen tonen</string>
+    <string id="ShowRingTicksTitle">Ringmarkeringen tonen</string>
+    <string id="ShowSecondHandTitle">Secondenwijzer tonen</string>
     <string id="BatteryDisplayTitle">Batterijweergave</string>
     <string id="BatteryDisplayPercent">Percentage</string>
     <string id="BatteryDisplayEndurance">Batterijduur</string>

@@ -6,6 +6,8 @@
     <property id="ShowDate" type="boolean">true</property>
     <property id="ShowLunar" type="boolean">true</property>
     <property id="ShowDividers" type="boolean">true</property>
+    <property id="ShowRingTicks" type="boolean">true</property>
+    <property id="ShowSecondHand" type="boolean">true</property>
     <!-- 电量展示：0=百分制  1=续航时间 -->
     <property id="BatteryDisplay" type="number">0</property>
 

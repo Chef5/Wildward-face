@@ -9,6 +9,8 @@
     <string id="ShowDateTitle">Показывать дату</string>
     <string id="ShowLunarTitle">Показывать лунный календарь</string>
     <string id="ShowDividersTitle">Показывать разделители</string>
+    <string id="ShowRingTicksTitle">Показать деления кольца</string>
+    <string id="ShowSecondHandTitle">Показать секундную стрелку</string>
     <string id="BatteryDisplayTitle">Отображение батареи</string>
     <string id="BatteryDisplayPercent">Процент</string>
     <string id="BatteryDisplayEndurance">Время работы</string>

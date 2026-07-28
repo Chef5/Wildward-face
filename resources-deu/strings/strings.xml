@@ -9,6 +9,8 @@
     <string id="ShowDateTitle">Datum anzeigen</string>
     <string id="ShowLunarTitle">Mondkalender anzeigen</string>
     <string id="ShowDividersTitle">Trennlinien anzeigen</string>
+    <string id="ShowRingTicksTitle">Ringmarkierungen anzeigen</string>
+    <string id="ShowSecondHandTitle">Sekundenzeiger anzeigen</string>
     <string id="BatteryDisplayTitle">Batterieanzeige</string>
     <string id="BatteryDisplayPercent">Prozent</string>
     <string id="BatteryDisplayEndurance">Laufzeit</string>

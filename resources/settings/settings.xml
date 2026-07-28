@@ -140,6 +140,14 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.ShowRingTicks" title="@Strings.ShowRingTicksTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.ShowSecondHand" title="@Strings.ShowSecondHandTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
     <setting propertyKey="@Properties.BatteryDisplay" title="@Strings.BatteryDisplayTitle">
         <settingConfig type="list">
             <listEntry value="0">@Strings.BatteryDisplayPercent</listEntry>
