@@ -263,49 +263,52 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         return value;
     }
 
-    // MIP 无 getVectorFont；AMOLED 有。用于决定是否改用 64 色板色号。
+    // MIP 无 getVectorFont；AMOLED 有。用于决定是否改用 64 色板索引。
     private function isMipDisplay() as Boolean {
         return !(Graphics has :getVectorFont);
     }
 
-    // AMOLED 保留设置中的 RGB；MIP 映射到官方 RGB222 64 色板，避免硬件近似导致色差。
+    // AMOLED 保留设置中的 RGB；MIP 使用原生 64 色索引（0–63）传给 setColor / tintColor。
+    // 正确：dc.setColor(35, Graphics.COLOR_BLACK);
+    // 错误：dc.setColor(0xFF22FF, ...) —— 非色板 RGB 会被硬件压缩，易严重偏色。
     private function resolveAccentForDisplay(color as Number) as Number {
         if (!isMipDisplay()) {
             return color;
         }
-        return toMipPaletteColor(color);
+        return toMipPaletteIndex(color);
     }
 
-    // 预设主题色 → 最接近的 64 色板色号；自定义色按通道量化到 0x00/0x55/0xAA/0xFF。
-    // Gold 刻意用 0xFFAA00，避免与 Orange(0xFFAA55) 在 MIP 上撞成同色。
-    private function toMipPaletteColor(color as Number) as Number {
-        if (color == 0xB77CFF) { return 0xAA55FF; } // Purple
-        if (color == 0x55AAFF) { return 0x55AAFF; } // Blue（已在色板内）
-        if (color == 0x00DDCC) { return 0x00FFAA; } // Cyan
-        if (color == 0x55FF99) { return 0x55FFAA; } // Green
-        if (color == 0x3DA855) { return 0x55AA55; } // FieldGreen
-        if (color == 0xFFEE44) { return 0xFFFF55; } // Yellow
-        if (color == 0xFFCC33) { return 0xFFAA00; } // Gold
-        if (color == 0xFFAA55) { return 0xFFAA55; } // Orange（已在色板内）
-        if (color == 0xFF5566) { return 0xFF5555; } // Red
-        if (color == 0xFF77BB) { return 0xFF55AA; } // Pink
-        if (color == 0xFFFFFF) { return 0xFFFFFF; } // White（已在色板内）
-        return quantizeToRgb222(color);
+    // 预设主题色 → 最接近的 64 色板索引；自定义色量化后编码为索引。
+    // RGB222 索引：index = (rLevel<<4)|(gLevel<<2)|bLevel，level∈{0,1,2,3} ↔ {0x00,0x55,0xAA,0xFF}
+    // 例：0xAA00FF → (2<<4)|(0<<2)|3 = 35；Gold 用 56(0xFFAA00) 避免与 Orange 57 撞色。
+    private function toMipPaletteIndex(color as Number) as Number {
+        if (color == 0xB77CFF) { return 39; } // Purple  → 0xAA55FF
+        if (color == 0x55AAFF) { return 27; } // Blue    → 0x55AAFF
+        if (color == 0x00DDCC) { return 14; } // Cyan    → 0x00FFAA
+        if (color == 0x55FF99) { return 30; } // Green   → 0x55FFAA
+        if (color == 0x3DA855) { return 25; } // FieldGreen → 0x55AA55
+        if (color == 0xFFEE44) { return 61; } // Yellow  → 0xFFFF55
+        if (color == 0xFFCC33) { return 56; } // Gold    → 0xFFAA00
+        if (color == 0xFFAA55) { return 57; } // Orange  → 0xFFAA55
+        if (color == 0xFF5566) { return 53; } // Red     → 0xFF5555
+        if (color == 0xFF77BB) { return 54; } // Pink    → 0xFF55AA
+        if (color == 0xFFFFFF) { return 63; } // White   → 0xFFFFFF
+        return rgbToMipPaletteIndex(color);
     }
 
-    private function quantizeToRgb222(color as Number) as Number {
-        var r = quantizeRgb222Channel((color >> 16) & 0xFF);
-        var g = quantizeRgb222Channel((color >> 8) & 0xFF);
-        var b = quantizeRgb222Channel(color & 0xFF);
-        return (r << 16) | (g << 8) | b;
+    private function rgbToMipPaletteIndex(color as Number) as Number {
+        var r = quantizeRgb222Level((color >> 16) & 0xFF);
+        var g = quantizeRgb222Level((color >> 8) & 0xFF);
+        var b = quantizeRgb222Level(color & 0xFF);
+        return (r << 4) | (g << 2) | b;
     }
 
-    // 将单通道量化到 RGB222 四档：0x00 / 0x55 / 0xAA / 0xFF
-    private function quantizeRgb222Channel(c as Number) as Number {
-        if (c < 0x2B) { return 0x00; }
-        if (c < 0x80) { return 0x55; }
-        if (c < 0xD5) { return 0xAA; }
-        return 0xFF;
+    // 单通道量化到 RGB222 档位 0..3（对应 0x00 / 0x55 / 0xAA / 0xFF）
+    private function quantizeRgb222Level(c as Number) as Number {
+        if (c < 0x2B) { return 0; }
+        if (c < 0x80) { return 1; }
+        if (c < 0xD5) { return 2; }
+        return 3;
     }
 
     function onLayout(dc as Dc) as Void {
