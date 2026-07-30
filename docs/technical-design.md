@@ -113,69 +113,62 @@ private function drawTintedBitmap(dc as Dc, x as Number, y as Number,
 
 ---
 
-## 主题色：MIP 64 色板索引
+## 主题色：MIP 64 色板映射
 
-设置项 `AccentColor` 存的是面向 AMOLED 的十六进制 RGB（如 `0xB77CFF`）。上线后 MIP 屏（ARGB2222 / 64 色）会出现明显色差：传入非色板 RGB 时，硬件强制压缩，观感严重偏离（例如紫色偏蓝）。
+设置项 `AccentColor` 存的是面向 AMOLED 的十六进制 RGB（如 `0xB77CFF`）。上线后 MIP 屏（ARGB2222 / 64 色）会出现明显色差：传入非色板内颜色时，固件会做不可控近似，观感与设计稿偏差大。
 
 ### 结论与原则
 
 1. **AMOLED**：继续使用设置里的完整 RGB。
-2. **MIP**：使用原生 64 色**索引**（0–63）传给 `dc.setColor` / `tintColor`，不要传自定义 RGB。
-3. **设置值不改**：Connect IQ 设置跨机型共用同一 property；运行时按屏幕类型映射。
+2. **MIP**：必须使用官方 RGB222 64 色板内的色号（每通道仅 `0x00 / 0x55 / 0xAA / 0xFF`），仍以 `0xRRGGBB` 传给 `setColor` / `tintColor`。
+3. **设置值不改**：Connect IQ 设置跨机型共用同一 property；运行时按屏幕类型映射，避免 AMOLED 被降彩。
 4. **MIP 判定**：与字体逻辑一致，`!(Graphics has :getVectorFont)` 视为 MIP。
 
 ```monkey-c
-// 正确：MIP 原生 64 色索引，无偏色映射
-dc.setColor(35, Graphics.COLOR_BLACK);
-// 错误：自定义 RGB，MIP 硬件强制压缩，紫色严重偏蓝
+// 正确：色板内 RGB 色号
+dc.setColor(0xAA55FF, Graphics.COLOR_BLACK);
+// 错误：非色板 RGB，MIP 硬件强制近似，易严重偏色
 dc.setColor(0xFF22FF, Graphics.COLOR_BLACK);
+// 错误：把 0–63 索引当颜色传入 —— API 只认 RGB，索引会被当成近黑色
+dc.setColor(39, Graphics.COLOR_BLACK);
 ```
-
-### 索引编码（RGB222）
-
-每通道 2 bit，档位 `0/1/2/3` ↔ `0x00 / 0x55 / 0xAA / 0xFF`：
-
-```
-index = (rLevel << 4) | (gLevel << 2) | bLevel   // 0..63
-```
-
-例：`0xAA00FF` → r=2,g=0,b=3 → index **35**（即 `Graphics.COLOR_PURPLE` 对应色）。
 
 ### 实现位置
 
-`ChefWatchFaceView.loadSettings()` → `resolveAccentForDisplay()` → `toMipPaletteIndex()`。
+`ChefWatchFaceView.loadSettings()` → `resolveAccentForDisplay()` → `toMipPaletteColor()`。
 
-自定义主题色走 `rgbToMipPaletteIndex()`（先量化通道再编码索引）。
+自定义主题色（`CustomAccentColor`）在 MIP 上走 `quantizeToRgb222()`，按通道量化到四档。
 
-映射表注释同步写在 `resources/settings/settings.xml` 的 `AccentColor` 上方。
+映射表注释同步写在 `resources/settings/settings.xml` 的 `AccentColor` 上方，便于对照。
 
-### 预设 → 64 色板索引
+### 预设 → 64 色板色号
 
-| 主题色 | 设置 RGB（AMOLED） | MIP 索引 | 对应色板 RGB | 说明 |
-|--------|-------------------|:--------:|-------------|------|
-| 紫 | `0xB77CFF` | 39 | `0xAA55FF` | 最近邻 |
-| 蓝 | `0x55AAFF` | 27 | `0x55AAFF` | 已在色板内 |
-| 青 | `0x00DDCC` | 14 | `0x00FFAA` | 最近邻 |
-| 绿 | `0x55FF99` | 30 | `0x55FFAA` | 最近邻 |
-| 原野绿 | `0x3DA855` | 25 | `0x55AA55` | 最近邻 |
-| 黄 | `0xFFEE44` | 61 | `0xFFFF55` | 最近邻 |
-| 金 | `0xFFCC33` | 56 | `0xFFAA00` | 刻意不用最近邻（见下） |
-| 橙 | `0xFFAA55` | 57 | `0xFFAA55` | 已在色板内 |
-| 红 | `0xFF5566` | 53 | `0xFF5555` | 最近邻 |
-| 粉 | `0xFF77BB` | 54 | `0xFF55AA` | 最近邻 |
-| 白 | `0xFFFFFF` | 63 | `0xFFFFFF` | 已在色板内 |
+| 主题色 | 设置 RGB（AMOLED） | MIP 色号 | 说明 |
+|--------|-------------------|----------|------|
+| 紫 | `0xB77CFF` | `0xAA55FF` | 最近邻 |
+| 蓝 | `0x55AAFF` | `0x55AAFF` | 已在色板内 |
+| 青 | `0x00DDCC` | `0x00FFAA` | 最近邻 |
+| 绿 | `0x55FF99` | `0x55FFAA` | 最近邻 |
+| 原野绿 | `0x3DA855` | `0x55AA55` | 最近邻 |
+| 黄 | `0xFFEE44` | `0xFFFF55` | 最近邻 |
+| 金 | `0xFFCC33` | `0xFFAA00` | 刻意不用最近邻（见下） |
+| 橙 | `0xFFAA55` | `0xFFAA55` | 已在色板内 |
+| 红 | `0xFF5566` | `0xFF5555` | 最近邻 |
+| 粉 | `0xFF77BB` | `0xFF55AA` | 最近邻 |
+| 白 | `0xFFFFFF` | `0xFFFFFF` | 已在色板内 |
 
 ### 踩坑：纯欧氏距离会撞色
 
-按 RGB 欧氏距离，`0xFFCC33`（金）最近邻是 `0xFFAA55`（索引 57），与橙完全相同。
+按 RGB 欧氏距离，`0xFFCC33`（金）最近邻是 `0xFFAA55`，与橙预设完全相同，MIP 上金/橙无法区分。
 
-因此金改为索引 **56**（`0xFFAA00`），与橙 57 可区分。新增预设时，映射后的索引也要做**两两去重**。
+因此金改为 `0xFFAA00`（略远，但是色板内暖金色，且与橙 `0xFFAA55` 可区分）。以后新增预设时，映射后也要做一次**两两去重**检查。
 
 ### 相关参考
 
-- 64 色板 = RGB222，共 64 种索引色
-- SDK `Graphics.COLOR_*` 是色板子集（如 `COLOR_PURPLE = 0xAA00FF` 对应索引 35）；MIP 可用全部 0–63
-- newer MIP（fenix7、fr255 等）`compiler.json` 可能不列 palette，但 `pixelFormat: ARGB2222` 仍对应同一套 64 色
+- 64 色板 = RGB222，通道取值 `{0x00, 0x55, 0xAA, 0xFF}` 的全部组合（共 64 色）
+- SDK 命名常量（`Graphics.COLOR_*`）只是色板子集；MIP 可用任意色板内 hex，不必局限于命名常量
+- `setColor` / `tintColor` **只接受 RGB**，不接受硬件色板索引；曾误用索引导致 MIP 主题色近黑不可见
+- 论坛/文档：newer MIP（fenix7、fr255 等）`compiler.json` 可能不列 palette，但 `pixelFormat: ARGB2222` / `bitsPerPixel: 8` 仍对应同一套 64 色
 
 ---
 
