@@ -2,6 +2,8 @@
 
 一款面向徒步与山野出行的 **Garmin Connect IQ 圆形表盘**：以时间为视觉核心，配合圆环刻度、三角秒针与四象限可配置数据，抬腕即可把握身体状态与户外环境。
 
+![赴山野介绍](https://img.cdn.1zdz.cn/github/readme/Wildward-face_intro.jpg)
+
 Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55de9ee?tid=0
 
 > **Slogan**：向山野出发，为热爱前行。适配徒步、山野出行场景。聚焦海拔、心率、电量、步数四大核心数据，抬腕即刻洞悉身体状态与户外环境，自在奔赴每一场热爱！
