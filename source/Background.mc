@@ -1,3 +1,4 @@
+import Toybox.Application;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
@@ -9,7 +10,10 @@ class Background extends WatchUi.Drawable {
     }
 
     function draw(dc as Dc) as Void {
-        dc.setColor(Graphics.COLOR_TRANSPARENT, 0x000000);
+        var bg = 0x000000;
+        var v = Application.Properties.getValue("BackgroundColor");
+        if (v != null) { bg = v as Number; }
+        dc.setColor(Graphics.COLOR_TRANSPARENT, bg);
         dc.clear();
     }
 }

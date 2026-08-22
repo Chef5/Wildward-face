@@ -15,10 +15,6 @@ import Toybox.WatchUi;
 
 class ChefWatchFaceView extends WatchUi.WatchFace {
 
-    // ---- 配色 ----
-    private const WHITE = 0xFFFFFF;
-    private const BLACK = 0x000000;
-
     // ---- 中间区域（960 设计单位；圆形表盘上 Y 随屏宽缩放）----
     private const SPEC_TIME_CENTER_Y = 440;
     private const SPEC_DATE_ROW_Y = 612;
@@ -63,6 +59,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     // ---- 设置 ----
     private var _accent as Number = 0xB77CFF;
+    private var _secondary as Number = 0xFFFFFF;
+    private var _background as Number = 0x000000;
     // 字体大小档位（暂时固定为 3=中，设置项已隐藏）
     private var _fontSize as Number = 3;
     private var _showSeconds as Boolean = true;
@@ -189,6 +187,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
     ];
     private const LAST_ACCENT_COLOR_KEY = "lastAccentColor";
+    private const LAST_SECONDARY_COLOR_KEY = "lastSecondaryColor";
+    private const LAST_BACKGROUND_COLOR_KEY = "lastBackgroundColor";
 
     function initialize() {
         WatchFace.initialize();
@@ -199,13 +199,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     function loadSettings() as Void {
         var p = Application.Properties;
         var v;
-        var accentColor = 0xB77CFF;
-        v = p.getValue("AccentColor");
-        if (v != null) { accentColor = v as Number; }
-        clearCustomAccentIfAccentListChanged(accentColor);
-        v = p.getValue("CustomAccentColor");
-        var customAccent = parseCustomAccentColor(v != null ? v as String : "");
-        _accent = resolveAccentForDisplay(customAccent != null ? customAccent : accentColor);
+        _accent = loadResolvedColor("AccentColor", "CustomAccentColor", LAST_ACCENT_COLOR_KEY, 0xB77CFF);
+        _secondary = loadResolvedColor("SecondaryColor", "CustomSecondaryColor", LAST_SECONDARY_COLOR_KEY, 0xFFFFFF);
+        _background = loadResolvedColor("BackgroundColor", "CustomBackgroundColor", LAST_BACKGROUND_COLOR_KEY, 0x000000);
         v = p.getValue("ShowSeconds");
         if (v != null) { _showSeconds = v as Boolean; }
         v = p.getValue("ShowDate");
@@ -249,17 +245,28 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         return _showLunar && _isChineseLocale;
     }
 
-    // 用户切换主题色列表时清空自定义色，使新预设生效（用 Storage 记录上次值以跨重启检测）。
-    function clearCustomAccentIfAccentListChanged(accentColor as Number) as Void {
-        var lastAccent = Application.Storage.getValue(LAST_ACCENT_COLOR_KEY);
-        if (lastAccent != null && (lastAccent as Number) != accentColor) {
-            Application.Properties.setValue("CustomAccentColor", "");
-        }
-        Application.Storage.setValue(LAST_ACCENT_COLOR_KEY, accentColor);
+    private function loadResolvedColor(listKey as String, customKey as String, storageKey as String, defaultColor as Number) as Number {
+        var p = Application.Properties;
+        var listColor = defaultColor;
+        var v = p.getValue(listKey);
+        if (v != null) { listColor = v as Number; }
+        clearCustomIfListChanged(listColor, storageKey, customKey);
+        v = p.getValue(customKey);
+        var custom = parseCustomHexColor(v != null ? v as String : "");
+        return resolveColorForDisplay(custom != null ? custom : listColor);
     }
 
-    // 解析自定义主题色（6 位十六进制，可选 # 前缀）；无效或留空返回 null。
-    function parseCustomAccentColor(raw as String) as Number? {
+    // 用户切换预设列表时清空自定义色，使新预设生效（用 Storage 记录上次值以跨重启检测）。
+    function clearCustomIfListChanged(listColor as Number, storageKey as String, customKey as String) as Void {
+        var last = Application.Storage.getValue(storageKey);
+        if (last != null && (last as Number) != listColor) {
+            Application.Properties.setValue(customKey, "");
+        }
+        Application.Storage.setValue(storageKey, listColor);
+    }
+
+    // 解析自定义色（6 位十六进制，可选 # 前缀）；无效或留空返回 null。
+    function parseCustomHexColor(raw as String) as Number? {
         if (raw == null || raw.length() == 0) {
             return null;
         }
@@ -290,7 +297,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     // AMOLED 保留设置中的 RGB；MIP 映射到官方 RGB222 64 色板色号（仍以 0xRRGGBB 传入 setColor）。
     // 注意：setColor / tintColor 只接受 RGB，不接受 0–63 色板索引；传索引会被当成近黑色导致主题色不可见。
-    private function resolveAccentForDisplay(color as Number) as Number {
+    private function resolveColorForDisplay(color as Number) as Number {
         if (!isMipDisplay()) {
             return color;
         }
@@ -311,6 +318,10 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (color == 0xFF5566) { return 0xFF5555; } // Red
         if (color == 0xFF77BB) { return 0xFF55AA; } // Pink
         if (color == 0xFFFFFF) { return 0xFFFFFF; } // White（已在色板内）
+        if (color == 0x000000) { return 0x000000; } // Black
+        if (color == 0x555555) { return 0x555555; } // DarkGray（已在色板内）
+        if (color == 0xAAAAAA) { return 0xAAAAAA; } // LightGray（已在色板内）
+        if (color == 0x0A1628) { return 0x000055; } // Navy
         return quantizeToRgb222(color);
     }
 
@@ -417,7 +428,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
         // 背景
         if (dc has :setAntiAlias) { dc.setAntiAlias(true); }
-        dc.setColor(WHITE, BLACK);
+        dc.setColor(_secondary, _background);
         dc.clear();
 
         var sec = System.getClockTime().sec;
@@ -603,7 +614,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var w = clip[2] as Number;
         var h = clip[3] as Number;
         dc.setClip(x, y, w, h);
-        dc.setColor(BLACK, BLACK);
+        dc.setColor(_background, _background);
         dc.fillRectangle(x, y, w, h);
         redrawRingTicksNear(dc, oldSec, newSec);
         drawSecondHandAt(dc, newSec);
@@ -615,7 +626,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var w = _secClipW;
         var h = _secClipH;
         dc.setClip(x, y, w, h);
-        dc.setColor(BLACK, BLACK);
+        dc.setColor(_background, _background);
         dc.fillRectangle(x, y, w, h);
         dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
         dc.drawText(_secTextX, _secTextY, Graphics.FONT_XTINY, sec.format("%02d"),
@@ -653,7 +664,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             var battLeftX = centerX - groupW / 2;
             var battTextX = battLeftX + battW + battGap;
             drawBatteryIcon(dc, battLeftX, rowCenterY - battH / 2, battW, battH, pct);
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(battTextX, rowCenterY, _uiFont, battText,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 3) {
@@ -726,7 +737,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (bmp != null) {
             drawTintedBitmap(dc, iconCenterX - iconHalf, centerY - iconHalf, bmp);
         }
-        dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
         dc.drawText(textLeftX, centerY, _uiFont, text,
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
@@ -735,7 +746,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
                                      w as Number, h as Number, pct as Float) as Void {
         var pen = s(3);
         if (pen < 2) { pen = 2; }
-        dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
         dc.setPenWidth(pen);
         // 外轮廓（圆角矩形近似为普通矩形——多数 CIQ 设备无 roundRect）
         dc.drawRectangle(x, y, w, h);
@@ -825,7 +836,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 
         // 冒号——较小字号；与数字共用 centerLineY（不做逐字体 Y 偏移）
-        dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
         var colonX = blockLeft + hourW + colonGap;
         dc.drawText(colonX, centerLineY, colonFont, ":",
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
@@ -866,6 +877,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (showAmPm) {
             var ampmStr = clock.hour < 12 ? "AM" : "PM";
             ensureAmpmFont(dc, secFont);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(suffixX, centerLineY, _ampmFont, ampmStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
         }
@@ -908,7 +920,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
         var lunarReady = shouldShowLunar() && !_lunarStr.equals("");
         var dateY = s(SPEC_DATE_ROW_Y);
-        dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
 
         var dowIdx = info.day_of_week - 1;
         if (dowIdx < 0 || dowIdx > 6) { dowIdx = 0; }
@@ -1010,7 +1022,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (metric == 1) {
             var hr = getHeartRate();
             if (_heartBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _heartBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (hr == null) ? "--" : hr.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 2) {
@@ -1018,64 +1030,64 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             var battW = s(92);
             var battH = s(46);
             drawBatteryIcon(dc, centerX - battW / 2, iconY - battH / 2, battW, battH, pct);
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getBatteryDisplayText(pct),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 3) {
             var steps = getSteps();
             if (_stepsBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _stepsBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (steps == null) ? "--" : steps.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 4) {
             var alt = getAltitude();
             if (_altBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _altBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (alt == null) ? "--" : alt.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 5) {
             var cal = getCalories();
             if (_caloriesBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _caloriesBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (cal == null) ? "--" : cal.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 6) {
             var spo2 = getSpO2();
             if (_spo2Bmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _spo2Bmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (spo2 == null) ? "--" : spo2.format("%d") + "%",
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 7) {
             if (_pressureBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _pressureBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getBarometricPressureText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 8) {
             var bb = getBodyBattery();
             if (_bodyBatteryBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _bodyBatteryBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (bb == null) ? "--" : bb.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 9) {
             var stress = getStress();
             if (_stressBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _stressBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (stress == null) ? "--" : stress.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 10) {
             if (_sunriseBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _sunriseBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getSunriseTimeText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 11) {
             if (_sunsetBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _sunsetBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getSunsetTimeText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 14) {
             var autoBmp = getSunriseSunsetAutoBmp();
             if (autoBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, autoBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getSunriseSunsetAutoText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 12) {
@@ -1083,47 +1095,47 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         } else if (metric == 13) {
             var rr = getRespirationRate();
             if (_respirationBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _respirationBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, (rr == null) ? "--" : rr.format("%d"),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 15) {
             if (_runningBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _runningBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getWeeklyRunDistanceText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 16) {
             if (_runningBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _runningBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getMonthlyRunDistanceText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 17) {
             if (_notificationsBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _notificationsBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getNotificationCountText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 18) {
             if (_recoveryBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _recoveryBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getRecoveryTimeText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 19) {
             if (_intensityBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _intensityBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getWeeklyIntensityMinutesText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 20) {
             if (_intensityBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _intensityBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getMonthlyIntensityMinutesText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 21) {
             if (_intensityBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _intensityBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getWeeklyVigorousMinutesText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (metric == 22) {
             if (_intensityBmp != null) { drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, _intensityBmp); }
-            dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+            dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             dc.drawText(centerX, valueY, _uiFont, getMonthlyVigorousMinutesText(),
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
@@ -1136,7 +1148,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (icon != null) {
             drawTintedBitmap(dc, centerX - iconHalf, iconY - iconHalf, icon);
         }
-        dc.setColor(WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
         dc.drawText(centerX, valueY, _uiFont, getWeatherTemperatureText(),
                     Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
     }

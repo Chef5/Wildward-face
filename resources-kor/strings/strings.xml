@@ -3,7 +3,11 @@
     <string id="AppName">Wildward</string>
 
     <string id="AccentColorTitle">테마 색상</string>
-    <string id="CustomAccentColorTitle">테마 색상 - 고급 설정</string>
+    <string id="SecondaryColorTitle">보조 색상</string>
+    <string id="BackgroundColorTitle">배경 색상</string>
+    <string id="CustomAccentColorTitle">테마 색상 - 고급 설정 (예: #B77CFF)</string>
+    <string id="CustomSecondaryColorTitle">보조 색상 - 고급 설정 (예: #B77CFF)</string>
+    <string id="CustomBackgroundColorTitle">배경 색상 - 고급 설정 (예: #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB 예: #B77CFF</string>
     <string id="ShowSecondsTitle">초 표시</string>
     <string id="ShowDateTitle">날짜 표시</string>
@@ -57,5 +61,9 @@
     <string id="ColorRed">빨강</string>
     <string id="ColorPink">분홍</string>
     <string id="ColorWhite">흰색</string>
+    <string id="ColorBlack">검정</string>
+    <string id="ColorDarkGray">진한 회색</string>
+    <string id="ColorLightGray">연한 회색</string>
+    <string id="ColorNavy">네이비</string>
 
 </strings>

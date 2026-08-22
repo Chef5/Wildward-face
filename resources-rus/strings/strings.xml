@@ -3,7 +3,11 @@
     <string id="AppName">Wildward</string>
 
     <string id="AccentColorTitle">Цвет темы</string>
-    <string id="CustomAccentColorTitle">Цвет темы — расширенные</string>
+    <string id="SecondaryColorTitle">Дополнительный цвет</string>
+    <string id="BackgroundColorTitle">Цвет фона</string>
+    <string id="CustomAccentColorTitle">Цвет темы — расширенные (напр.: #B77CFF)</string>
+    <string id="CustomSecondaryColorTitle">Дополнительный цвет — расширенные (напр.: #B77CFF)</string>
+    <string id="CustomBackgroundColorTitle">Цвет фона — расширенные (напр.: #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB, напр.: #B77CFF</string>
     <string id="ShowSecondsTitle">Показывать секунды</string>
     <string id="ShowDateTitle">Показывать дату</string>
@@ -56,5 +60,9 @@
     <string id="ColorRed">Красный</string>
     <string id="ColorPink">Розовый</string>
     <string id="ColorWhite">Белый</string>
+    <string id="ColorBlack">Чёрный</string>
+    <string id="ColorDarkGray">Тёмно-серый</string>
+    <string id="ColorLightGray">Светло-серый</string>
+    <string id="ColorNavy">Тёмно-синий</string>
 
 </strings>

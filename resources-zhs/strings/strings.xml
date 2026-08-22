@@ -3,7 +3,11 @@
     <string id="AppName">赴山野</string>
 
     <string id="AccentColorTitle">主题色</string>
-    <string id="CustomAccentColorTitle">主题色-高级设置</string>
+    <string id="SecondaryColorTitle">副色</string>
+    <string id="BackgroundColorTitle">背景色</string>
+    <string id="CustomAccentColorTitle">主题色-高级设置（比如：#B77CFF）</string>
+    <string id="CustomSecondaryColorTitle">副色-高级设置（比如：#B77CFF）</string>
+    <string id="CustomBackgroundColorTitle">背景色-高级设置（比如：#B77CFF）</string>
     <string id="CustomAccentColorPrompt">RGB示例：#B77CFF</string>
     <string id="ShowSecondsTitle">显示秒数</string>
     <string id="ShowDateTitle">显示日期</string>
@@ -58,5 +62,9 @@
     <string id="ColorRed">朱砂红</string>
     <string id="ColorPink">樱花粉</string>
     <string id="ColorWhite">月光白</string>
+    <string id="ColorBlack">纯黑</string>
+    <string id="ColorDarkGray">深灰</string>
+    <string id="ColorLightGray">浅灰</string>
+    <string id="ColorNavy">藏蓝</string>
 
 </strings>

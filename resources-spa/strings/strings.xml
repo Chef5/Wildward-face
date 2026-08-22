@@ -3,7 +3,11 @@
     <string id="AppName">Wildward</string>
 
     <string id="AccentColorTitle">Color del tema</string>
-    <string id="CustomAccentColorTitle">Color del tema - Configuración avanzada</string>
+    <string id="SecondaryColorTitle">Color secundario</string>
+    <string id="BackgroundColorTitle">Color de fondo</string>
+    <string id="CustomAccentColorTitle">Color del tema - Configuración avanzada (p. ej.: #B77CFF)</string>
+    <string id="CustomSecondaryColorTitle">Color secundario - Configuración avanzada (p. ej.: #B77CFF)</string>
+    <string id="CustomBackgroundColorTitle">Color de fondo - Configuración avanzada (p. ej.: #B77CFF)</string>
     <string id="CustomAccentColorPrompt">ejemplo RGB: #B77CFF</string>
     <string id="ShowSecondsTitle">Mostrar segundos</string>
     <string id="ShowDateTitle">Mostrar fecha</string>
@@ -57,5 +61,9 @@
     <string id="ColorRed">Rojo</string>
     <string id="ColorPink">Rosa</string>
     <string id="ColorWhite">Blanco</string>
+    <string id="ColorBlack">Negro</string>
+    <string id="ColorDarkGray">Gris oscuro</string>
+    <string id="ColorLightGray">Gris claro</string>
+    <string id="ColorNavy">Azul marino</string>
 
 </strings>

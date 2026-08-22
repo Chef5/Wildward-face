@@ -135,11 +135,11 @@ dc.setColor(39, Graphics.COLOR_BLACK);
 
 ### 实现位置
 
-`ChefWatchFaceView.loadSettings()` → `resolveAccentForDisplay()` → `toMipPaletteColor()`。
+`ChefWatchFaceView.loadSettings()` → `resolveColorForDisplay()` → `toMipPaletteColor()`。
 
-自定义主题色（`CustomAccentColor`）在 MIP 上走 `quantizeToRgb222()`，按通道量化到四档。
+自定义色（`CustomAccentColor` / `CustomSecondaryColor` / `CustomBackgroundColor`）在 MIP 上走 `quantizeToRgb222()`，按通道量化到四档。
 
-映射表注释同步写在 `resources/settings/settings.xml` 的 `AccentColor` 上方，便于对照。
+映射表注释同步写在 `resources/settings/settings.xml` 的 `AccentColor` 上方，便于对照。副色复用主题色预设；背景色额外映射：黑 `0x000000`、深灰 `0x555555`、浅灰 `0xAAAAAA`、藏蓝 `0x0A1628` → `0x000055`。
 
 ### 预设 → 64 色板色号
 
