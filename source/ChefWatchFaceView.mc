@@ -45,6 +45,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private const ACTIVITY_EPOCH_OFFSET_SEC = 631065600;
     // 月强度/高强度：同月内重算间隔（History 遍历）
     private const MONTHLY_INTENSITY_REFRESH_MIN_MS = 600000;
+    // 大气压：全量 onUpdate 内缓存，避免每秒扫 SensorHistory
+    private const PRESSURE_CACHE_TTL_MS = 60000;
     // 长按命中区域（960 设计单位，与绘制布局对齐）
     private const SPEC_TOP_HIT_HALF_W = 140;
     private const SPEC_TOP_HIT_HALF_H = 80;
@@ -130,6 +132,22 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _lunarStr as String = "";
     private var _lunarCacheKey as Number = -1; // 打包 yyyymmdd 用于按日失效
 
+    // ---- 大气压缓存 ----
+    private var _pressureTextCache as String = "--";
+    private var _pressureCacheMs as Number = -1;
+
+    // ---- 1Hz 局部刷新（低功耗 onPartialUpdate；高功耗仍走每秒 onUpdate）----
+    private var _partialUpdatesAllowed as Boolean = true;
+    private var _lastSec as Number = -1;
+    private var _secTextX as Number = 0;
+    private var _secTextY as Number = 0;
+    private var _secClipX as Number = 0;
+    private var _secClipY as Number = 0;
+    private var _secClipW as Number = 0;
+    private var _secClipH as Number = 0;
+    private var _ampmFont as Graphics.FontType = Graphics.FONT_XTINY;
+    private var _ampmFontCached as Boolean = false;
+
     // Gregorian day_of_week：1=周日 … 7=周六 → 0..6
     private const WEEKDAYS_ZH = [
         "周日", "周一", "周二", "周三", "周四", "周五", "周六"
@@ -174,6 +192,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     function initialize() {
         WatchFace.initialize();
+        _partialUpdatesAllowed = (WatchUi.WatchFace has :onPartialUpdate);
         loadSettings();
     }
 
@@ -212,6 +231,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         // 设置变更后重新计算字体（_baseFontH 为 0 时说明 onLayout 尚未运行，跳过）
         updateLocaleFlags();
         rebuildUiFont();
+        _pressureCacheMs = -1;
         if (isMonthlyRunMetricActive()) {
             refreshMonthlyRunDistance(true);
         }
@@ -310,7 +330,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     function onLayout(dc as Dc) as Void {
-        System.println("DBG onLayout start");
         setLayout(Rez.Layouts.WatchFace(dc));
         _w = dc.getWidth();
         _h = dc.getHeight();
@@ -318,17 +337,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _cy = _h / 2;
         _scale = _w / 960.0;
         updateMetricIconPx();
-        System.println("DBG loading bitmaps");
         _heartBmp = WatchUi.loadResource(Rez.Drawables.BpmIcon)   as BitmapResource;
-        System.println("DBG heartBmp ok");
         _stepsBmp = WatchUi.loadResource(Rez.Drawables.StepsIcon)  as BitmapResource;
-        System.println("DBG stepsBmp ok");
         _altBmp   = WatchUi.loadResource(Rez.Drawables.AltIcon)    as BitmapResource;
-        System.println("DBG altBmp ok");
         _caloriesBmp = WatchUi.loadResource(Rez.Drawables.CaloriesIcon) as BitmapResource;
-        System.println("DBG caloriesBmp ok");
         _spo2Bmp = WatchUi.loadResource(Rez.Drawables.Spo2Icon) as BitmapResource;
-        System.println("DBG spo2Bmp ok");
         _pressureBmp = WatchUi.loadResource(Rez.Drawables.PressureIcon) as BitmapResource;
         _bodyBatteryBmp = WatchUi.loadResource(Rez.Drawables.BodyBatteryIcon) as BitmapResource;
         _stressBmp = WatchUi.loadResource(Rez.Drawables.StressIcon) as BitmapResource;
@@ -351,9 +364,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _intensityBmp = WatchUi.loadResource(Rez.Drawables.IntensityIcon) as BitmapResource;
         // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
-        System.println("DBG baseFontH=" + _baseFontH.format("%d"));
+        _ampmFontCached = false;
         rebuildUiFont();
-        System.println("DBG onLayout done, isChineseLocale=" + _isChineseLocale.toString());
     }
 
     function onShow() as Void {
@@ -389,7 +401,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     function onUpdate(dc as Dc) as Void {
-        System.println("DBG onUpdate");
         if (_w == 0) {
             _w = dc.getWidth();
             _h = dc.getHeight();
@@ -399,13 +410,19 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             updateMetricIconPx();
         }
 
+        // 局部刷新留下的 clip 必须在全量重绘前清除，否则时分等区域不会更新
+        if (dc has :clearClip) {
+            dc.clearClip();
+        }
+
         // 背景
         if (dc has :setAntiAlias) { dc.setAntiAlias(true); }
         dc.setColor(WHITE, BLACK);
         dc.clear();
 
+        var sec = System.getClockTime().sec;
         if (_showRingTicks) { drawCompassRing(dc); }
-        if (_showSecondHand) { drawSecondHand(dc); }
+        if (_showSecondHand) { drawSecondHandAt(dc, sec); }
         drawTopMetrics(dc);
         var edgeInset = sf(SPEC_DIVIDER_EDGE_INSET);
         if (_showDividers) { drawHorizontalDivider(dc, edgeInset); }
@@ -413,6 +430,42 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         drawDateRows(dc);
         if (_showDividers) { drawHorizontalDivider(dc, _h - edgeInset); }
         drawBottomMetrics(dc);
+        _lastSec = sec;
+    }
+
+    // 低功耗：每秒调用（整分由 onUpdate 接管）。仅 clip 擦写秒针/数字秒，以维持 1Hz。
+    function onPartialUpdate(dc as Dc) as Void {
+        if (!_partialUpdatesAllowed) {
+            return;
+        }
+        if (!_showSecondHand && !_showSeconds) {
+            return;
+        }
+
+        var sec = System.getClockTime().sec;
+        var oldSec = _lastSec;
+        if (oldSec < 0) {
+            oldSec = sec;
+        }
+
+        // 先更新固定位置的数字秒，最后更新秒针，使跨帧残留 clip 落在较小的秒针区域
+        // （官方 Analog 示例依赖上一帧 clip 擦除旧秒针；多区域时合并 clip 会放大功耗）
+        if (_showSeconds && _secClipW > 0) {
+            updateSecondsDigitsPartial(dc, sec);
+        }
+        if (_showSecondHand) {
+            updateSecondHandPartial(dc, oldSec, sec);
+        }
+        _lastSec = sec;
+    }
+
+    function onExitSleep() as Void {
+        // 若曾因超预算自行关掉局部刷新，抬腕后重新允许（系统是否恢复回调因机型而异）
+        _partialUpdatesAllowed = true;
+    }
+
+    function disablePartialUpdates() as Void {
+        _partialUpdatesAllowed = false;
     }
 
     // -------------------------------------------------------------
@@ -421,6 +474,13 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     private function drawCompassRing(dc as Dc) as Void {
         dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
+        for (var i = 0; i < 60; i++) {
+            drawRingTickAt(dc, i);
+        }
+        dc.setPenWidth(1);
+    }
+
+    private function drawRingTickAt(dc as Dc, i as Number) as Void {
         var outerR = (_w / 2.0) - sf(2);
         var minorOuter = outerR;
         var minorInner = outerR - sf(14);
@@ -432,24 +492,18 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var minorPen = s(2);
         if (minorPen < 1) { minorPen = 1; }
 
-        for (var i = 0; i < 60; i++) {
-            var rad = i * 6.0 * Math.PI / 180.0;
-            var sa = Math.sin(rad);
-            var ca = -Math.cos(rad);
-            var isMajor = (i % 5 == 0);
-            var rOut = isMajor ? majorOuter : minorOuter;
-            var rIn = isMajor ? majorInner : minorInner;
-            dc.setPenWidth(isMajor ? majorPen : minorPen);
-            dc.drawLine((_cx + rOut * sa).toNumber(), (_cy + rOut * ca).toNumber(),
-                        (_cx + rIn * sa).toNumber(), (_cy + rIn * ca).toNumber());
-        }
-        dc.setPenWidth(1);
+        var rad = i * 6.0 * Math.PI / 180.0;
+        var sa = Math.sin(rad);
+        var ca = -Math.cos(rad);
+        var isMajor = ((i % 5) == 0);
+        var rOut = isMajor ? majorOuter : minorOuter;
+        var rIn = isMajor ? majorInner : minorInner;
+        dc.setPenWidth(isMajor ? majorPen : minorPen);
+        dc.drawLine((_cx + rOut * sa).toNumber(), (_cy + rOut * ca).toNumber(),
+                    (_cx + rIn * sa).toNumber(), (_cy + rIn * ca).toNumber());
     }
 
-    // 箭头秒针：尖端朝表缘；靠圆心侧底边内凹（类似指针/光标折角）
-    private function drawSecondHand(dc as Dc) as Void {
-        dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
-        var sec = System.getClockTime().sec;
+    private function getSecondHandPoints(sec as Number) as Array {
         var rad = sec * 6.0 * Math.PI / 180.0;
         var sa = Math.sin(rad);
         var ca = -Math.cos(rad);
@@ -465,13 +519,107 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var baseY = _cy + baseR * ca;
         var notchX = (_cx + notchR * sa).toNumber();
         var notchY = (_cy + notchR * ca).toNumber();
-        // 顶点顺序：尖端 → 右底 → 内凹折角 → 左底
-        dc.fillPolygon([
+        return [
             [tipX, tipY],
             [(baseX + halfW * ca).toNumber(), (baseY - halfW * sa).toNumber()],
             [notchX, notchY],
             [(baseX - halfW * ca).toNumber(), (baseY + halfW * sa).toNumber()]
-        ]);
+        ];
+    }
+
+    private function getPolygonClipRect(points as Array, pad as Number) as Array {
+        var minX = _w;
+        var minY = _h;
+        var maxX = 0;
+        var maxY = 0;
+        for (var i = 0; i < points.size(); i++) {
+            var p = points[i] as Array;
+            var x = p[0] as Number;
+            var y = p[1] as Number;
+            if (x < minX) { minX = x; }
+            if (y < minY) { minY = y; }
+            if (x > maxX) { maxX = x; }
+            if (y > maxY) { maxY = y; }
+        }
+        minX -= pad;
+        minY -= pad;
+        maxX += pad;
+        maxY += pad;
+        if (minX < 0) { minX = 0; }
+        if (minY < 0) { minY = 0; }
+        if (maxX >= _w) { maxX = _w - 1; }
+        if (maxY >= _h) { maxY = _h - 1; }
+        var cw = maxX - minX + 1;
+        var ch = maxY - minY + 1;
+        if (cw < 1) { cw = 1; }
+        if (ch < 1) { ch = 1; }
+        return [minX, minY, cw, ch];
+    }
+
+    private function unionClipRects(a as Array, b as Array) as Array {
+        var ax = a[0] as Number;
+        var ay = a[1] as Number;
+        var aw = a[2] as Number;
+        var ah = a[3] as Number;
+        var bx = b[0] as Number;
+        var by = b[1] as Number;
+        var bw = b[2] as Number;
+        var bh = b[3] as Number;
+        var minX = ax < bx ? ax : bx;
+        var minY = ay < by ? ay : by;
+        var maxX = (ax + aw) > (bx + bw) ? (ax + aw) : (bx + bw);
+        var maxY = (ay + ah) > (by + bh) ? (ay + ah) : (by + bh);
+        return [minX, minY, maxX - minX, maxY - minY];
+    }
+
+    // 箭头秒针：尖端朝表缘；靠圆心侧底边内凹（类似指针/光标折角）
+    private function drawSecondHandAt(dc as Dc, sec as Number) as Void {
+        dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
+        dc.fillPolygon(getSecondHandPoints(sec));
+    }
+
+    private function redrawRingTicksNear(dc as Dc, secA as Number, secB as Number) as Void {
+        if (!_showRingTicks) {
+            return;
+        }
+        dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
+        for (var d = -1; d <= 1; d++) {
+            drawRingTickAt(dc, (secA + d + 60) % 60);
+            if (secB != secA) {
+                drawRingTickAt(dc, (secB + d + 60) % 60);
+            }
+        }
+        dc.setPenWidth(1);
+    }
+
+    private function updateSecondHandPartial(dc as Dc, oldSec as Number, newSec as Number) as Void {
+        var pad = s(4);
+        if (pad < 2) { pad = 2; }
+        var oldRect = getPolygonClipRect(getSecondHandPoints(oldSec), pad);
+        var newRect = getPolygonClipRect(getSecondHandPoints(newSec), pad);
+        var clip = (oldSec == newSec) ? newRect : unionClipRects(oldRect, newRect);
+        var x = clip[0] as Number;
+        var y = clip[1] as Number;
+        var w = clip[2] as Number;
+        var h = clip[3] as Number;
+        dc.setClip(x, y, w, h);
+        dc.setColor(BLACK, BLACK);
+        dc.fillRectangle(x, y, w, h);
+        redrawRingTicksNear(dc, oldSec, newSec);
+        drawSecondHandAt(dc, newSec);
+    }
+
+    private function updateSecondsDigitsPartial(dc as Dc, sec as Number) as Void {
+        var x = _secClipX;
+        var y = _secClipY;
+        var w = _secClipW;
+        var h = _secClipH;
+        dc.setClip(x, y, w, h);
+        dc.setColor(BLACK, BLACK);
+        dc.fillRectangle(x, y, w, h);
+        dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(_secTextX, _secTextY, Graphics.FONT_XTINY, sec.format("%02d"),
+                    Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
     }
 
     // -------------------------------------------------------------
@@ -690,6 +838,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var suffixX = minX + minW + s(2);
 
         // 秒——分右下角；按基线对齐（用 box-bottom − descent 跨字体对齐效果差）
+        _secClipW = 0;
         if (showSeconds) {
             dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
             var secH = dc.getFontHeight(secFont);
@@ -699,24 +848,44 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             var secY = minBaseline - secH / 2 + descSec;
             dc.drawText(suffixX, secY, secFont, secStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+            // 供 onPartialUpdate 只擦写秒数字区域
+            var secW = dc.getTextWidthInPixels("88", secFont);
+            var padX = 1;
+            var padY = 1;
+            _secTextX = suffixX;
+            _secTextY = secY;
+            _secClipX = suffixX - padX;
+            _secClipY = secY - secH / 2 - padY;
+            _secClipW = secW + padX * 2;
+            _secClipH = secH + padY * 2;
+            if (_secClipX < 0) { _secClipX = 0; }
+            if (_secClipY < 0) { _secClipY = 0; }
         }
 
         // 12 小时制：AM / PM 与时分垂直居中（跟随系统时间制，独立于秒数设置）
         if (showAmPm) {
             var ampmStr = clock.hour < 12 ? "AM" : "PM";
-            var ampmFont = secFont;
-            if (Graphics has :getVectorFont) {
-                var secH = dc.getFontHeight(secFont);
-                var smallSize = (secH * 0.7).toNumber();
-                if (smallSize < 7) { smallSize = 7; }
-                var vf = Graphics.getVectorFont({ :face => "RobotoCondensedRegular", :size => smallSize });
-                if (vf != null) {
-                    ampmFont = vf;
-                }
-            }
-            dc.drawText(suffixX, centerLineY, ampmFont, ampmStr,
+            ensureAmpmFont(dc, secFont);
+            dc.drawText(suffixX, centerLineY, _ampmFont, ampmStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
         }
+    }
+
+    private function ensureAmpmFont(dc as Dc, secFont as Graphics.FontType) as Void {
+        if (_ampmFontCached) {
+            return;
+        }
+        _ampmFont = secFont;
+        if (Graphics has :getVectorFont) {
+            var secH = dc.getFontHeight(secFont);
+            var smallSize = (secH * 0.7).toNumber();
+            if (smallSize < 7) { smallSize = 7; }
+            var vf = Graphics.getVectorFont({ :face => "RobotoCondensedRegular", :size => smallSize });
+            if (vf != null) {
+                _ampmFont = vf;
+            }
+        }
+        _ampmFontCached = true;
     }
 
     // -------------------------------------------------------------
@@ -998,8 +1167,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 在 onLayout 缓存完 _baseFontH 之后调用，以及设置变更后调用。
     private function rebuildUiFont() as Void {
         if (_baseFontH <= 0) { return; }
-        System.println("DBG rebuildUiFont fontSize=" + _fontSize.format("%d"));
         updateLocaleFlags();
+        _ampmFontCached = false;
         // 5 档尺寸系数：极小×0.9 / 小×1.0 / 中×1.25 / 大×1.5 / 极大×1.8
         var ratio;
         if (_fontSize <= 1)      { ratio = 0.9; }
@@ -1008,7 +1177,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         else if (_fontSize == 4) { ratio = 1.5; }
         else                     { ratio = 1.8; }
         var targetH = (_baseFontH * ratio).toNumber();
-        System.println("DBG targetH=" + targetH.format("%d"));
 
         if (Graphics has :getVectorFont) {
             // AMOLED 设备：按语言选择最佳矢量字体，以 NotoSansSCMedium 兜底。
@@ -1025,7 +1193,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
                 faceName = "NotoSansSCMedium";
             }
             var vf = Graphics.getVectorFont({ :face => faceName, :size => targetH });
-            System.println("DBG vf=" + (vf != null ? "ok" : "null"));
             if (vf != null) {
                 _uiFont = vf;
                 return;
@@ -1036,7 +1203,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         else if (_fontSize == 3) { _uiFont = Graphics.FONT_TINY; }
         else if (_fontSize == 4) { _uiFont = Graphics.FONT_SMALL; }
         else                     { _uiFont = Graphics.FONT_MEDIUM; }
-        System.println("DBG rebuildUiFont done");
     }
 
     // -------------------------------------------------------------
@@ -1149,18 +1315,28 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     private function getBarometricPressureText() as String {
+        var nowMs = System.getTimer();
+        if (_pressureCacheMs >= 0) {
+            var elapsed = nowMs - _pressureCacheMs;
+            if (elapsed >= 0 && elapsed < PRESSURE_CACHE_TTL_MS) {
+                return _pressureTextCache;
+            }
+        }
+
         var data = getBarometricPressureData();
-        if (data == null) {
-            return "--";
+        var text = "--";
+        if (data != null) {
+            var hPa = data.get(:hpa) as Number;
+            var trend = data.get(:trend) as Number;
+            text = hPa.format("%d");
+            if (trend > 0) {
+                text += "\u2191";
+            } else if (trend < 0) {
+                text += "\u2193";
+            }
         }
-        var hPa = data.get(:hpa) as Number;
-        var trend = data.get(:trend) as Number;
-        var text = hPa.format("%d");
-        if (trend > 0) {
-            text += "\u2191";
-        } else if (trend < 0) {
-            text += "\u2193";
-        }
+        _pressureTextCache = text;
+        _pressureCacheMs = nowMs;
         return text;
     }
 

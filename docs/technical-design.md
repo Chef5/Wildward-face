@@ -239,4 +239,4 @@ dc.setColor(39, Graphics.COLOR_BLACK);
   - 尖端半径 ≈ 半屏宽 − 30；底边半径 ≈ 半屏宽 − 58；折角半径 ≈ 半屏宽 − 52
   - 半宽 ≈ 11 设计单位；尖端始终由圆心指向表缘
 
-高功耗模式下系统每秒调用 `onUpdate`，秒针与数字秒数同步跳动；低功耗模式通常按分钟刷新（与数字秒行为一致）。
+高功耗模式下系统每秒调用 `onUpdate` 全量重绘；低功耗下整分仍走 `onUpdate`，其余秒走 `onPartialUpdate` + `setClip` 只擦写秒针旧/新包围盒与数字秒区域，以维持 1Hz。超功耗预算时 `onPowerBudgetExceeded` 会暂停局部刷新，抬腕 `onExitSleep` 后重新启用。大气压等重计算在全量刷新路径内按 TTL 缓存，避免拖垮 1Hz 预算。
