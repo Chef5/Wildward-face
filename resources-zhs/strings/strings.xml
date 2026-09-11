@@ -10,6 +10,10 @@
     <string id="CustomBackgroundColorTitle">背景色-高级设置（比如：#B77CFF）</string>
     <string id="CustomAccentColorPrompt">RGB示例：#B77CFF</string>
     <string id="ShowSecondsTitle">显示秒数</string>
+    <string id="TimeFormatTitle">时间格式</string>
+    <string id="TimeFormatSystem">跟随系统</string>
+    <string id="TimeFormat12Hour">12小时制</string>
+    <string id="TimeFormat24Hour">24小时制</string>
     <string id="TimeSeparatorTitle">时间分隔符</string>
     <string id="TimeSeparatorPrompt">默认为 :，清空则不显示。可输入空格或其他字符。</string>
     <string id="ShowDateTitle">显示日期</string>

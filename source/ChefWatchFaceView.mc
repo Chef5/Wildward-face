@@ -64,6 +64,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 字体大小档位（暂时固定为 3=中，设置项已隐藏）
     private var _fontSize as Number = 3;
     private var _showSeconds as Boolean = true;
+    // 时间格式：0=跟随系统  1=12小时制  2=24小时制（仅改显示，不改系统设置）
+    private var _timeFormat as Number = 0;
     // 时分分隔符：默认冒号；空字符串不绘制；保留空格及其他任意字符
     private var _timeSeparator as String = ":";
     private var _showDate as Boolean = true;
@@ -207,6 +209,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _background = loadResolvedColor("BackgroundColor", "CustomBackgroundColor", LAST_BACKGROUND_COLOR_KEY, 0x000000);
         v = p.getValue("ShowSeconds");
         if (v != null) { _showSeconds = v as Boolean; }
+        v = p.getValue("TimeFormat");
+        if (v != null) { _timeFormat = v as Number; }
         v = p.getValue("TimeSeparator");
         if (v != null) { _timeSeparator = v as String; }
         v = p.getValue("ShowDate");
@@ -802,9 +806,20 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 中心时间
     // -------------------------------------------------------------
 
+    // ClockTime.hour 始终为 0–23。本设置只改显示：跟随系统 / 强制 12 小时 / 强制 24 小时。
+    private function use24Hour() as Boolean {
+        if (_timeFormat == 1) {
+            return false;
+        }
+        if (_timeFormat == 2) {
+            return true;
+        }
+        return System.getDeviceSettings().is24Hour;
+    }
+
     private function drawCenterTime(dc as Dc) as Void {
         var clock = System.getClockTime();
-        var is24Hour = System.getDeviceSettings().is24Hour;
+        var is24Hour = use24Hour();
         var hour = clock.hour;
         if (!is24Hour) {
             if (hour == 0) { hour = 12; }
@@ -899,7 +914,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             if (_secClipY < 0) { _secClipY = 0; }
         }
 
-        // 12 小时制：AM / PM 与时分垂直居中（跟随系统时间制，独立于秒数设置）
+        // 12 小时制：AM / PM 与时分垂直居中（跟随表盘时间格式设置，独立于秒数设置）
         if (showAmPm) {
             var ampmStr = clock.hour < 12 ? "AM" : "PM";
             ensureAmpmFont(dc, secFont);
@@ -1797,7 +1812,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
     }
 
-    // 将「距午夜秒数」格式化为时:分，12/24 小时制跟随系统设置。
+    // 将「距午夜秒数」格式化为时:分，12/24 小时制跟随表盘「时间格式」设置。
     private function formatTimeOfDay(secondsSinceMidnight as Number) as String {
         var totalSec = secondsSinceMidnight;
         if (totalSec < 0) {
@@ -1805,7 +1820,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
         var hour = totalSec / 3600;
         var minute = (totalSec % 3600) / 60;
-        if (!System.getDeviceSettings().is24Hour) {
+        if (!use24Hour()) {
             if (hour == 0) {
                 hour = 12;
             } else if (hour > 12) {

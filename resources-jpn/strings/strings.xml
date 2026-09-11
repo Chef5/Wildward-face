@@ -10,6 +10,10 @@
     <string id="CustomBackgroundColorTitle">背景色-詳細設定（例：#B77CFF）</string>
     <string id="CustomAccentColorPrompt">RGB例：#B77CFF</string>
     <string id="ShowSecondsTitle">秒を表示</string>
+    <string id="TimeFormatTitle">時刻形式</string>
+    <string id="TimeFormatSystem">システムに従う</string>
+    <string id="TimeFormat12Hour">12時間制</string>
+    <string id="TimeFormat24Hour">24時間制</string>
     <string id="TimeSeparatorTitle">時刻の区切り</string>
     <string id="TimeSeparatorPrompt">既定は :。空にすると非表示。スペースや他の文字も可。</string>
     <string id="ShowDateTitle">日付を表示</string>

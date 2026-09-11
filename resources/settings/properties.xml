@@ -7,6 +7,8 @@
     <property id="BackgroundColor" type="number">0x000000</property>
     <property id="CustomBackgroundColor" type="string"></property>
     <property id="ShowSeconds" type="boolean">true</property>
+    <!-- 时间格式：0=跟随系统  1=12小时制  2=24小时制（仅改表盘显示，不改系统设置） -->
+    <property id="TimeFormat" type="number">0</property>
     <!-- 时分分隔符：默认冒号；空字符串不显示；可为空格或其他字符 -->
     <property id="TimeSeparator" type="string">:</property>
     <property id="ShowDate" type="boolean">true</property>

@@ -10,6 +10,10 @@
     <string id="CustomBackgroundColorTitle">배경 색상 - 고급 설정 (예: #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB 예: #B77CFF</string>
     <string id="ShowSecondsTitle">초 표시</string>
+    <string id="TimeFormatTitle">시간 형식</string>
+    <string id="TimeFormatSystem">시스템 따름</string>
+    <string id="TimeFormat12Hour">12시간제</string>
+    <string id="TimeFormat24Hour">24시간제</string>
     <string id="TimeSeparatorTitle">시간 구분자</string>
     <string id="TimeSeparatorPrompt">기본값 :, 비우면 숨김. 공백 및 다른 문자 가능.</string>
     <string id="ShowDateTitle">날짜 표시</string>

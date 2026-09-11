@@ -10,6 +10,10 @@
     <string id="CustomBackgroundColorTitle">Achtergrondkleur – Geavanceerd (bijv. #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB-voorbeeld: #B77CFF</string>
     <string id="ShowSecondsTitle">Seconden tonen</string>
+    <string id="TimeFormatTitle">Tijdformaat</string>
+    <string id="TimeFormatSystem">Volg systeem</string>
+    <string id="TimeFormat12Hour">12-uurs</string>
+    <string id="TimeFormat24Hour">24-uurs</string>
     <string id="TimeSeparatorTitle">Tijdscheidingsteken</string>
     <string id="TimeSeparatorPrompt">Standaard :, leegmaken om te verbergen. Spatie en andere tekens toegestaan.</string>
     <string id="ShowDateTitle">Datum tonen</string>

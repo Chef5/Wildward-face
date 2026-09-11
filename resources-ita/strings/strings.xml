@@ -10,6 +10,10 @@
     <string id="CustomBackgroundColorTitle">Colore di sfondo - Impostazioni avanzate (es.: #B77CFF)</string>
     <string id="CustomAccentColorPrompt">esempio RGB: #B77CFF</string>
     <string id="ShowSecondsTitle">Mostra secondi</string>
+    <string id="TimeFormatTitle">Formato ora</string>
+    <string id="TimeFormatSystem">Segui il sistema</string>
+    <string id="TimeFormat12Hour">12 ore</string>
+    <string id="TimeFormat24Hour">24 ore</string>
     <string id="TimeSeparatorTitle">Separatore orario</string>
     <string id="TimeSeparatorPrompt">Predefinito :, svuota per nascondere. Spazio e altri caratteri consentiti.</string>
     <string id="ShowDateTitle">Mostra data</string>

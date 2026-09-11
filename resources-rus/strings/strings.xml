@@ -10,6 +10,10 @@
     <string id="CustomBackgroundColorTitle">Цвет фона — расширенные (напр.: #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB, напр.: #B77CFF</string>
     <string id="ShowSecondsTitle">Показывать секунды</string>
+    <string id="TimeFormatTitle">Формат времени</string>
+    <string id="TimeFormatSystem">Как в системе</string>
+    <string id="TimeFormat12Hour">12-часовой</string>
+    <string id="TimeFormat24Hour">24-часовой</string>
     <string id="TimeSeparatorTitle">Разделитель времени</string>
     <string id="TimeSeparatorPrompt">По умолчанию :, очистите чтобы скрыть. Пробел и другие символы разрешены.</string>
     <string id="ShowDateTitle">Показывать дату</string>

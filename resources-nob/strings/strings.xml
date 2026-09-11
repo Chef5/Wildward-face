@@ -10,6 +10,10 @@
     <string id="CustomBackgroundColorTitle">Bakgrunnsfarge – Avansert (f.eks. #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB-eksempel: #B77CFF</string>
     <string id="ShowSecondsTitle">Vis sekunder</string>
+    <string id="TimeFormatTitle">Tidsformat</string>
+    <string id="TimeFormatSystem">Følg systemet</string>
+    <string id="TimeFormat12Hour">12-timers</string>
+    <string id="TimeFormat24Hour">24-timers</string>
     <string id="TimeSeparatorTitle">Tidsseparator</string>
     <string id="TimeSeparatorPrompt">Standard :, tøm for å skjule. Mellomrom og andre tegn tillatt.</string>
     <string id="ShowDateTitle">Vis dato</string>

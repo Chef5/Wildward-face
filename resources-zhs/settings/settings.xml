@@ -158,6 +158,14 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.TimeFormat" title="@Strings.TimeFormatTitle">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.TimeFormatSystem</listEntry>
+            <listEntry value="1">@Strings.TimeFormat12Hour</listEntry>
+            <listEntry value="2">@Strings.TimeFormat24Hour</listEntry>
+        </settingConfig>
+    </setting>
+
     <setting propertyKey="@Properties.TimeSeparator" title="@Strings.TimeSeparatorTitle" prompt="@Strings.TimeSeparatorPrompt">
         <settingConfig type="alphaNumeric" maxLength="3" />
     </setting>
