@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24時間制</string>
     <string id="TimeSeparatorTitle">時刻の区切り</string>
     <string id="TimeSeparatorPrompt">既定は :。空にすると非表示。スペースや他の文字も可。</string>
+    <string id="TimeFontStyleTitle">時刻のフォント</string>
+    <string id="TimeFontStylePrompt">一部の機種では最も近いシステム数字フォントを使います。</string>
+    <string id="TimeFontSystem">システム</string>
+    <string id="TimeFontCondensedBold">コンデンス Bold</string>
+    <string id="TimeFontCondensed">コンデンス</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">時刻のサイズ</string>
+    <string id="TimeFontSizeSmall">小</string>
+    <string id="TimeFontSizeMedium">中</string>
+    <string id="TimeFontSizeLarge">大</string>
     <string id="ShowDateTitle">日付を表示</string>
     <string id="ShowLunarTitle">旧暦を表示</string>
     <string id="ShowLunarFestivalsTitle">祝日・節気を表示</string>

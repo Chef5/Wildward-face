@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24시간제</string>
     <string id="TimeSeparatorTitle">시간 구분자</string>
     <string id="TimeSeparatorPrompt">기본값 :, 비우면 숨김. 공백 및 다른 문자 가능.</string>
+    <string id="TimeFontStyleTitle">시간 글꼴</string>
+    <string id="TimeFontStylePrompt">일부 기기는 가장 가까운 시스템 숫자 글꼴을 사용합니다.</string>
+    <string id="TimeFontSystem">시스템</string>
+    <string id="TimeFontCondensedBold">콘덴스 볼드</string>
+    <string id="TimeFontCondensed">콘덴스</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">시간 크기</string>
+    <string id="TimeFontSizeSmall">작게</string>
+    <string id="TimeFontSizeMedium">보통</string>
+    <string id="TimeFontSizeLarge">크게</string>
     <string id="ShowDateTitle">날짜 표시</string>
     <string id="ShowLunarTitle">음력 표시</string>
     <string id="ShowLunarFestivalsTitle">명절·절기 표시</string>

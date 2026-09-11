@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24-hour</string>
     <string id="TimeSeparatorTitle">Time Separator</string>
     <string id="TimeSeparatorPrompt">Default :, clear to hide. Space and other characters allowed.</string>
+    <string id="TimeFontStyleTitle">Time Font</string>
+    <string id="TimeFontStylePrompt">Some watches use the closest system number font.</string>
+    <string id="TimeFontSystem">System</string>
+    <string id="TimeFontCondensedBold">Condensed Bold</string>
+    <string id="TimeFontCondensed">Condensed</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">Time Size</string>
+    <string id="TimeFontSizeSmall">Small</string>
+    <string id="TimeFontSizeMedium">Medium</string>
+    <string id="TimeFontSizeLarge">Large</string>
     <string id="ShowDateTitle">Show Date</string>
     <string id="ShowLunarTitle">Show Lunar Calendar</string>
     <string id="ShowLunarFestivalsTitle">Show Festivals &amp; Solar Terms</string>

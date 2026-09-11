@@ -170,6 +170,24 @@
         <settingConfig type="alphaNumeric" maxLength="3" />
     </setting>
 
+    <setting propertyKey="@Properties.TimeFontStyle" title="@Strings.TimeFontStyleTitle" prompt="@Strings.TimeFontStylePrompt">
+        <settingConfig type="list">
+            <listEntry value="0">@Strings.TimeFontSystem</listEntry>
+            <listEntry value="1">@Strings.TimeFontCondensedBold</listEntry>
+            <listEntry value="2">@Strings.TimeFontCondensed</listEntry>
+            <listEntry value="3">@Strings.TimeFontBionic</listEntry>
+            <listEntry value="4">@Strings.TimeFontRoboto</listEntry>
+        </settingConfig>
+    </setting>
+
+    <setting propertyKey="@Properties.TimeFontSize" title="@Strings.TimeFontSizeTitle">
+        <settingConfig type="list">
+            <listEntry value="2">@Strings.TimeFontSizeMedium</listEntry>
+            <listEntry value="1">@Strings.TimeFontSizeSmall</listEntry>
+            <listEntry value="3">@Strings.TimeFontSizeLarge</listEntry>
+        </settingConfig>
+    </setting>
+
     <setting propertyKey="@Properties.ShowDate" title="@Strings.ShowDateTitle">
         <settingConfig type="boolean" />
     </setting>

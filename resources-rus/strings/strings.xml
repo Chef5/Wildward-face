@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24-часовой</string>
     <string id="TimeSeparatorTitle">Разделитель времени</string>
     <string id="TimeSeparatorPrompt">По умолчанию :, очистите чтобы скрыть. Пробел и другие символы разрешены.</string>
+    <string id="TimeFontStyleTitle">Шрифт времени</string>
+    <string id="TimeFontStylePrompt">На некоторых часах используется ближайший системный цифровой шрифт.</string>
+    <string id="TimeFontSystem">Системный</string>
+    <string id="TimeFontCondensedBold">Condensed Bold</string>
+    <string id="TimeFontCondensed">Condensed</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">Размер времени</string>
+    <string id="TimeFontSizeSmall">Мелкий</string>
+    <string id="TimeFontSizeMedium">Средний</string>
+    <string id="TimeFontSizeLarge">Крупный</string>
     <string id="ShowDateTitle">Показывать дату</string>
     <string id="ShowLunarTitle">Показывать лунный календарь</string>
     <string id="ShowLunarFestivalsTitle">Показывать праздники и термины</string>

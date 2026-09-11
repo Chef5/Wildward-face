@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24-godzinny</string>
     <string id="TimeSeparatorTitle">Separator czasu</string>
     <string id="TimeSeparatorPrompt">Domyślnie :, wyczyść aby ukryć. Spacja i inne znaki dozwolone.</string>
+    <string id="TimeFontStyleTitle">Czcionka godziny</string>
+    <string id="TimeFontStylePrompt">Niektóre zegarki używają najbliższej systemowej czcionki cyfr.</string>
+    <string id="TimeFontSystem">System</string>
+    <string id="TimeFontCondensedBold">Condensed Bold</string>
+    <string id="TimeFontCondensed">Condensed</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">Rozmiar godziny</string>
+    <string id="TimeFontSizeSmall">Mały</string>
+    <string id="TimeFontSizeMedium">Średni</string>
+    <string id="TimeFontSizeLarge">Duży</string>
     <string id="ShowDateTitle">Pokaż datę</string>
     <string id="ShowLunarTitle">Pokaż kalendarz księżycowy</string>
     <string id="ShowLunarFestivalsTitle">Pokaż święta i terminy solarne</string>

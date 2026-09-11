@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24小時制</string>
     <string id="TimeSeparatorTitle">時間分隔符</string>
     <string id="TimeSeparatorPrompt">預設為 :，清空則不顯示。可輸入空格或其他字元。</string>
+    <string id="TimeFontStyleTitle">時間字體</string>
+    <string id="TimeFontStylePrompt">部分機型會使用最接近的系統數字字體。</string>
+    <string id="TimeFontSystem">系統</string>
+    <string id="TimeFontCondensedBold">冷凝粗體</string>
+    <string id="TimeFontCondensed">冷凝</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">時間字級</string>
+    <string id="TimeFontSizeSmall">小</string>
+    <string id="TimeFontSizeMedium">中</string>
+    <string id="TimeFontSizeLarge">大</string>
     <string id="ShowDateTitle">顯示日期</string>
     <string id="ShowLunarTitle">顯示農曆</string>
     <string id="ShowLunarFestivalsTitle">顯示節日節氣</string>

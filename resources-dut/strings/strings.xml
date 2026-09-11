@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24-uurs</string>
     <string id="TimeSeparatorTitle">Tijdscheidingsteken</string>
     <string id="TimeSeparatorPrompt">Standaard :, leegmaken om te verbergen. Spatie en andere tekens toegestaan.</string>
+    <string id="TimeFontStyleTitle">Tijdlettertype</string>
+    <string id="TimeFontStylePrompt">Sommige horloges gebruiken het dichtstbijzijnde systeemcijferlettertype.</string>
+    <string id="TimeFontSystem">Systeem</string>
+    <string id="TimeFontCondensedBold">Condensed Bold</string>
+    <string id="TimeFontCondensed">Condensed</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">Tijdgrootte</string>
+    <string id="TimeFontSizeSmall">Klein</string>
+    <string id="TimeFontSizeMedium">Gemiddeld</string>
+    <string id="TimeFontSizeLarge">Groot</string>
     <string id="ShowDateTitle">Datum tonen</string>
     <string id="ShowLunarTitle">Maankalender tonen</string>
     <string id="ShowLunarFestivalsTitle">Feestdagen en zonnetermen tonen</string>

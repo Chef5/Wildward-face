@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24-timers</string>
     <string id="TimeSeparatorTitle">Tidsseparator</string>
     <string id="TimeSeparatorPrompt">Standard :, tøm for å skjule. Mellomrom og andre tegn tillatt.</string>
+    <string id="TimeFontStyleTitle">Tidsfont</string>
+    <string id="TimeFontStylePrompt">Noen klokker bruker nærmeste systemtallfont.</string>
+    <string id="TimeFontSystem">System</string>
+    <string id="TimeFontCondensedBold">Condensed Bold</string>
+    <string id="TimeFontCondensed">Condensed</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">Tidsstørrelse</string>
+    <string id="TimeFontSizeSmall">Liten</string>
+    <string id="TimeFontSizeMedium">Middels</string>
+    <string id="TimeFontSizeLarge">Stor</string>
     <string id="ShowDateTitle">Vis dato</string>
     <string id="ShowLunarTitle">Vis månekalender</string>
     <string id="ShowLunarFestivalsTitle">Vis merkedager og solterm</string>

@@ -11,6 +11,10 @@
     <property id="TimeFormat" type="number">0</property>
     <!-- 时分分隔符：默认冒号；空字符串不显示；可为空格或其他字符 -->
     <property id="TimeSeparator" type="string">:</property>
+    <!-- 中心时分字体：0=系统数字 1=冷凝粗体 2=冷凝 3=Bionic 4=Roboto -->
+    <property id="TimeFontStyle" type="number">0</property>
+    <!-- 中心时分字号：1=小 2=中（默认，对齐当前 NUMBER_HOT） 3=大 -->
+    <property id="TimeFontSize" type="number">2</property>
     <property id="ShowDate" type="boolean">true</property>
     <property id="ShowLunar" type="boolean">true</property>
     <property id="ShowLunarFestivals" type="boolean">true</property>

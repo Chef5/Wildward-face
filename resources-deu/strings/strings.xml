@@ -16,6 +16,17 @@
     <string id="TimeFormat24Hour">24-Stunden-Format</string>
     <string id="TimeSeparatorTitle">Zeit-Trennzeichen</string>
     <string id="TimeSeparatorPrompt">Standard :, leeren zum Ausblenden. Leerzeichen und andere Zeichen erlaubt.</string>
+    <string id="TimeFontStyleTitle">Zeit-Schrift</string>
+    <string id="TimeFontStylePrompt">Einige Uhren verwenden die nächstgelegene System-Ziffernschrift.</string>
+    <string id="TimeFontSystem">System</string>
+    <string id="TimeFontCondensedBold">Condensed Bold</string>
+    <string id="TimeFontCondensed">Condensed</string>
+    <string id="TimeFontBionic">Bionic</string>
+    <string id="TimeFontRoboto">Roboto</string>
+    <string id="TimeFontSizeTitle">Zeit-Größe</string>
+    <string id="TimeFontSizeSmall">Klein</string>
+    <string id="TimeFontSizeMedium">Mittel</string>
+    <string id="TimeFontSizeLarge">Groß</string>
     <string id="ShowDateTitle">Datum anzeigen</string>
     <string id="ShowLunarTitle">Mondkalender anzeigen</string>
     <string id="ShowLunarFestivalsTitle">Feste und Sonnenperioden anzeigen</string>
