@@ -158,6 +158,10 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.TimeSeparator" title="@Strings.TimeSeparatorTitle" prompt="@Strings.TimeSeparatorPrompt">
+        <settingConfig type="alphaNumeric" maxLength="3" />
+    </setting>
+
     <setting propertyKey="@Properties.ShowDate" title="@Strings.ShowDateTitle">
         <settingConfig type="boolean" />
     </setting>

@@ -10,6 +10,8 @@
     <string id="CustomBackgroundColorTitle">Background Color - Advanced (e.g. #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB example: #B77CFF</string>
     <string id="ShowSecondsTitle">Show Seconds</string>
+    <string id="TimeSeparatorTitle">Time Separator</string>
+    <string id="TimeSeparatorPrompt">Default :, clear to hide. Space and other characters allowed.</string>
     <string id="ShowDateTitle">Show Date</string>
     <string id="ShowLunarTitle">Show Lunar Calendar</string>
     <string id="ShowLunarFestivalsTitle">Show Festivals &amp; Solar Terms</string>

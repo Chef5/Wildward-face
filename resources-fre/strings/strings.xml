@@ -10,6 +10,8 @@
     <string id="CustomBackgroundColorTitle">Couleur d'arrière-plan - Paramètres avancés (ex. : #B77CFF)</string>
     <string id="CustomAccentColorPrompt">exemple RGB : #B77CFF</string>
     <string id="ShowSecondsTitle">Afficher les secondes</string>
+    <string id="TimeSeparatorTitle">Séparateur d'heure</string>
+    <string id="TimeSeparatorPrompt">Par défaut :, vider pour masquer. Espace et autres caractères autorisés.</string>
     <string id="ShowDateTitle">Afficher la date</string>
     <string id="ShowLunarTitle">Afficher le calendrier lunaire</string>
     <string id="ShowLunarFestivalsTitle">Afficher fêtes et termes solaires</string>

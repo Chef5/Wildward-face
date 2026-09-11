@@ -10,6 +10,8 @@
     <string id="CustomBackgroundColorTitle">Цвет фона — расширенные (напр.: #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB, напр.: #B77CFF</string>
     <string id="ShowSecondsTitle">Показывать секунды</string>
+    <string id="TimeSeparatorTitle">Разделитель времени</string>
+    <string id="TimeSeparatorPrompt">По умолчанию :, очистите чтобы скрыть. Пробел и другие символы разрешены.</string>
     <string id="ShowDateTitle">Показывать дату</string>
     <string id="ShowLunarTitle">Показывать лунный календарь</string>
     <string id="ShowLunarFestivalsTitle">Показывать праздники и термины</string>

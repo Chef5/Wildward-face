@@ -64,6 +64,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     // 字体大小档位（暂时固定为 3=中，设置项已隐藏）
     private var _fontSize as Number = 3;
     private var _showSeconds as Boolean = true;
+    // 时分分隔符：默认冒号；空字符串不绘制；保留空格及其他任意字符
+    private var _timeSeparator as String = ":";
     private var _showDate as Boolean = true;
     private var _showLunar as Boolean = true;
     private var _showLunarFestivals as Boolean = true;
@@ -205,6 +207,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _background = loadResolvedColor("BackgroundColor", "CustomBackgroundColor", LAST_BACKGROUND_COLOR_KEY, 0x000000);
         v = p.getValue("ShowSeconds");
         if (v != null) { _showSeconds = v as Boolean; }
+        v = p.getValue("TimeSeparator");
+        if (v != null) { _timeSeparator = v as String; }
         v = p.getValue("ShowDate");
         if (v != null) { _showDate = v as Boolean; }
         v = p.getValue("ShowLunar");
@@ -810,18 +814,31 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var minStr = clock.min.format("%02d");
         var secStr = clock.sec.format("%02d");
 
-        // 时/分略大；冒号较小但与 HH:MM:ss 共用同一竖直中线。
+        // 时/分略大；分隔符较小但与 HH:MM:ss 共用同一竖直中线。
+        var sep = _timeSeparator;
+        var sepLen = sep.length();
         var bigFont = Graphics.FONT_NUMBER_HOT;
         var colonFont = Graphics.FONT_NUMBER_MILD;
         var secFont = Graphics.FONT_XTINY;
+        var sepFont = colonFont;
 
         var hourW = dc.getTextWidthInPixels(hourStr, bigFont);
-        var colonW = dc.getTextWidthInPixels(":", colonFont);
+        var colonW = 0;
+        if (sepLen > 0) {
+            sepFont = timeSeparatorFont(dc, sep, colonFont);
+            colonW = dc.getTextWidthInPixels(sep, sepFont);
+            if (colonW <= 0) {
+                colonW = dc.getTextWidthInPixels(":", colonFont);
+            }
+        }
         var minW = dc.getTextWidthInPixels(minStr, bigFont);
 
-        // 时、冒号、分之间紧间距（模拟设计稿中 letter_spacing: -12）
+        // 时、分隔符、分之间紧间距（模拟设计稿中 letter_spacing: -12）
         var colonGap = s(2);
-        var totalW = hourW + colonGap + colonW + colonGap + minW;
+        var totalW = hourW + minW + colonGap;
+        if (sepLen > 0) {
+            totalW += colonW + colonGap;
+        }
         // HH:MM 块居中；秒数/AM·PM 置于「分」右侧（可能向右伸出）
         var blockLeft = _cx - totalW / 2;
         var showSeconds = _showSeconds;
@@ -839,14 +856,19 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         dc.drawText(blockLeft, centerLineY, bigFont, hourStr,
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 
-        // 冒号——较小字号；与数字共用 centerLineY（不做逐字体 Y 偏移）
+        // 分隔符——较小字号；与数字共用 centerLineY（不做逐字体 Y 偏移）
         dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
         var colonX = blockLeft + hourW + colonGap;
-        dc.drawText(colonX, centerLineY, colonFont, ":",
-                    Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+        if (sepLen > 0) {
+            dc.drawText(colonX, centerLineY, sepFont, sep,
+                        Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
+        }
 
         // 分钟
-        var minX = colonX + colonW + colonGap;
+        var minX = colonX + colonW;
+        if (sepLen > 0) {
+            minX += colonGap;
+        }
         dc.drawText(minX, centerLineY, bigFont, minStr,
                     Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
 
@@ -902,6 +924,22 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             }
         }
         _ampmFontCached = true;
+    }
+
+    // 冒号/连字符/斜杠沿用数字字体以保持原样；其他字符用矢量或常规字体，避免 NUMBER 字体缺字。
+    private function timeSeparatorFont(dc as Dc, sep as String, colonFont as Graphics.FontType) as Graphics.FontType {
+        if (sep.equals(":") || sep.equals("-") || sep.equals("/")) {
+            return colonFont;
+        }
+        if (Graphics has :getVectorFont) {
+            var size = dc.getFontHeight(colonFont);
+            if (size < 7) { size = 7; }
+            var vf = Graphics.getVectorFont({ :face => ["RobotoCondensedRegular", "NotoSansSCMedium"], :size => size });
+            if (vf != null) {
+                return vf;
+            }
+        }
+        return Graphics.FONT_LARGE;
     }
 
     // -------------------------------------------------------------

@@ -10,6 +10,8 @@
     <string id="CustomBackgroundColorTitle">Hintergrundfarbe – Erweitert (z. B. #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB-Beispiel: #B77CFF</string>
     <string id="ShowSecondsTitle">Sekunden anzeigen</string>
+    <string id="TimeSeparatorTitle">Zeit-Trennzeichen</string>
+    <string id="TimeSeparatorPrompt">Standard :, leeren zum Ausblenden. Leerzeichen und andere Zeichen erlaubt.</string>
     <string id="ShowDateTitle">Datum anzeigen</string>
     <string id="ShowLunarTitle">Mondkalender anzeigen</string>
     <string id="ShowLunarFestivalsTitle">Feste und Sonnenperioden anzeigen</string>

@@ -10,6 +10,8 @@
     <string id="CustomBackgroundColorTitle">Bakgrunnsfarge – Avansert (f.eks. #B77CFF)</string>
     <string id="CustomAccentColorPrompt">RGB-eksempel: #B77CFF</string>
     <string id="ShowSecondsTitle">Vis sekunder</string>
+    <string id="TimeSeparatorTitle">Tidsseparator</string>
+    <string id="TimeSeparatorPrompt">Standard :, tøm for å skjule. Mellomrom og andre tegn tillatt.</string>
     <string id="ShowDateTitle">Vis dato</string>
     <string id="ShowLunarTitle">Vis månekalender</string>
     <string id="ShowLunarFestivalsTitle">Vis merkedager og solterm</string>
