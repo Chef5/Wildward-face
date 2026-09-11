@@ -12,6 +12,7 @@
     <string id="ShowSecondsTitle">Seconden tonen</string>
     <string id="ShowDateTitle">Datum tonen</string>
     <string id="ShowLunarTitle">Maankalender tonen</string>
+    <string id="ShowLunarFestivalsTitle">Feestdagen en zonnetermen tonen</string>
     <string id="ShowDividersTitle">Scheidingslijnen tonen</string>
     <string id="ShowRingTicksTitle">Ringmarkeringen tonen</string>
     <string id="ShowSecondHandTitle">Secondenwijzer tonen</string>

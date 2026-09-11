@@ -12,6 +12,7 @@
     <string id="ShowSecondsTitle">Afficher les secondes</string>
     <string id="ShowDateTitle">Afficher la date</string>
     <string id="ShowLunarTitle">Afficher le calendrier lunaire</string>
+    <string id="ShowLunarFestivalsTitle">Afficher fêtes et termes solaires</string>
     <string id="ShowDividersTitle">Afficher les séparateurs</string>
     <string id="ShowRingTicksTitle">Afficher les graduations</string>
     <string id="ShowSecondHandTitle">Afficher l'aiguille des secondes</string>

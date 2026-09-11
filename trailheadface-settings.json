@@ -123,6 +123,21 @@
     "configMax" : null,
     "configMaxLength" : null
   }, {
+    "key" : "ShowLunarFestivals",
+    "valueType" : "boolean",
+    "defaultValue" : true,
+    "configTitle" : "ShowLunarFestivalsTitle",
+    "configPrompt" : null,
+    "configType" : "boolean",
+    "configError" : null,
+    "configHelpUrl" : null,
+    "configReadonly" : false,
+    "configRequired" : false,
+    "configOptions" : null,
+    "configMin" : null,
+    "configMax" : null,
+    "configMaxLength" : null
+  }, {
     "key" : "ShowDividers",
     "valueType" : "boolean",
     "defaultValue" : true,
@@ -273,6 +288,7 @@
       "AppName" : "赴山野",
       "ColorRed" : "朱砂红",
       "ShowLunarTitle" : "显示农历",
+      "ShowLunarFestivalsTitle" : "显示节日节气",
       "ColorPink" : "樱花粉",
       "ColorWhite" : "月光白",
       "ShowDateTitle" : "显示日期",

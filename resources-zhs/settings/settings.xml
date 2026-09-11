@@ -178,6 +178,10 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.ShowLunarFestivals" title="@Strings.ShowLunarFestivalsTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
     <setting propertyKey="@Properties.BatteryDisplay" title="@Strings.BatteryDisplayTitle">
         <settingConfig type="list">
             <listEntry value="0">@Strings.BatteryDisplayPercent</listEntry>

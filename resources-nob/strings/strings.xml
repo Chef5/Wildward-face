@@ -12,6 +12,7 @@
     <string id="ShowSecondsTitle">Vis sekunder</string>
     <string id="ShowDateTitle">Vis dato</string>
     <string id="ShowLunarTitle">Vis månekalender</string>
+    <string id="ShowLunarFestivalsTitle">Vis merkedager og solterm</string>
     <string id="ShowDividersTitle">Vis skillelinjer</string>
     <string id="ShowRingTicksTitle">Vis ringmarkeringer</string>
     <string id="ShowSecondHandTitle">Vis sekundviser</string>

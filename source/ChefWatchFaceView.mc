@@ -66,6 +66,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _showSeconds as Boolean = true;
     private var _showDate as Boolean = true;
     private var _showLunar as Boolean = true;
+    private var _showLunarFestivals as Boolean = true;
     private var _showDividers as Boolean = true;
     private var _showRingTicks as Boolean = true;
     private var _showSecondHand as Boolean = true;
@@ -208,6 +209,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (v != null) { _showDate = v as Boolean; }
         v = p.getValue("ShowLunar");
         if (v != null) { _showLunar = v as Boolean; }
+        v = p.getValue("ShowLunarFestivals");
+        if (v != null) { _showLunarFestivals = v as Boolean; }
         v = p.getValue("ShowDividers");
         if (v != null) { _showDividers = v as Boolean; }
         v = p.getValue("ShowRingTicks");
@@ -227,6 +230,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         // 设置变更后重新计算字体（_baseFontH 为 0 时说明 onLayout 尚未运行，跳过）
         updateLocaleFlags();
         rebuildUiFont();
+        _lunarCacheKey = -1;
         _pressureCacheMs = -1;
         if (isMonthlyRunMetricActive()) {
             refreshMonthlyRunDistance(true);
@@ -914,7 +918,9 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         // 更新农历缓存（按日失效；仅中文环境展示）
         var solarKey = info.year * 10000 + info.month * 100 + info.day;
         if (shouldShowLunar() && solarKey != _lunarCacheKey) {
-            _lunarStr = LunarCalendar.format(info.year, info.month, info.day);
+            _lunarStr = LunarCalendar.format(
+                info.year, info.month, info.day,
+                _showLunarFestivals, _systemLanguage == System.LANGUAGE_CHT);
             _lunarCacheKey = solarKey;
         }
 

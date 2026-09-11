@@ -12,6 +12,7 @@
     <string id="ShowSecondsTitle">秒を表示</string>
     <string id="ShowDateTitle">日付を表示</string>
     <string id="ShowLunarTitle">旧暦を表示</string>
+    <string id="ShowLunarFestivalsTitle">祝日・節気を表示</string>
     <string id="ShowDividersTitle">区切り線を表示</string>
     <string id="ShowRingTicksTitle">リング目盛りを表示</string>
     <string id="ShowSecondHandTitle">秒針を表示</string>

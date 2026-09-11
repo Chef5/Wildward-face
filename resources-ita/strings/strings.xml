@@ -12,6 +12,7 @@
     <string id="ShowSecondsTitle">Mostra secondi</string>
     <string id="ShowDateTitle">Mostra data</string>
     <string id="ShowLunarTitle">Mostra calendario lunare</string>
+    <string id="ShowLunarFestivalsTitle">Mostra feste e termini solari</string>
     <string id="ShowDividersTitle">Mostra divisori</string>
     <string id="ShowRingTicksTitle">Mostra tacche anello</string>
     <string id="ShowSecondHandTitle">Mostra lancetta dei secondi</string>
