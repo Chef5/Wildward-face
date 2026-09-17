@@ -28,6 +28,7 @@
     <string id="TimeFontSizeMedium">Middels</string>
     <string id="TimeFontSizeLarge">Stor</string>
     <string id="ShowDateTitle">Vis dato</string>
+    <string id="DateFontSizeTitle">Datostørrelse</string>
     <string id="ShowLunarTitle">Vis månekalender</string>
     <string id="ShowLunarFestivalsTitle">Vis merkedager og solterm</string>
     <string id="ShowDividersTitle">Vis skillelinjer</string>

@@ -28,6 +28,7 @@
     <string id="TimeFontSizeMedium">Średni</string>
     <string id="TimeFontSizeLarge">Duży</string>
     <string id="ShowDateTitle">Pokaż datę</string>
+    <string id="DateFontSizeTitle">Rozmiar daty</string>
     <string id="ShowLunarTitle">Pokaż kalendarz księżycowy</string>
     <string id="ShowLunarFestivalsTitle">Pokaż święta i terminy solarne</string>
     <string id="ShowDividersTitle">Pokaż linie podziału</string>

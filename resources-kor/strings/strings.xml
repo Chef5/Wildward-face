@@ -28,6 +28,7 @@
     <string id="TimeFontSizeMedium">보통</string>
     <string id="TimeFontSizeLarge">크게</string>
     <string id="ShowDateTitle">날짜 표시</string>
+    <string id="DateFontSizeTitle">날짜 크기</string>
     <string id="ShowLunarTitle">음력 표시</string>
     <string id="ShowLunarFestivalsTitle">명절·절기 표시</string>
     <string id="ShowDividersTitle">구분선 표시</string>

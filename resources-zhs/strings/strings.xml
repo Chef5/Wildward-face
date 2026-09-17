@@ -28,6 +28,7 @@
     <string id="TimeFontSizeMedium">中</string>
     <string id="TimeFontSizeLarge">大</string>
     <string id="ShowDateTitle">显示日期</string>
+    <string id="DateFontSizeTitle">日期字号</string>
     <string id="ShowLunarTitle">显示农历</string>
     <string id="ShowLunarFestivalsTitle">显示节日节气</string>
     <string id="ShowDividersTitle">显示分割线</string>

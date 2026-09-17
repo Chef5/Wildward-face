@@ -61,12 +61,14 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     private var _accent as Number = 0xB77CFF;
     private var _secondary as Number = 0xFFFFFF;
     private var _background as Number = 0x000000;
-    // 字体大小档位（暂时固定为 3=中，设置项已隐藏；仅指标/日期）
+    // 指标字号档位（暂时固定为 3=中，设置项已隐藏）
     private var _fontSize as Number = 3;
     // 中心时分字体：0=系统数字 1=冷凝粗体 2=冷凝 3=Bionic 4=Roboto
     private var _timeFontStyle as Number = 0;
     // 中心时分字号：1=小 2=中（默认，对齐当前 NUMBER_HOT） 3=大
     private var _timeFontSize as Number = 2;
+    // 日期行字号（公历+农历/节气共用）：1=小 2=中 3=大
+    private var _dateFontSize as Number = 2;
     private var _showSeconds as Boolean = true;
     // 时间格式：0=跟随系统  1=12小时制  2=24小时制（仅改显示，不改系统设置）
     private var _timeFormat as Number = 0;
@@ -127,11 +129,12 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
 
     // ---- 字体 ----
     // _baseFontH：onLayout 时缓存 FONT_XTINY 行高，作为各档位尺寸的基准。
-    // _uiFont：由 rebuildUiFont() 计算，用于所有指标数值和日期/农历文字。
+    // _uiFont：指标数值；_dateFont：日期行（公历+农历/节气）。
     // _isChineseLocale：设备系统语言为简体/繁体中文时为 true；控制中文日期格式与农历展示。
     // _systemLanguage：当前系统语言，用于本地化日期/星期格式。
     private var _baseFontH as Number = 0;
     private var _uiFont as Graphics.FontType = Graphics.FONT_XTINY;
+    private var _dateFont as Graphics.FontType = Graphics.FONT_TINY;
     private var _timeBigFont as Graphics.FontType = Graphics.FONT_NUMBER_HOT;
     private var _timeColonFont as Graphics.FontType = Graphics.FONT_NUMBER_MILD;
     private var _timeSecFont as Graphics.FontType = Graphics.FONT_XTINY;
@@ -226,6 +229,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         if (v != null) { _timeFontSize = v as Number; }
         v = p.getValue("ShowDate");
         if (v != null) { _showDate = v as Boolean; }
+        v = p.getValue("DateFontSize");
+        if (v != null) { _dateFontSize = v as Number; }
         v = p.getValue("ShowLunar");
         if (v != null) { _showLunar = v as Boolean; }
         v = p.getValue("ShowLunarFestivals");
@@ -249,6 +254,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         // 设置变更后重新计算字体（_baseFontH 为 0 时说明 onLayout 尚未运行，跳过）
         updateLocaleFlags();
         rebuildUiFont();
+        rebuildDateFont();
         rebuildTimeFonts();
         _lunarCacheKey = -1;
         _pressureCacheMs = -1;
@@ -397,10 +403,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         _notificationsBmp = WatchUi.loadResource(Rez.Drawables.NotificationsIcon) as BitmapResource;
         _recoveryBmp = WatchUi.loadResource(Rez.Drawables.RecoveryIcon) as BitmapResource;
         _intensityBmp = WatchUi.loadResource(Rez.Drawables.IntensityIcon) as BitmapResource;
-        // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建 _uiFont
+        // 缓存 FONT_XTINY 行高作为字体档位的基准，然后按当前档位构建指标/日期字体
         _baseFontH = dc.getFontHeight(Graphics.FONT_XTINY);
         _ampmFontCached = false;
         rebuildUiFont();
+        rebuildDateFont();
         rebuildTimeFonts();
     }
 
@@ -1017,21 +1024,21 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             // 日期 + 农历并排，整体居中
             var dateStr = buildDateLineString(info.month, info.day, dowIdx);
             var gap = s(20);
-            var dateW = dc.getTextWidthInPixels(dateStr, _uiFont);
-            var lunarW = dc.getTextWidthInPixels(_lunarStr, _uiFont);
+            var dateW = dc.getTextWidthInPixels(dateStr, _dateFont);
+            var lunarW = dc.getTextWidthInPixels(_lunarStr, _dateFont);
             var leftX = _cx - (dateW + gap + lunarW) / 2;
-            dc.drawText(leftX, dateY, _uiFont, dateStr,
+            dc.drawText(leftX, dateY, _dateFont, dateStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
-            dc.drawText(leftX + dateW + gap, dateY, _uiFont, _lunarStr,
+            dc.drawText(leftX + dateW + gap, dateY, _dateFont, _lunarStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (_showDate) {
             // 仅日期，居中
             var dateStr = buildDateLineString(info.month, info.day, dowIdx);
-            dc.drawText(_cx, dateY, _uiFont, dateStr,
+            dc.drawText(_cx, dateY, _dateFont, dateStr,
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         } else if (lunarReady) {
             // 仅农历，居中
-            dc.drawText(_cx, dateY, _uiFont, _lunarStr,
+            dc.drawText(_cx, dateY, _dateFont, _lunarStr,
                         Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
         }
     }
@@ -1263,7 +1270,7 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
     }
 
-    // 根据 _fontSize、_baseFontH 及当前系统语言重新计算 _uiFont。
+    // 根据 _fontSize、_baseFontH 及当前系统语言重新计算 _uiFont（仅指标数值）。
     // 在 onLayout 缓存完 _baseFontH 之后调用，以及设置变更后调用。
     private function rebuildUiFont() as Void {
         if (_baseFontH <= 0) { return; }
@@ -1277,32 +1284,54 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         else if (_fontSize == 4) { ratio = 1.5; }
         else                     { ratio = 1.8; }
         var targetH = (_baseFontH * ratio).toNumber();
-
-        if (Graphics has :getVectorFont) {
-            // AMOLED 设备：按语言选择最佳矢量字体，以 NotoSansSCMedium 兜底。
-            // `:face` 支持字符串数组，按顺序尝试直到找到设备可用的字体。
-            // - 韩语：NanumGothicRegular（谚文专用字体）
-            // - 俄语：RobotoCondensedRegular（Roboto 全系含西里尔字符集）
-            // - 其他：NotoSansSCMedium（CJK + Latin，含简/繁中文、日语）
-            var faceName;
-            if (_systemLanguage == System.LANGUAGE_KOR) {
-                faceName = ["NanumGothicRegular", "NotoSansSCMedium"];
-            } else if (_systemLanguage == System.LANGUAGE_RUS) {
-                faceName = ["RobotoCondensedRegular", "NotoSansSCMedium"];
-            } else {
-                faceName = "NotoSansSCMedium";
-            }
-            var vf = Graphics.getVectorFont({ :face => faceName, :size => targetH });
-            if (vf != null) {
-                _uiFont = vf;
-                return;
-            }
+        var vf = loadLocaleVectorFont(targetH);
+        if (vf != null) {
+            _uiFont = vf;
+            return;
         }
         // MIP 设备（fr255 等）：无向量字体，退回系统字体常量
         if (_fontSize <= 2)      { _uiFont = Graphics.FONT_XTINY; }
         else if (_fontSize == 3) { _uiFont = Graphics.FONT_TINY; }
         else if (_fontSize == 4) { _uiFont = Graphics.FONT_SMALL; }
         else                     { _uiFont = Graphics.FONT_MEDIUM; }
+    }
+
+    // 日期行（公历 + 农历/节气）共用 _dateFont；默认中档对齐原先指标字号观感。
+    private function rebuildDateFont() as Void {
+        if (_baseFontH <= 0) { return; }
+        updateLocaleFlags();
+        var ratio = 1.25;
+        if (_dateFontSize <= 1) { ratio = 1.0; }
+        else if (_dateFontSize >= 3) { ratio = 1.5; }
+        var targetH = (_baseFontH * ratio).toNumber();
+        var vf = loadLocaleVectorFont(targetH);
+        if (vf != null) {
+            _dateFont = vf;
+            return;
+        }
+        if (_dateFontSize <= 1) { _dateFont = Graphics.FONT_XTINY; }
+        else if (_dateFontSize >= 3) { _dateFont = Graphics.FONT_SMALL; }
+        else { _dateFont = Graphics.FONT_TINY; }
+    }
+
+    // AMOLED：按语言选择矢量字体；失败返回 null（MIP 或字面不可用）。
+    private function loadLocaleVectorFont(targetH as Number) as Graphics.FontType? {
+        if (!(Graphics has :getVectorFont)) {
+            return null;
+        }
+        // `:face` 支持字符串数组，按顺序尝试直到找到设备可用的字体。
+        // - 韩语：NanumGothicRegular（谚文专用字体）
+        // - 俄语：RobotoCondensedRegular（Roboto 全系含西里尔字符集）
+        // - 其他：NotoSansSCMedium（CJK + Latin，含简/繁中文、日语）
+        var faceName;
+        if (_systemLanguage == System.LANGUAGE_KOR) {
+            faceName = ["NanumGothicRegular", "NotoSansSCMedium"];
+        } else if (_systemLanguage == System.LANGUAGE_RUS) {
+            faceName = ["RobotoCondensedRegular", "NotoSansSCMedium"];
+        } else {
+            faceName = "NotoSansSCMedium";
+        }
+        return Graphics.getVectorFont({ :face => faceName, :size => targetH });
     }
 
     // 中心时分秒：默认保持系统 NUMBER_*；其他风格用设备内置矢量字面（社区常用），

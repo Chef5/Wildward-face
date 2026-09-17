@@ -28,6 +28,7 @@
     <string id="TimeFontSizeMedium">Средний</string>
     <string id="TimeFontSizeLarge">Крупный</string>
     <string id="ShowDateTitle">Показывать дату</string>
+    <string id="DateFontSizeTitle">Размер даты</string>
     <string id="ShowLunarTitle">Показывать лунный календарь</string>
     <string id="ShowLunarFestivalsTitle">Показывать праздники и термины</string>
     <string id="ShowDividersTitle">Показывать разделители</string>

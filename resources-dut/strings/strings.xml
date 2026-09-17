@@ -28,6 +28,7 @@
     <string id="TimeFontSizeMedium">Gemiddeld</string>
     <string id="TimeFontSizeLarge">Groot</string>
     <string id="ShowDateTitle">Datum tonen</string>
+    <string id="DateFontSizeTitle">Datumgrootte</string>
     <string id="ShowLunarTitle">Maankalender tonen</string>
     <string id="ShowLunarFestivalsTitle">Feestdagen en zonnetermen tonen</string>
     <string id="ShowDividersTitle">Scheidingslijnen tonen</string>

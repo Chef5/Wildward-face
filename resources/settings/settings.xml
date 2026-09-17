@@ -212,6 +212,14 @@
         <settingConfig type="boolean" />
     </setting>
 
+    <setting propertyKey="@Properties.DateFontSize" title="@Strings.DateFontSizeTitle">
+        <settingConfig type="list">
+            <listEntry value="2">@Strings.TimeFontSizeMedium</listEntry>
+            <listEntry value="1">@Strings.TimeFontSizeSmall</listEntry>
+            <listEntry value="3">@Strings.TimeFontSizeLarge</listEntry>
+        </settingConfig>
+    </setting>
+
     <setting propertyKey="@Properties.ShowDividers" title="@Strings.ShowDividersTitle">
         <settingConfig type="boolean" />
     </setting>

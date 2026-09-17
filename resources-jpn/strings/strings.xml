@@ -28,6 +28,7 @@
     <string id="TimeFontSizeMedium">中</string>
     <string id="TimeFontSizeLarge">大</string>
     <string id="ShowDateTitle">日付を表示</string>
+    <string id="DateFontSizeTitle">日付のサイズ</string>
     <string id="ShowLunarTitle">旧暦を表示</string>
     <string id="ShowLunarFestivalsTitle">祝日・節気を表示</string>
     <string id="ShowDividersTitle">区切り線を表示</string>

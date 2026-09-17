@@ -16,6 +16,8 @@
     <!-- 中心时分字号：1=小 2=中（默认，对齐当前 NUMBER_HOT） 3=大 -->
     <property id="TimeFontSize" type="number">2</property>
     <property id="ShowDate" type="boolean">true</property>
+    <!-- 日期行字号（公历+农历/节气共用）：1=小 2=中（默认，对齐原指标字号） 3=大 -->
+    <property id="DateFontSize" type="number">2</property>
     <property id="ShowLunar" type="boolean">true</property>
     <property id="ShowLunarFestivals" type="boolean">true</property>
     <property id="ShowDividers" type="boolean">true</property>
