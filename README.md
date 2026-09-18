@@ -14,15 +14,18 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 
 ## 功能概览
 
-- **时间**：突出时分，可选显示数字秒数与三角秒针；系统为 12 小时制时在时分旁自动显示 AM/PM
+- **时间**：突出时分，可选显示数字秒数与三角秒针；支持表盘级时间格式（跟随系统 / 12 小时 / 24 小时）；时分分隔符可自定义（默认 `:`，可清空或改为空格等）；系统为 12 小时制时在时分旁自动显示 AM/PM
+- **时间字体与字号**：中心时分可选系统数字或多种内置矢量字体风格；时间字号 9 档（极小→最大），日期字号 6 档（极小→超大）
 - **圆环刻度与秒针**：外围 60 刻度可开关；三角秒针默认开启，每秒指向对应刻度（尖端朝外）
-- **日期与农历**：可分别开关（农历仅在设备系统语言为简体/繁体中文时展示）；仅一项开启时自动居中；两者都关闭时时间垂直居中  
+- **日期与农历**：可分别开关（农历仅在设备系统语言为简体/繁体中文时展示）；农历行可额外显示节日与节气；仅一项开启时自动居中；两者都关闭时时间垂直居中  
 - **四象限指标（可配置）**：左上 / 右上 / 左下 / 右下各可选一项（见下表）  
   - 同一行只展示一个指标时自动居中  
+- **手表端设置**：兼容机型可在表盘 Customize 中直接调整常用选项（颜色 / 指标 / 时间 / 显示）；自定义色 hex、时分分隔符自由输入等仍通过手机 Connect IQ 设置  
 - **长按跳转**（触屏设备）：长按四象限数据项可进入对应系统 Glance（需设备支持对应 Complication，不支持则无反应）  
 - **横线分隔**：上下两条横线可开关  
 - **主题色 / 副色 / 背景色**：11 套主题色与副色预设（含「原野绿」），默认主题色「高雅紫」、副色「月光白」；背景色内置纯黑 / 深灰 / 浅灰 / 月光白 / 藏蓝，默认纯黑。三者均支持自定义 RGB 十六进制色值  
 - **电量展示格式**：百分制或续航时间（≥1 天显示 `XdYh`，不足 1 天显示 `Xh`）  
+- **机型**：支持 fēnix 7/8/9、Forerunner、epix、Venu、Instinct 3 等多款圆形表（详见 `manifest.xml`）  
 
 #### 四象限可选数据指标
 
@@ -59,8 +62,8 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 | 代码 | 语言 | 资源目录 | 应用名 | 设置页农历开关 |
 |------|------|----------|--------|----------------|
 | `eng` | 英语 | `resources/`（默认） | Wildward | 无 |
-| `zhs` | 简体中文 | `resources-zhs/` | 赴山野 | 有 |
-| `zht` | 繁体中文 | `resources-zht/` | 赴山野 | 有 |
+| `zhs` | 简体中文 | `resources-zhs/` | 赴山野 | 有（含节日节气） |
+| `zht` | 繁体中文 | `resources-zht/` | 赴山野 | 有（含节日节气） |
 | `jpn` | 日语 | `resources-jpn/` | Wildward | 无 |
 | `deu` | 德语 | `resources-deu/` | Wildward | 无 |
 | `fre` | 法语 | `resources-fre/` | Wildward | 无 |
@@ -87,7 +90,9 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 
 ### 表盘设置项（`properties.xml`）
 
-设置页顺序：**主题色 / 副色 / 背景色** → **四象限数据** → **显示秒数 / 日期 / 分割线 / 圆环刻度 / 秒针**（及简体/繁体下的**农历**）→ **电量展示** → **主题色 / 副色 / 背景色高级设置**。
+设置可通过 **手机 Connect IQ / Garmin Express** 修改；兼容机型也可在手表 **Customize → 表盘设置** 中调整 list / 开关类选项（自定义色 hex、时分分隔符自由输入仅手机端）。
+
+设置页顺序（手机）：**主题色 / 副色 / 背景色** → **四象限数据** → **显示秒数 / 时间格式 / 分隔符 / 字体与字号 / 日期与字号** → **分割线 / 圆环刻度 / 秒针**（及简体/繁体下的**农历 / 节日节气**）→ **电量展示** → **主题色 / 副色 / 背景色高级设置**。
 
 | 键名 | 说明 |
 |------|------|
@@ -97,8 +102,14 @@ Connect IQ Store：https://apps.garmin.com/apps/1d1e570b-cb90-4ef6-96e4-2b96e55d
 | `CustomAccentColor` / `CustomSecondaryColor` / `CustomBackgroundColor` | 自定义色（6 位 RGB，可选 `#` 前缀；有效时优先于对应预设）；设置页标题含格式示例（比如：`#B77CFF`），并提供 [rgbcolorpicker.com](https://rgbcolorpicker.com) 取色帮助链接 |
 | `TopLeftMetric` / `TopRightMetric` / `BottomLeftMetric` / `BottomRightMetric` | 四象限指标（见上表；ID：0=不展示，1=心率，2=电量，3=步数，4=海拔，5=卡路里，6=血氧，7=大气压，8=身体电量，9=压力值，10=日出，11=日落，12=天气，13=呼吸频率，14=日出日落，15=周跑量，16=月跑量，17=消息通知，18=恢复时间，19=周强度活动时间，20=月强度活动时间，21=周高强度活动时间，22=月高强度活动时间） |
 | `ShowSeconds` | 显示数字秒数 |
+| `TimeFormat` | 表盘时间格式：`0`=跟随系统（默认），`1`=12 小时，`2`=24 小时（仅改表盘显示，不改系统设置） |
+| `TimeSeparator` | 时分分隔符（默认 `:`；空字符串不显示；可为空格或其他字符；仅手机端自由输入） |
+| `TimeFontStyle` | 中心时分字体：`0`=系统数字（默认），`1`=冷凝粗体，`2`=冷凝，`3`=Bionic，`4`=Roboto |
+| `TimeFontSize` | 时间字号：`0`=极小 … `2`=中（默认）… `8`=最大（共 9 档） |
 | `ShowDate` | 显示日期 |
+| `DateFontSize` | 日期字号（公历 + 农历/节气共用）：`0`=极小 … `2`=中（默认）… `5`=超大（共 6 档） |
 | `ShowLunar` | 显示农历（仅简体/繁体中文环境生效；对应语言设置页提供开关） |
+| `ShowLunarFestivals` | 农历行显示节日与节气（仅简体/繁体中文环境生效；默认开启） |
 | `ShowDividers` | 显示上下横线 |
 | `ShowRingTicks` | 显示圆环指针刻度（默认开启） |
 | `ShowSecondHand` | 显示秒针（默认开启；三角每秒指向对应刻度，尖端朝外） |
@@ -113,11 +124,12 @@ Wildward-face/
 ├── manifest.xml                      # Connect IQ 应用清单（入口、目标机型、支持语言等）
 ├── monkey.jungle                     # 工程与资源路径（含多分辨率启动图标 & 图标颜色覆盖）
 ├── source/                           # Monkey C 源码
-│   ├── ChefWatchFaceApp.mc           # 应用入口
+│   ├── ChefWatchFaceApp.mc           # 应用入口（含 getSettingsView 手表端设置）
 │   ├── ChefWatchFaceView.mc          # 表盘绘制与逻辑
 │   ├── ChefWatchFaceDelegate.mc      # 长按跳转（WatchFaceDelegate）
+│   ├── SettingsMenu.mc               # 手表端 Customize 设置菜单（Menu2）
 │   ├── Background.mc                 # 背景绘制
-│   └── LunarCalendar.mc              # 农历计算
+│   └── LunarCalendar.mc              # 农历 / 节日节气计算
 ├── resources/                        # 默认资源包（英文，未匹配语言时回退至此）
 │   ├── strings/strings.xml           # 应用名 Wildward 与设置项文案
 │   ├── settings/
@@ -165,7 +177,7 @@ Wildward-face/
 - 用 **「Monkey C: Edit Products」** / **「Set Products by Product Category」** 调整 `manifest.xml` 中的目标机型。  
 - 编译、运行模拟器或安装到手表，均通过扩展提供的命令完成。  
 
-当前 `manifest.xml` 已列出多款圆形表（如 fēnix 7/8、Forerunner、epix、Venu、Instinct 3 等）；若你新增机型，可能需要在 `monkey.jungle` 中为该机补充 `resources-launcher-*` 及图标覆盖路径（与现有条目同模式）。
+当前 `manifest.xml` 已列出多款圆形表（如 fēnix 7/8/9、Forerunner、epix、Venu、Instinct 3 等）；若你新增机型，可能需要在 `monkey.jungle` 中为该机补充 `resources-launcher-*` 及图标覆盖路径（与现有条目同模式）。
 
 应用权限（`manifest.xml` → `<iq:permissions>`）：
 
