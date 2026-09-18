@@ -203,8 +203,14 @@
     <setting propertyKey="@Properties.TimeFontSize" title="@Strings.TimeFontSizeTitle">
         <settingConfig type="list">
             <listEntry value="2">@Strings.TimeFontSizeMedium</listEntry>
+            <listEntry value="0">@Strings.TimeFontSizeExtraSmall</listEntry>
             <listEntry value="1">@Strings.TimeFontSizeSmall</listEntry>
             <listEntry value="3">@Strings.TimeFontSizeLarge</listEntry>
+            <listEntry value="4">@Strings.TimeFontSizeExtraLarge</listEntry>
+            <listEntry value="5">@Strings.TimeFontSizeHuge</listEntry>
+            <listEntry value="6">@Strings.TimeFontSizeGiant</listEntry>
+            <listEntry value="7">@Strings.TimeFontSizeMassive</listEntry>
+            <listEntry value="8">@Strings.TimeFontSizeMax</listEntry>
         </settingConfig>
     </setting>
 
@@ -215,8 +221,11 @@
     <setting propertyKey="@Properties.DateFontSize" title="@Strings.DateFontSizeTitle">
         <settingConfig type="list">
             <listEntry value="2">@Strings.TimeFontSizeMedium</listEntry>
+            <listEntry value="0">@Strings.TimeFontSizeExtraSmall</listEntry>
             <listEntry value="1">@Strings.TimeFontSizeSmall</listEntry>
             <listEntry value="3">@Strings.TimeFontSizeLarge</listEntry>
+            <listEntry value="4">@Strings.TimeFontSizeExtraLarge</listEntry>
+            <listEntry value="5">@Strings.TimeFontSizeHuge</listEntry>
         </settingConfig>
     </setting>
 

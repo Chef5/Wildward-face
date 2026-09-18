@@ -2,6 +2,12 @@
 
     <string id="AppName">Wildward</string>
 
+    <string id="SettingsColorsTitle">Couleurs</string>
+    <string id="SettingsMetricsTitle">Données</string>
+    <string id="SettingsTimeTitle">Heure</string>
+    <string id="SettingsDisplayTitle">Affichage</string>
+    <string id="SettingsSelected">Sélectionné</string>
+
     <string id="AccentColorTitle">Couleur du thème</string>
     <string id="SecondaryColorTitle">Couleur secondaire</string>
     <string id="BackgroundColorTitle">Couleur d'arrière-plan</string>
@@ -24,9 +30,15 @@
     <string id="TimeFontBionic">Bionic</string>
     <string id="TimeFontRoboto">Roboto</string>
     <string id="TimeFontSizeTitle">Taille de l'heure</string>
+    <string id="TimeFontSizeExtraSmall">Très petit</string>
     <string id="TimeFontSizeSmall">Petit</string>
     <string id="TimeFontSizeMedium">Moyen</string>
     <string id="TimeFontSizeLarge">Grand</string>
+    <string id="TimeFontSizeExtraLarge">Très grand</string>
+    <string id="TimeFontSizeHuge">Énorme</string>
+    <string id="TimeFontSizeGiant">Géant</string>
+    <string id="TimeFontSizeMassive">Massif</string>
+    <string id="TimeFontSizeMax">Maximum</string>
     <string id="ShowDateTitle">Afficher la date</string>
     <string id="DateFontSizeTitle">Taille de la date</string>
     <string id="ShowLunarTitle">Afficher le calendrier lunaire</string>

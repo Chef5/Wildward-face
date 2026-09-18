@@ -13,10 +13,10 @@
     <property id="TimeSeparator" type="string">:</property>
     <!-- 中心时分字体：0=系统数字 1=冷凝粗体 2=冷凝 3=Bionic 4=Roboto -->
     <property id="TimeFontStyle" type="number">0</property>
-    <!-- 中心时分字号：1=小 2=中（默认，对齐当前 NUMBER_HOT） 3=大 -->
+    <!-- 中心时分字号：0=极小 1=小 2=中（默认） 3=大 4=特大 5=超大 6=极大 7=巨型 8=最大 -->
     <property id="TimeFontSize" type="number">2</property>
     <property id="ShowDate" type="boolean">true</property>
-    <!-- 日期行字号（公历+农历/节气共用）：1=小 2=中（默认，对齐原指标字号） 3=大 -->
+    <!-- 日期行字号（公历+农历/节气共用）：0=极小 1=小 2=中（默认） 3=大 4=特大 5=超大 -->
     <property id="DateFontSize" type="number">2</property>
     <property id="ShowLunar" type="boolean">true</property>
     <property id="ShowLunarFestivals" type="boolean">true</property>

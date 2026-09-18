@@ -2,6 +2,8 @@ project.manifest = manifest.xml
 
 # Only compile this watch face — do not pick up third-party .mc trees (e.g. extracted sample repos).
 base.sourcePath = source
+# 默认按 AMOLED 编译（排除 MIP 注解实现）；MIP 机型再反过来排除 type_amoled。
+base.excludeAnnotations = type_mip
 
 # Launcher icon pixel size per device (Connect IQ matches @Drawables.LauncherIcon to device spec).
 # Pattern: https://forums.garmin.com/developer/connect-iq/f/discussion/255433/widget-launcher-icon-multiple-resolutions
@@ -14,18 +16,31 @@ base.sourcePath = source
 
 instinctcrossoveramoled.resourcePath = $(instinctcrossoveramoled.resourcePath);resources-launcher-38-38;resources-icons-amoled
 
+fenix7.excludeAnnotations = type_amoled
 fenix7.resourcePath = $(fenix7.resourcePath);resources-launcher-40-40
+fenix7pro.excludeAnnotations = type_amoled
 fenix7pro.resourcePath = $(fenix7pro.resourcePath);resources-launcher-40-40
+fenix7pronowifi.excludeAnnotations = type_amoled
 fenix7pronowifi.resourcePath = $(fenix7pronowifi.resourcePath);resources-launcher-40-40
+fenix7s.excludeAnnotations = type_amoled
 fenix7s.resourcePath = $(fenix7s.resourcePath);resources-launcher-40-40
+fenix7spro.excludeAnnotations = type_amoled
 fenix7spro.resourcePath = $(fenix7spro.resourcePath);resources-launcher-40-40
+fenix7x.excludeAnnotations = type_amoled
 fenix7x.resourcePath = $(fenix7x.resourcePath);resources-launcher-40-40
+fenix7xpro.excludeAnnotations = type_amoled
 fenix7xpro.resourcePath = $(fenix7xpro.resourcePath);resources-launcher-40-40
+fenix7xpronowifi.excludeAnnotations = type_amoled
 fenix7xpronowifi.resourcePath = $(fenix7xpronowifi.resourcePath);resources-launcher-40-40
+fr255.excludeAnnotations = type_amoled
 fr255.resourcePath = $(fr255.resourcePath);resources-launcher-40-40
+fr255m.excludeAnnotations = type_amoled
 fr255m.resourcePath = $(fr255m.resourcePath);resources-launcher-40-40
+fr255s.excludeAnnotations = type_amoled
 fr255s.resourcePath = $(fr255s.resourcePath);resources-launcher-40-40
+fr255sm.excludeAnnotations = type_amoled
 fr255sm.resourcePath = $(fr255sm.resourcePath);resources-launcher-40-40
+fr955.excludeAnnotations = type_amoled
 fr955.resourcePath = $(fr955.resourcePath);resources-launcher-40-40
 
 fr165.resourcePath = $(fr165.resourcePath);resources-launcher-54-54;resources-icons-amoled
@@ -60,13 +75,18 @@ fenix947mm.resourcePath = $(fenix947mm.resourcePath);resources-icons-amoled
 fenix9pro43mm.resourcePath = $(fenix9pro43mm.resourcePath);resources-icons-amoled
 fenix9pro47mm.resourcePath = $(fenix9pro47mm.resourcePath);resources-icons-amoled
 fenix9pro51mm.resourcePath = $(fenix9pro51mm.resourcePath);resources-icons-amoled
-fenix9prosolar47mm.resourcePath = $(fenix9prosolar47mm.resourcePath);resources-icons-amoled
-fenix9prosolar51mm.resourcePath = $(fenix9prosolar51mm.resourcePath);resources-icons-amoled
+# fēnix 9 Pro Solar：MIP（ARGB2222），与 fenix7 同路径，勿套 AMOLED PNG 图标
+fenix9prosolar47mm.excludeAnnotations = type_amoled
+fenix9prosolar47mm.resourcePath = $(fenix9prosolar47mm.resourcePath);resources-launcher-40-40
+fenix9prosolar51mm.excludeAnnotations = type_amoled
+fenix9prosolar51mm.resourcePath = $(fenix9prosolar51mm.resourcePath);resources-launcher-40-40
 fenixe.resourcePath = $(fenixe.resourcePath);resources-icons-amoled
 fr265.resourcePath = $(fr265.resourcePath);resources-icons-amoled
 fr265s.resourcePath = $(fr265s.resourcePath);resources-icons-amoled
 fr970.resourcePath = $(fr970.resourcePath);resources-icons-amoled
 instinct3amoled45mm.resourcePath = $(instinct3amoled45mm.resourcePath);resources-icons-amoled
 instinct3amoled50mm.resourcePath = $(instinct3amoled50mm.resourcePath);resources-icons-amoled
+instinct3solar45mm.excludeAnnotations = type_amoled
+enduro3.excludeAnnotations = type_amoled
 marq2.resourcePath = $(marq2.resourcePath);resources-icons-amoled
 marq2aviator.resourcePath = $(marq2aviator.resourcePath);resources-icons-amoled

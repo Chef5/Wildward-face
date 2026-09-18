@@ -2,6 +2,12 @@
 
     <string id="AppName">赴山野</string>
 
+    <string id="SettingsColorsTitle">颜色</string>
+    <string id="SettingsMetricsTitle">指标</string>
+    <string id="SettingsTimeTitle">时间</string>
+    <string id="SettingsDisplayTitle">显示</string>
+    <string id="SettingsSelected">已选</string>
+
     <string id="AccentColorTitle">主题色</string>
     <string id="SecondaryColorTitle">副色</string>
     <string id="BackgroundColorTitle">背景色</string>
@@ -24,9 +30,15 @@
     <string id="TimeFontBionic">Bionic</string>
     <string id="TimeFontRoboto">Roboto</string>
     <string id="TimeFontSizeTitle">时间字号</string>
+    <string id="TimeFontSizeExtraSmall">极小</string>
     <string id="TimeFontSizeSmall">小</string>
     <string id="TimeFontSizeMedium">中</string>
     <string id="TimeFontSizeLarge">大</string>
+    <string id="TimeFontSizeExtraLarge">特大</string>
+    <string id="TimeFontSizeHuge">超大</string>
+    <string id="TimeFontSizeGiant">极大</string>
+    <string id="TimeFontSizeMassive">巨型</string>
+    <string id="TimeFontSizeMax">最大</string>
     <string id="ShowDateTitle">显示日期</string>
     <string id="DateFontSizeTitle">日期字号</string>
     <string id="ShowLunarTitle">显示农历</string>

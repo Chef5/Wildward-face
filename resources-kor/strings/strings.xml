@@ -2,6 +2,12 @@
 
     <string id="AppName">Wildward</string>
 
+    <string id="SettingsColorsTitle">색상</string>
+    <string id="SettingsMetricsTitle">지표</string>
+    <string id="SettingsTimeTitle">시간</string>
+    <string id="SettingsDisplayTitle">표시</string>
+    <string id="SettingsSelected">선택됨</string>
+
     <string id="AccentColorTitle">테마 색상</string>
     <string id="SecondaryColorTitle">보조 색상</string>
     <string id="BackgroundColorTitle">배경 색상</string>
@@ -24,9 +30,15 @@
     <string id="TimeFontBionic">Bionic</string>
     <string id="TimeFontRoboto">Roboto</string>
     <string id="TimeFontSizeTitle">시간 크기</string>
+    <string id="TimeFontSizeExtraSmall">아주 작게</string>
     <string id="TimeFontSizeSmall">작게</string>
     <string id="TimeFontSizeMedium">보통</string>
     <string id="TimeFontSizeLarge">크게</string>
+    <string id="TimeFontSizeExtraLarge">더 크게</string>
+    <string id="TimeFontSizeHuge">가장 크게</string>
+    <string id="TimeFontSizeGiant">거대</string>
+    <string id="TimeFontSizeMassive">초대형</string>
+    <string id="TimeFontSizeMax">최대</string>
     <string id="ShowDateTitle">날짜 표시</string>
     <string id="DateFontSizeTitle">날짜 크기</string>
     <string id="ShowLunarTitle">음력 표시</string>

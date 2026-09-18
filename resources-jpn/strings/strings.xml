@@ -2,6 +2,12 @@
 
     <string id="AppName">Wildward</string>
 
+    <string id="SettingsColorsTitle">カラー</string>
+    <string id="SettingsMetricsTitle">指標</string>
+    <string id="SettingsTimeTitle">時刻</string>
+    <string id="SettingsDisplayTitle">表示</string>
+    <string id="SettingsSelected">選択中</string>
+
     <string id="AccentColorTitle">テーマカラー</string>
     <string id="SecondaryColorTitle">サブカラー</string>
     <string id="BackgroundColorTitle">背景色</string>
@@ -24,9 +30,15 @@
     <string id="TimeFontBionic">Bionic</string>
     <string id="TimeFontRoboto">Roboto</string>
     <string id="TimeFontSizeTitle">時刻のサイズ</string>
+    <string id="TimeFontSizeExtraSmall">極小</string>
     <string id="TimeFontSizeSmall">小</string>
     <string id="TimeFontSizeMedium">中</string>
     <string id="TimeFontSizeLarge">大</string>
+    <string id="TimeFontSizeExtraLarge">特大</string>
+    <string id="TimeFontSizeHuge">超大</string>
+    <string id="TimeFontSizeGiant">極大</string>
+    <string id="TimeFontSizeMassive">巨大</string>
+    <string id="TimeFontSizeMax">最大</string>
     <string id="ShowDateTitle">日付を表示</string>
     <string id="DateFontSizeTitle">日付のサイズ</string>
     <string id="ShowLunarTitle">旧暦を表示</string>

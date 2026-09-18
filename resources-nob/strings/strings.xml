@@ -2,6 +2,12 @@
 
     <string id="AppName">Wildward</string>
 
+    <string id="SettingsColorsTitle">Farger</string>
+    <string id="SettingsMetricsTitle">Målinger</string>
+    <string id="SettingsTimeTitle">Tid</string>
+    <string id="SettingsDisplayTitle">Visning</string>
+    <string id="SettingsSelected">Valgt</string>
+
     <string id="AccentColorTitle">Temafarge</string>
     <string id="SecondaryColorTitle">Sekundærfarge</string>
     <string id="BackgroundColorTitle">Bakgrunnsfarge</string>
@@ -24,9 +30,15 @@
     <string id="TimeFontBionic">Bionic</string>
     <string id="TimeFontRoboto">Roboto</string>
     <string id="TimeFontSizeTitle">Tidsstørrelse</string>
+    <string id="TimeFontSizeExtraSmall">Ekstra liten</string>
     <string id="TimeFontSizeSmall">Liten</string>
     <string id="TimeFontSizeMedium">Middels</string>
     <string id="TimeFontSizeLarge">Stor</string>
+    <string id="TimeFontSizeExtraLarge">Ekstra stor</string>
+    <string id="TimeFontSizeHuge">Enorm</string>
+    <string id="TimeFontSizeGiant">Kjempe</string>
+    <string id="TimeFontSizeMassive">Massiv</string>
+    <string id="TimeFontSizeMax">Maksimum</string>
     <string id="ShowDateTitle">Vis dato</string>
     <string id="DateFontSizeTitle">Datostørrelse</string>
     <string id="ShowLunarTitle">Vis månekalender</string>

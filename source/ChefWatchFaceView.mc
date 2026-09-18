@@ -320,9 +320,23 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         return value;
     }
 
-    // MIP 无 getVectorFont；AMOLED 有。用于决定是否改用 64 色板色号。
+    // MIP 判定：旧机无 getVectorFont；fenix9 Pro Solar 等新 MIP 仍有矢量字体，但色深仍是 ARGB2222。
     private function isMipDisplay() as Boolean {
-        return !(Graphics has :getVectorFont);
+        if (!(Graphics has :getVectorFont)) {
+            return true;
+        }
+        return isMipDisplayOverride();
+    }
+
+    // 默认 AMOLED；jungle 对 Pro Solar 等机型排除 type_amoled，编译进 MIP 分支。
+    (:type_amoled)
+    private function isMipDisplayOverride() as Boolean {
+        return false;
+    }
+
+    (:type_mip)
+    private function isMipDisplayOverride() as Boolean {
+        return true;
     }
 
     // AMOLED 保留设置中的 RGB；MIP 映射到官方 RGB222 64 色板色号（仍以 0xRRGGBB 传入 setColor）。
@@ -453,9 +467,13 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             updateMetricIconPx();
         }
 
-        // 局部刷新留下的 clip 必须在全量重绘前清除，否则时分等区域不会更新
+        // 局部刷新留下的 clip 必须在全量重绘前清除，否则时分等区域不会更新。
+        // fenix9 系列 API 声明了 clearClip，但模拟器/部分固件调用会 Failed invoking；用 try 兜底。
         if (dc has :clearClip) {
-            dc.clearClip();
+            try {
+                dc.clearClip();
+            } catch (ex) {
+            }
         }
 
         // 背景
@@ -645,7 +663,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var y = clip[1] as Number;
         var w = clip[2] as Number;
         var h = clip[3] as Number;
-        dc.setClip(x, y, w, h);
+        try {
+            dc.setClip(x, y, w, h);
+        } catch (ex) {
+            return;
+        }
         dc.setColor(_background, _background);
         dc.fillRectangle(x, y, w, h);
         redrawRingTicksNear(dc, oldSec, newSec);
@@ -657,7 +679,11 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         var y = _secClipY;
         var w = _secClipW;
         var h = _secClipH;
-        dc.setClip(x, y, w, h);
+        try {
+            dc.setClip(x, y, w, h);
+        } catch (ex) {
+            return;
+        }
         dc.setColor(_background, _background);
         dc.fillRectangle(x, y, w, h);
         dc.setColor(_accent, Graphics.COLOR_TRANSPARENT);
@@ -1297,21 +1323,31 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     // 日期行（公历 + 农历/节气）共用 _dateFont；默认中档对齐原先指标字号观感。
+    // 字号：0=极小 1=小 2=中 3=大 4=特大 5=超大（1/2/3 与旧版兼容）
     private function rebuildDateFont() as Void {
         if (_baseFontH <= 0) { return; }
         updateLocaleFlags();
-        var ratio = 1.25;
-        if (_dateFontSize <= 1) { ratio = 1.0; }
-        else if (_dateFontSize >= 3) { ratio = 1.5; }
-        var targetH = (_baseFontH * ratio).toNumber();
+        var targetH = (_baseFontH * dateSizeRatio()).toNumber();
         var vf = loadLocaleVectorFont(targetH);
         if (vf != null) {
             _dateFont = vf;
             return;
         }
-        if (_dateFontSize <= 1) { _dateFont = Graphics.FONT_XTINY; }
-        else if (_dateFontSize >= 3) { _dateFont = Graphics.FONT_SMALL; }
-        else { _dateFont = Graphics.FONT_TINY; }
+        if (_dateFontSize <= 0) { _dateFont = Graphics.FONT_XTINY; }
+        else if (_dateFontSize == 1) { _dateFont = Graphics.FONT_XTINY; }
+        else if (_dateFontSize == 2) { _dateFont = Graphics.FONT_TINY; }
+        else if (_dateFontSize == 3) { _dateFont = Graphics.FONT_SMALL; }
+        else if (_dateFontSize == 4) { _dateFont = Graphics.FONT_MEDIUM; }
+        else { _dateFont = Graphics.FONT_LARGE; }
+    }
+
+    private function dateSizeRatio() as Float {
+        if (_dateFontSize <= 0) { return 0.85; }
+        if (_dateFontSize == 1) { return 1.0; }
+        if (_dateFontSize == 2) { return 1.25; }
+        if (_dateFontSize == 3) { return 1.5; }
+        if (_dateFontSize == 4) { return 1.75; }
+        return 2.0;
     }
 
     // AMOLED：按语言选择矢量字体；失败返回 null（MIP 或字面不可用）。
@@ -1325,7 +1361,8 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         // - 其他：NotoSansSCMedium（CJK + Latin，含简/繁中文、日语）
         var faceName;
         if (_systemLanguage == System.LANGUAGE_KOR) {
-            faceName = ["NanumGothicRegular", "NotoSansSCMedium"];
+            // 新机多为 NanumGothicBold；旧 MIP 仍可能是 NanumGothicRegular
+            faceName = ["NanumGothicBold", "NanumGothicRegular", "NotoSansSCMedium"];
         } else if (_systemLanguage == System.LANGUAGE_RUS) {
             faceName = ["RobotoCondensedRegular", "NotoSansSCMedium"];
         } else {
@@ -1377,10 +1414,15 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     private function applySystemTimeSizeFonts() as Void {
+        // 字号：0=极小 1=小 2=中 3=大 4=特大 5=超大 6=极大 7=巨型 8=最大（1/2/3 与旧版兼容）
         _timeBigFont = Graphics.FONT_NUMBER_HOT;
         _timeColonFont = Graphics.FONT_NUMBER_MILD;
         _timeSecFont = Graphics.FONT_XTINY;
-        if (_timeFontSize <= 1) {
+        if (_timeFontSize <= 0) {
+            _timeBigFont = Graphics.FONT_NUMBER_MILD;
+            _timeColonFont = Graphics.FONT_TINY;
+            _timeSecFont = Graphics.FONT_XTINY;
+        } else if (_timeFontSize == 1) {
             _timeBigFont = Graphics.FONT_NUMBER_MEDIUM;
         } else if (_timeFontSize >= 3) {
             _timeBigFont = Graphics.FONT_NUMBER_THAI_HOT;
@@ -1390,24 +1432,33 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
     }
 
     private function tryScaleSystemTimeFonts() as Void {
-        var ratio = 0.82;
-        if (_timeFontSize >= 3) { ratio = 1.18; }
+        var ratio = timeSizeRatio();
         var big = Graphics.getVectorFont({ :font => Graphics.FONT_NUMBER_HOT, :scale => ratio });
         if (big != null) { _timeBigFont = big; }
         var colon = Graphics.getVectorFont({ :font => Graphics.FONT_NUMBER_MILD, :scale => ratio });
         if (colon != null) { _timeColonFont = colon; }
         var secBase = Graphics.FONT_XTINY;
         if (_timeFontSize >= 3) { secBase = Graphics.FONT_TINY; }
+        if (_timeFontSize >= 5) { secBase = Graphics.FONT_SMALL; }
         var sec = Graphics.getVectorFont({ :font => secBase, :scale => ratio });
         if (sec != null) { _timeSecFont = sec; }
     }
 
+    private function timeSizeRatio() as Float {
+        if (_timeFontSize <= 0) { return 0.70; }
+        if (_timeFontSize == 1) { return 0.82; }
+        if (_timeFontSize == 2) { return 1.0; }
+        if (_timeFontSize == 3) { return 1.18; }
+        if (_timeFontSize == 4) { return 1.4; }
+        if (_timeFontSize == 5) { return 1.64; }
+        if (_timeFontSize == 6) { return 1.88; }
+        if (_timeFontSize == 7) { return 2.2; }
+        return 2.42;
+    }
+
     private function timeMainSizePx() as Number {
-        var ratio = 1.0;
-        if (_timeFontSize <= 1) { ratio = 0.82; }
-        else if (_timeFontSize >= 3) { ratio = 1.18; }
-        var px = Math.round(_w * 0.21 * ratio).toNumber();
-        if (px < 28) { px = 28; }
+        var px = Math.round(_w * 0.21 * timeSizeRatio()).toNumber();
+        if (px < 24) { px = 24; }
         return px;
     }
 

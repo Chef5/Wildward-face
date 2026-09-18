@@ -32,6 +32,11 @@ class ChefWatchFaceApp extends Application.AppBase {
         }
     }
 
+    // 表上 Customize → Wildward Settings（Menu2；仅 list / boolean）
+    function getSettingsView() as [Views] or [Views, InputDelegates] or Null {
+        return [new SettingsRootMenu(), new SettingsRootDelegate()];
+    }
+
 }
 
 function getApp() as ChefWatchFaceApp {

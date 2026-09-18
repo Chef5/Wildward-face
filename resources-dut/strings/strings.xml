@@ -2,6 +2,12 @@
 
     <string id="AppName">Wildward</string>
 
+    <string id="SettingsColorsTitle">Kleuren</string>
+    <string id="SettingsMetricsTitle">Metingen</string>
+    <string id="SettingsTimeTitle">Tijd</string>
+    <string id="SettingsDisplayTitle">Weergave</string>
+    <string id="SettingsSelected">Geselecteerd</string>
+
     <string id="AccentColorTitle">Themakleur</string>
     <string id="SecondaryColorTitle">Secundaire kleur</string>
     <string id="BackgroundColorTitle">Achtergrondkleur</string>
@@ -24,9 +30,15 @@
     <string id="TimeFontBionic">Bionic</string>
     <string id="TimeFontRoboto">Roboto</string>
     <string id="TimeFontSizeTitle">Tijdgrootte</string>
+    <string id="TimeFontSizeExtraSmall">Zeer klein</string>
     <string id="TimeFontSizeSmall">Klein</string>
     <string id="TimeFontSizeMedium">Gemiddeld</string>
     <string id="TimeFontSizeLarge">Groot</string>
+    <string id="TimeFontSizeExtraLarge">Zeer groot</string>
+    <string id="TimeFontSizeHuge">Enorm</string>
+    <string id="TimeFontSizeGiant">Gigantisch</string>
+    <string id="TimeFontSizeMassive">Massief</string>
+    <string id="TimeFontSizeMax">Maximum</string>
     <string id="ShowDateTitle">Datum tonen</string>
     <string id="DateFontSizeTitle">Datumgrootte</string>
     <string id="ShowLunarTitle">Maankalender tonen</string>
