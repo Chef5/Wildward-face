@@ -3,7 +3,7 @@ lang: en English
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (Free, Open Source)
 
 # Description (Maximum 4000 Characters)
 Head into the wild, driven by passion. Built for hiking and outdoor adventures. Focus on four core metrics — altitude, heart rate, battery, and steps — raise your wrist to instantly read your body and the outdoors, and set out for every adventure you love!
@@ -17,7 +17,7 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-September 18, 2026
+September 19, 2026
 1. On-watch face customization settings are now supported;
 2. Font size adjustment supported; added built-in watch font options (may have no effect on some devices without the corresponding fonts);
 3. Added watch-face-level time format (follow system / 12-hour / 24-hour) and custom hour-minute separator;
@@ -28,7 +28,7 @@ lang: zh_CN 简体中文
 ---
 
 # Title (Maximum 50 Characters)
-赴山野
+赴山野（免费，代码开源）
 
 # Description (Maximum 4000 Characters)
 向山野出发，为热爱前行。适配徒步、山野出行场景。聚焦海拔、心率、电量、步数四大核心数据，抬腕即刻洞悉身体状态与户外环境，自在奔赴每一场热爱！
@@ -42,7 +42,7 @@ lang: zh_CN 简体中文
 建议反馈地址：https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.9.18
+2026.9.19
 1. 支持在手表上进行表盘自定义设置；
 2. 支持字号调节；增加手表内置字体设置（部分机型无对应字体设置可能无效）；
 3. 新增表盘级时间格式（跟随系统/12小时/24小时），支持自定义时分分隔符；
@@ -58,7 +58,7 @@ lang: zh_TW 繁體中文
 ---
 
 # Title (Maximum 50 Characters)
-赴山野
+赴山野（免費，程式碼開源）
 
 # Description (Maximum 4000 Characters)
 向山野出發，為熱愛前行。適配徒步、山野出行場景。聚焦海拔、心率、電量、步數四大核心數據，抬腕即刻洞悉身體狀態與戶外環境，自在奔赴每一場熱愛！
@@ -72,7 +72,7 @@ lang: zh_TW 繁體中文
 建議反饋地址：https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026.9.18
+2026.9.19
 1. 支援在手錶上進行錶盤自訂設定；
 2. 支援字級調節；增加手錶內建字體設定（部分機型無對應字體設定可能無效）；
 3. 新增錶盤級時間格式（跟隨系統/12小時/24小時），支援自訂時分分隔符；
@@ -83,20 +83,12 @@ lang: zh_TW 繁體中文
 1. 副色、背景色支援自訂；
 2. 修復系統自動進入低功耗模式時秒數秒針停止的問題；
 
-2026.7.28
-1. 新增「恢復時間」、「月/週高強度活動時間」選項，圓環指針刻度、秒針可隱藏；
-2. 修復 MIP 色差嚴重問題；
-
-2026.6.30
-新增數據項：日出日落、週跑量、月跑量、訊息通知；
-觸屏設備支援長按數據項跳轉系統 Glance；
-
 ---
 lang: ja 日本語
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward（無料・オープンソース）
 
 # Description (Maximum 4000 Characters)
 山野へ出発、情熱を胸に前へ。ハイキング・アウトドアシーンに最適。高度・心拍・バッテリー・歩数の4大データに集中し、手首を上げるだけで体の状態と周囲の環境を把握し、あらゆる冒険へ自在に出発できます！
@@ -110,7 +102,7 @@ Wildward
 フィードバック: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026年9月18日
+2026年9月19日
 1. ウォッチ上で文字盤のカスタム設定が可能に；
 2. 文字サイズ調整に対応；腕時計内蔵フォント設定を追加（機種によっては該当フォントがなく、設定が無効な場合があります）；
 3. 文字盤独自の時刻形式（システムに従う / 12時間 / 24時間）と時分区切り文字のカスタムに対応；
@@ -121,7 +113,7 @@ lang: de Deutsch
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (kostenlos, Open Source)
 
 # Description (Maximum 4000 Characters)
 Auf in die Wildnis – angetrieben von Leidenschaft. Für Wanderungen und Outdoor-Abenteuer konzipiert. Fokus auf vier Kernmetriken: Höhe, Herzfrequenz, Akku und Schritte – heb das Handgelenk und erfasse sofort Körper und Umgebung, bereit für jedes Abenteuer!
@@ -135,7 +127,7 @@ Open Source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-18.09.2026
+19.09.2026
 1. Zifferblatt-Einstellungen direkt auf der Uhr werden unterstützt;
 2. Schriftgrößenanpassung unterstützt; integrierte Uhrenschriftarten hinzugefügt (auf manchen Geräten ohne entsprechende Schriftarten möglicherweise wirkungslos);
 3. Zifferblatt-eigene Zeitformate (System folgen / 12 Stunden / 24 Stunden) und anpassbares Stunden-Minuten-Trennzeichen;
@@ -146,7 +138,7 @@ lang: fr Français
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (gratuit, open source)
 
 # Description (Maximum 4000 Characters)
 En route vers la nature, porté par la passion. Conçu pour la randonnée et les aventures en plein air. Quatre métriques essentielles : altitude, fréquence cardiaque, batterie et pas. Un coup d'œil au poignet pour suivre votre corps et l'environnement. Partez à l'aventure en toute liberté !
@@ -160,7 +152,7 @@ Open source : https://github.com/Chef5/Wildward-face
 Retours : https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-18 septembre 2026
+19 septembre 2026
 1. Paramètres de personnalisation du cadran directement sur la montre ;
 2. Réglage de la taille des caractères ; polices intégrées de la montre ajoutées (sans effet sur certains modèles sans police correspondante) ;
 3. Format d'heure au niveau du cadran (suivre le système / 12 h / 24 h) et séparateur heures-minutes personnalisable ;
@@ -171,7 +163,7 @@ lang: es Español
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (gratis, código abierto)
 
 # Description (Maximum 4000 Characters)
 Rumbo a la naturaleza, movido por la pasión. Diseñado para senderismo y aventuras al aire libre. Cuatro métricas clave: altitud, frecuencia cardíaca, batería y pasos. Un vistazo a la muñeca para conocer tu cuerpo y el entorno. ¡Disfruta cada aventura!
@@ -185,7 +177,7 @@ Código abierto: https://github.com/Chef5/Wildward-face
 Comentarios: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-18 de septiembre de 2026
+19 de septiembre de 2026
 1. Compatibilidad con ajustes de personalización de la esfera directamente en el reloj;
 2. Ajuste del tamaño de fuente; opciones de fuentes integradas del reloj (en algunos modelos sin la fuente correspondiente puede no tener efecto);
 3. Formato de hora a nivel de esfera (seguir el sistema / 12 h / 24 h) y separador de horas y minutos personalizable;
@@ -196,7 +188,7 @@ lang: it Italiano
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (gratuito, open source)
 
 # Description (Maximum 4000 Characters)
 Verso la natura, spinti dalla passione. Progettato per escursionismo e avventure all'aperto. Quattro metriche principali: altitudine, frequenza cardiaca, batteria e passi. Uno sguardo al polso per conoscere corpo e ambiente. Vivi ogni avventura in libertà!
@@ -210,7 +202,7 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-18 settembre 2026
+19 settembre 2026
 1. Impostazioni di personalizzazione del quadrante direttamente sull'orologio;
 2. Regolazione della dimensione del carattere; aggiunte le opzioni dei font integrati dell'orologio (su alcuni modelli senza il font corrispondente potrebbero non avere effetto);
 3. Formato ora a livello di quadrante (segui sistema / 12 ore / 24 ore) e separatore ore-minuti personalizzabile;
@@ -221,7 +213,7 @@ lang: nl Nederlands
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (gratis, open source)
 
 # Description (Maximum 4000 Characters)
 De wildernis in, gedreven door passie. Ontworpen voor wandelen en outdoor-avonturen. Vier kernmetrieken: hoogte, hartslag, batterij en stappen. Eén blik op je pols om lichaam en omgeving te volgen. Geniet van elk avontuur!
@@ -235,7 +227,7 @@ Open source: https://github.com/Chef5/Wildward-face
 Feedback: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-18 september 2026
+19 september 2026
 1. Ondersteuning voor wijzerplaatinstellingen rechtstreeks op het horloge;
 2. Lettergrootte aanpassen; ingebouwde horlogefonts toegevoegd (op sommige modellen zonder het bijbehorende lettertype mogelijk zonder effect);
 3. Tijdnotatie op wijzerplaatniveau (volg systeem / 12-uurs / 24-uurs) en aanpasbaar uur-minuut-scheidingsteken;
@@ -246,7 +238,7 @@ lang: nb Norsk
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (gratis, åpen kildekode)
 
 # Description (Maximum 4000 Characters)
 Ut i villmarken, drevet av lidenskap. Designet for fotturer og friluftsliv. Fire kjernedata: høyde, puls, batteri og skritt. Ett blikk på håndleddet for å følge kropp og omgivelser. Nyt hvert eventyr!
@@ -260,7 +252,7 @@ Hvis du liker urskiven, kan du gjerne kjøpe meg en kaffe~ :)
 Tilbakemelding: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-18. september 2026
+19. september 2026
 1. Støtte for tilpasningsinnstillinger for urskiven direkte på klokken;
 2. Justering av skriftstørrelse; innebygde klokkefonter lagt til (kan være uten effekt på enkelte modeller uten tilsvarende skrifttype);
 3. Tidsformat på urskivenivå (følg system / 12-timers / 24-timers) og tilpassbart time-minutt-skille;
@@ -271,7 +263,7 @@ lang: pl Polski
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (darmowy, open source)
 
 # Description (Maximum 4000 Characters)
 W stronę dziczy, z pasją w sercu. Stworzony na wędrówki i przygody na świeżym powietrzu. Cztery kluczowe dane: wysokość, tętno, bateria i kroki. Spójrz na nadgarstek, by poznać stan ciała i otoczenie. Ruszaj w każdą przygodę!
@@ -285,7 +277,7 @@ Kod źródłowy: https://github.com/Chef5/Wildward-face
 Opinie: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-18 września 2026
+19 września 2026
 1. Ustawienia personalizacji tarczy bezpośrednio na zegarku;
 2. Regulacja rozmiaru czcionki; dodano wbudowane czcionki zegarka (na niektórych modelach bez odpowiedniej czcionki ustawienie może nie działać);
 3. Format czasu na poziomie tarczy (zgodnie z systemem / 12 godz. / 24 godz.) oraz konfigurowalny separator godzin i minut;
@@ -296,7 +288,7 @@ lang: ru Русский
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (бесплатно, открытый код)
 
 # Description (Maximum 4000 Characters)
 В путь по дикой природе — с огнём в сердце. Создан для походов и приключений на свежем воздухе. Четыре ключевых показателя: высота, пульс, батарея и шаги. Взгляните на запястье — и вы в курсе состояния тела и окружающей среды. Наслаждайтесь каждым приключением!
@@ -310,7 +302,7 @@ Wildward
 Обратная связь: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-18 сентября 2026 г.
+19 сентября 2026 г.
 1. Настройки циферблата прямо на часах;
 2. Регулировка размера шрифта; добавлены встроенные шрифты часов (на некоторых моделях без соответствующего шрифта настройка может не действовать);
 3. Формат времени на уровне циферблата (как в системе / 12 часов / 24 часа) и настраиваемый разделитель часов и минут;
@@ -321,7 +313,7 @@ lang: ko 한국어
 ---
 
 # Title (Maximum 50 Characters)
-Wildward
+Wildward (무료, 오픈소스)
 
 # Description (Maximum 4000 Characters)
 열정을 품고 자연으로 향하세요. 하이킹과 아웃도어에 최적화된 워치페이스입니다. 고도, 심박수, 배터리, 걸음 수 네 가지 핵심 데이터에 집중하며, 손목만 들어도 몸 상태와 주변 환경을 파악할 수 있습니다. 모든 모험을 자유롭게 즐기세요!
@@ -335,7 +327,7 @@ Wildward
 피드백: https://github.com/Chef5/Wildward-face/issues
 
 # What's New (Optional) (Maximum 4000 Characters)
-2026년 9월 18일
+2026년 9월 19일
 1. 시계에서 바로 워치페이스 사용자 설정 지원;
 2. 글자 크기 조절 지원; 시계 내장 글꼴 설정 추가(일부 기기에 해당 글꼴이 없으면 설정이 적용되지 않을 수 있음);
 3. 워치페이스 전용 시간 형식(시스템 따름 / 12시간 / 24시간) 및 시·분 구분 기호 사용자 지정;
