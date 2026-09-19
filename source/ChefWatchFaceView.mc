@@ -971,15 +971,14 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
 
         // 12 小时制显示 AM/PM（由 TimeFormat 决定，不改系统设置）。
-        // 单独展示时与时分垂直居中；与秒同时开则放在秒上方，避免叠字。
+        // 单独展示时与时分垂直居中；与秒同时开则先居中再上移一个 AM/PM 字高。
         if (showAmPm) {
             var ampmStr = clock.hour < 12 ? "AM" : "PM";
             ensureAmpmFont(dc, secFont);
             dc.setColor(_secondary, Graphics.COLOR_TRANSPARENT);
             var ampmY = centerLineY;
             if (showSeconds) {
-                var ampmH = dc.getFontHeight(_ampmFont);
-                ampmY = centerLineY - bigH / 2 + ampmH / 2 + s(2);
+                ampmY = centerLineY - dc.getFontHeight(_ampmFont);
             }
             dc.drawText(suffixX, ampmY, _ampmFont, ampmStr,
                         Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER);
