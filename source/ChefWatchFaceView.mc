@@ -1538,9 +1538,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             :period => 1,
             :order => SensorHistory.ORDER_NEWEST_FIRST
         });
-        if (iter == null) {
-            return null;
-        }
         var sample = iter.next();
         if (sample == null || sample.data == null) {
             return null;
@@ -1624,12 +1621,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             :period => periodSec,
             :order => SensorHistory.ORDER_NEWEST_FIRST
         });
-        if (iter == null) {
-            if (currentPa == null) {
-                return null;
-            }
-            return {:hpa => pressurePaToNumber(currentPa), :trend => 0};
-        }
 
         var now = Time.now();
         var newestPa = currentPa;
@@ -1693,9 +1684,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             :period => 1,
             :order => SensorHistory.ORDER_NEWEST_FIRST
         });
-        if (iter == null) {
-            return null;
-        }
         var sample = iter.next();
         if (sample == null || sample.data == null) {
             return null;
@@ -1722,9 +1710,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
             :period => 1,
             :order => SensorHistory.ORDER_NEWEST_FIRST
         });
-        if (iter == null) {
-            return null;
-        }
         var sample = iter.next();
         if (sample == null || sample.data == null) {
             return null;
@@ -1974,9 +1959,6 @@ class ChefWatchFaceView extends WatchUi.WatchFace {
         }
 
         var itr = UserProfile.getUserActivityHistory();
-        if (itr == null) {
-            return;
-        }
 
         var todayVal = Time.today().value();
         var activity = itr.next();

@@ -60,21 +60,21 @@ venu445mm.resourcePath = $(venu445mm.resourcePath);resources-launcher-65-65;reso
 venu3.resourcePath = $(venu3.resourcePath);resources-launcher-70-70;resources-icons-amoled
 venu3s.resourcePath = $(venu3s.resourcePath);resources-launcher-70-70;resources-icons-amoled
 
-# AMOLED devices without a launcher-icon size override — only need resources-icons-amoled.
+# AMOLED：resources-icons-amoled；启动图标非默认 60×60 的机型再叠 resources-launcher-*。
 epix2.resourcePath = $(epix2.resourcePath);resources-icons-amoled
 epix2pro42mm.resourcePath = $(epix2pro42mm.resourcePath);resources-icons-amoled
 epix2pro47mm.resourcePath = $(epix2pro47mm.resourcePath);resources-icons-amoled
 epix2pro51mm.resourcePath = $(epix2pro51mm.resourcePath);resources-icons-amoled
 fenix843mm.resourcePath = $(fenix843mm.resourcePath);resources-icons-amoled
-fenix847mm.resourcePath = $(fenix847mm.resourcePath);resources-icons-amoled
-fenix8pro47mm.resourcePath = $(fenix8pro47mm.resourcePath);resources-icons-amoled
-fenix8solar47mm.resourcePath = $(fenix8solar47mm.resourcePath);resources-icons-amoled
-fenix8solar51mm.resourcePath = $(fenix8solar51mm.resourcePath);resources-icons-amoled
+fenix847mm.resourcePath = $(fenix847mm.resourcePath);resources-launcher-65-65;resources-icons-amoled
+fenix8pro47mm.resourcePath = $(fenix8pro47mm.resourcePath);resources-launcher-65-65;resources-icons-amoled
+fenix8solar47mm.resourcePath = $(fenix8solar47mm.resourcePath);resources-launcher-40-40;resources-icons-amoled
+fenix8solar51mm.resourcePath = $(fenix8solar51mm.resourcePath);resources-launcher-40-40;resources-icons-amoled
 fenix943mm.resourcePath = $(fenix943mm.resourcePath);resources-icons-amoled
-fenix947mm.resourcePath = $(fenix947mm.resourcePath);resources-icons-amoled
+fenix947mm.resourcePath = $(fenix947mm.resourcePath);resources-launcher-65-65;resources-icons-amoled
 fenix9pro43mm.resourcePath = $(fenix9pro43mm.resourcePath);resources-icons-amoled
-fenix9pro47mm.resourcePath = $(fenix9pro47mm.resourcePath);resources-icons-amoled
-fenix9pro51mm.resourcePath = $(fenix9pro51mm.resourcePath);resources-icons-amoled
+fenix9pro47mm.resourcePath = $(fenix9pro47mm.resourcePath);resources-launcher-65-65;resources-icons-amoled
+fenix9pro51mm.resourcePath = $(fenix9pro51mm.resourcePath);resources-launcher-65-65;resources-icons-amoled
 # fēnix 9 Pro Solar：MIP（ARGB2222），与 fenix7 同路径，勿套 AMOLED PNG 图标
 fenix9prosolar47mm.excludeAnnotations = type_amoled
 fenix9prosolar47mm.resourcePath = $(fenix9prosolar47mm.resourcePath);resources-launcher-40-40
@@ -83,10 +83,12 @@ fenix9prosolar51mm.resourcePath = $(fenix9prosolar51mm.resourcePath);resources-l
 fenixe.resourcePath = $(fenixe.resourcePath);resources-icons-amoled
 fr265.resourcePath = $(fr265.resourcePath);resources-icons-amoled
 fr265s.resourcePath = $(fr265s.resourcePath);resources-icons-amoled
-fr970.resourcePath = $(fr970.resourcePath);resources-icons-amoled
+fr970.resourcePath = $(fr970.resourcePath);resources-launcher-65-65;resources-icons-amoled
 instinct3amoled45mm.resourcePath = $(instinct3amoled45mm.resourcePath);resources-icons-amoled
 instinct3amoled50mm.resourcePath = $(instinct3amoled50mm.resourcePath);resources-icons-amoled
 instinct3solar45mm.excludeAnnotations = type_amoled
+instinct3solar45mm.resourcePath = $(instinct3solar45mm.resourcePath);resources-launcher-62-62
 enduro3.excludeAnnotations = type_amoled
+enduro3.resourcePath = $(enduro3.resourcePath);resources-launcher-40-40
 marq2.resourcePath = $(marq2.resourcePath);resources-icons-amoled
 marq2aviator.resourcePath = $(marq2aviator.resourcePath);resources-icons-amoled
